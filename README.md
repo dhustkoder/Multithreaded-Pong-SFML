@@ -1,1 +1,1 @@
-# sfml-game
+# little pong game using sfml
