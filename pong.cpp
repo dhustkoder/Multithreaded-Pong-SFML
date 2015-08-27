@@ -1,6 +1,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "main.hpp"
+#include "pong.hpp"
 #include "ball.hpp"
 
 
@@ -25,6 +25,8 @@ struct Brick
 	}
 	void move()
 	{
+		if( top() < 0  || bottom() > HEIGHT )
+			return;
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 				velocity.y = brickVelocity;
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -36,6 +38,13 @@ struct Brick
 	
 	}
 
+	float x() 	const 			{ return shape.getPosition().x; 					}
+	float y() 	const			{ return shape.getPosition().y; 					} 
+	float top() 	const 		{ return y() - static_division(brickHeight,2.f); 	}
+	float bottom() 	const 		{ return y() + static_division(brickWidth,2.f); 	}
+	float left() 	const 		{ return x() - static_division(brickWidth,2.f); 	}
+	float right() 	const 		{ return x() + static_division(brickWidth,2.f); 	}
+
 
 
 
@@ -43,8 +52,14 @@ struct Brick
 };
 
 
+template <typename T, typename B>
+bool collision(T &obj1, B &obj2)
+{
 
 
+	return !( obj1.left() <= obj2.right() && obj2.right() >= obj1.left() 
+		  && obj1.top() <= obj2.bottom() && obj2.bottom() >= obj1.top() );
+}
 
 int main()
 {
@@ -69,6 +84,8 @@ int main()
 		ball.move();
 		window.draw(ball.shape);
 		window.draw(brick.shape);
+	//	if(collision<Ball,Brick>(ball,brick) )
+	//		window.close();
 		window.display();
 
 	}

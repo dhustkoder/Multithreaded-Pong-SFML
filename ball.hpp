@@ -33,12 +33,12 @@ struct Ball
 		shape.move(velocity);
 	}
 	
-	float x() 	const 		{ return shape.getPosition().x; 			}
-	float y() 	const		{ return shape.getPosition().y; 			} 
+	float x() 	const 			{ return shape.getPosition().x; 					}
+	float y() 	const			{ return shape.getPosition().y; 					} 
 	float top() 	const 		{ return y() - static_division(ballRadius,2.f); 	}
-	float bottom() 	const 		{ return y() + ballRadius; 				}
+	float bottom() 	const 		{ return y() + ballRadius; 							}
 	float left() 	const 		{ return x() - static_division(ballRadius,2.f); 	}
-	float right() 	const 		{ return x() + ballRadius; 				}
+	float right() 	const 		{ return x() + ballRadius; 							}
 
 };
 
