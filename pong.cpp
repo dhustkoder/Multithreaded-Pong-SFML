@@ -6,8 +6,8 @@
 
 
 
-constexpr float brickWidth  	= 8.f;
-constexpr float brickHeight 	= 4.f;
+constexpr float brickWidth  	= 20.f;
+constexpr float brickHeight 	= 10.f;
 constexpr float brickVelocity  	= 2.5f; 
 
 struct Brick
@@ -16,11 +16,11 @@ struct Brick
 	sf::RectangleShape shape;
 	Brick(float x, float y)
 	{
+
+		shape.setPosition(x, y);
+		shape.setFillColor(sf::Color::Blue);
+		shape.setSize( { brickWidth, brickHeight } );
 		shape.setOrigin(static_division(brickWidth,2.f), static_division(brickHeight,2.f));
-		shape.setOutlineColor(sf::Color::Red);
-		shape.setFillColor(sf::Color::White);
-		shape.setPosition(x,y);
-		shape.setSize ( { brickWidth*12, brickHeight*12 } ) ;		
 	
 	}
 	void move()
