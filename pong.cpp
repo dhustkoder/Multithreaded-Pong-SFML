@@ -3,18 +3,15 @@
 #include "pong.hpp"
 #include "ball.hpp"
 
-
-
-
 constexpr float brickWidth  	= 20.f;
-constexpr float brickHeight 	= 10.f;
+constexpr float brickHeight 	= 80.f;
 constexpr float brickVelocity  	= 2.5f; 
 
-struct Brick
+struct Paddle
 {
 	sf::Vector2f velocity;
 	sf::RectangleShape shape;
-	Brick(float x, float y)
+	Paddle(float x, float y)
 	{
 
 		shape.setPosition(x, y);
@@ -23,13 +20,13 @@ struct Brick
 		shape.setOrigin(static_division(brickWidth,2.f), static_division(brickHeight,2.f));
 	
 	}
+	
 	void move()
 	{
-		if( top() < 0  || bottom() > HEIGHT )
-			return;
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && bottom() < HEIGHT)
 				velocity.y = brickVelocity;
-		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && top() > 0)
 				velocity.y = -brickVelocity;
 		
 		shape.move(velocity);
@@ -41,13 +38,9 @@ struct Brick
 	float x() 	const 			{ return shape.getPosition().x; 					}
 	float y() 	const			{ return shape.getPosition().y; 					} 
 	float top() 	const 		{ return y() - static_division(brickHeight,2.f); 	}
-	float bottom() 	const 		{ return y() + static_division(brickWidth,2.f); 	}
+	float bottom() 	const 		{ return y() + static_division(brickHeight,2.f); 	}
 	float left() 	const 		{ return x() - static_division(brickWidth,2.f); 	}
 	float right() 	const 		{ return x() + static_division(brickWidth,2.f); 	}
-
-
-
-
 
 };
 
@@ -56,9 +49,13 @@ template <typename T, typename B>
 bool collision(T &obj1, B &obj2)
 {
 
-
-	return !( obj1.left() <= obj2.right() && obj2.right() >= obj1.left() 
-		  && obj1.top() <= obj2.bottom() && obj2.bottom() >= obj1.top() );
+	return (( obj1.left() <= obj2.right() && obj1.top() <= obj2.bottom() 
+	   && obj1.left() >= obj2.left() && obj1.top() >= obj2.top()) 
+		
+			||
+		 
+			( obj2.left() <= obj1.right() && obj2.top() <= obj1.bottom() 
+				&& obj2.left() >= obj1.left() && obj2.top() >=obj1.top())); 
 }
 
 int main()
@@ -66,7 +63,8 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(WIDTH,HEIGHT), "sfml");
 	window.setFramerateLimit(60);
 	Ball ball;
-	Brick brick (static_division(WIDTH,2.f), HEIGHT - 50 );
+	Paddle brick ( 20, static_division(HEIGHT,2.f) );
+	
 	while(window.isOpen())
 	{
 		window.clear(sf::Color::Black);
@@ -76,18 +74,13 @@ int main()
 		{
 			if(ev.type == sf::Event::Closed)
 				window.close();
-
-			
-		
 		}
+
 		brick.move();
 		ball.move();
 		window.draw(ball.shape);
 		window.draw(brick.shape);
-	//	if(collision<Ball,Brick>(ball,brick) )
-	//		window.close();
 		window.display();
-
 	}
 
 
@@ -96,3 +89,9 @@ int main()
 
 
 }
+
+
+
+
+
+
