@@ -1,8 +1,8 @@
 #ifndef BALL_HPP
 #define BALL_HPP
 
-constexpr float ballRadius 		= 20.f;
-constexpr float ballVelocity 	= 3.f;
+constexpr float ballRadius 		= 10.f;
+constexpr float ballVelocity 	= 3.5f;
 
 struct Ball
 {

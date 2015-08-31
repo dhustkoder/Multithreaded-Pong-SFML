@@ -1,5 +1,5 @@
-#ifndef MAIN_HPP
-#define MAIN_HPP
+#ifndef AUX_HPP
+#define AUX_HPP
 
 constexpr size_t WIDTH = 800;
 constexpr size_t HEIGHT = 600;

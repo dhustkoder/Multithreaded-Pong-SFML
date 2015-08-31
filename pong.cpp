@@ -1,6 +1,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "pong.hpp"
+#include "aux.hpp"
 #include "ball.hpp"
 
 constexpr float brickWidth  	= 20.f;
@@ -45,6 +45,31 @@ struct Paddle
 };
 
 
+
+	
+
+
+template<typename T, typename B>
+void treatCollision(T &obj1, B &obj2)
+{
+
+	if(obj1.y() > obj2.y())
+		obj1.velocity.y = ballVelocity;
+	else
+		obj1.velocity.y = -ballVelocity;
+
+	
+	obj1.velocity.x  = ( obj1.velocity.x > 0 ) ? -ballVelocity : ballVelocity;	
+	
+
+
+
+
+}
+
+
+	
+	
 template <typename T, typename B>
 bool collision(T &obj1, B &obj2)
 {
@@ -63,8 +88,8 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(WIDTH,HEIGHT), "sfml");
 	window.setFramerateLimit(60);
 	Ball ball;
-	Paddle brick ( 20, static_division(HEIGHT,2.f) );
-	
+	Paddle player ( 20, static_division(HEIGHT,2.f) );
+	Paddle enemy  ( 580, static_division(HEIGHT,2.f) );
 	while(window.isOpen())
 	{
 		window.clear(sf::Color::Black);
@@ -76,10 +101,17 @@ int main()
 				window.close();
 		}
 
-		brick.move();
+		player.move();
 		ball.move();
+		enemy.move();
+		if(collision(ball,player))
+			treatCollision(ball,player);
+		else if(collision(ball,enemy))
+			treatCollision(ball,enemy);
+
 		window.draw(ball.shape);
-		window.draw(brick.shape);
+		window.draw(player.shape);
+		window.draw(enemy.shape);
 		window.display();
 	}
 
