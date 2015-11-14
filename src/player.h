@@ -1,10 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <SFML/System.hpp>
 #include "Paddle.h"
-
-
-
 constexpr float playerWidth = 20.f;
 constexpr float playerHeight = 80.f;
 constexpr float playerVerticalCompensation = playerHeight / 2.f;
@@ -18,7 +14,7 @@ public:
 	float getBottom();
 	void update();
 private:
-	int  m_windowWidth, m_windowHeight;
+	float  m_windowWidth, m_windowHeight;
 
 
 

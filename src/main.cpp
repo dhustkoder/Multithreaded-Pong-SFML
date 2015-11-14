@@ -1,10 +1,6 @@
-
-#include <SFML/System.hpp>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
 #include "Paddle.h"
 #include "player.h"
-
+#include <SFML/Graphics.hpp>
 
 int main()
 {

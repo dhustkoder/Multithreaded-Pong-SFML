@@ -1,8 +1,9 @@
+#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include "player.h"
 
-
-Player::Player(const float x, const float y) : Paddle(0, (y / 2) - 40, playerWidth, playerHeight),
-m_windowWidth(x), m_windowHeight(y)
+Player::Player(const float x, const float y) : Paddle(0, (y / 2), playerWidth, playerHeight),
+	m_windowWidth(x), m_windowHeight(y)
 {
 
 
@@ -31,7 +32,7 @@ void Player::update()
 	else
 		setVelocity(0, 0);
 
-	m_shape.move(m_velocity);
+	m_shape->move(*m_velocity);
 }
 
 
