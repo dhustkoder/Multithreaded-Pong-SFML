@@ -1,6 +1,7 @@
 #include <SFML/Window/Keyboard.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
 #include "player.h"
+
+
 
 Player::Player(const float x, const float y) : Paddle(0, (y / 2), playerWidth, playerHeight),
 	m_windowWidth(x), m_windowHeight(y)
@@ -17,6 +18,11 @@ inline float Player::getTop()
 inline float Player::getBottom()
 {
 	return getPosition().y + (playerVerticalCompensation);
+}
+
+inline float Player::getRight()
+{
+	return getPosition().x + (playerHorizontalCompensation);
 }
 
 

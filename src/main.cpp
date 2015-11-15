@@ -1,23 +1,27 @@
-#include "Paddle.h"
+
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Event.hpp>
 #include "player.h"
-#include <SFML/Graphics.hpp>
+#include "ball.h"
 
 int main()
 {
-
-	sf::RenderWindow win({ 800,600 }, "sfml");
-	Player player(800,600);
+	sf::RenderWindow win({ 800,420 }, "sfml");
+	Player player1(800, 420);
+	Ball ball(800 / 2, 420 / 2, 7.f);
 	sf::Event winEvent;
 	while (win.isOpen())
 	{
-		if (win.pollEvent(winEvent))
-			if (winEvent.type == winEvent.Closed)
-				win.close();
-		
+		win.pollEvent(winEvent);
+		if (winEvent.type == winEvent.Closed)
+			win.close();
 
 		win.clear(sf::Color::Black);
-		player.update();
-		win.draw(player);
+		player1.update();
+		win.draw(player1);
+		win.draw(ball);
 		win.display();
 	}
+
+
 }
