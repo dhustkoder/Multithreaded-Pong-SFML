@@ -1,6 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "Paddle.h"
+#include "paddle.h"
 
 constexpr float playerWidth = 20.f;
 constexpr float playerHeight = 80.f;

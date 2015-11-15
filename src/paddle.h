@@ -6,7 +6,7 @@
 #include <SFML/System/Vector2.hpp>
 
 
-constexpr float paddleVelocity = 5.0;
+constexpr float paddleVelocity = 4.0F;
 class Paddle
 {
 	friend class Player;
