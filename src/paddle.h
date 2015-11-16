@@ -12,6 +12,8 @@ class Paddle
 	friend class Player;
 public:
 	Paddle(const float x, const float y, const float sizeX, const float sizeY);
+	Paddle(const Paddle&) = delete;
+	Paddle(Paddle&&) = delete;
 	const sf::Vector2f& getPosition() const;
 	const sf::Vector2f& getVelocity() const;
 	void setPosition(const float x, const float y);

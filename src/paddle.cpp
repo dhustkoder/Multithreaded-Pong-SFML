@@ -7,8 +7,7 @@ Paddle::Paddle(const float x, const float y, const float sizeX, const float size
 	m_shape->setPosition(x, y);
 	m_shape->setFillColor(sf::Color::White);
 	m_shape->setSize({ sizeX, sizeY });
-	m_shape->setOrigin({ sizeX / 2, sizeY / 2 });
-
+	m_shape->setOrigin(sizeX / 2, sizeY / 2);
 }
 
 

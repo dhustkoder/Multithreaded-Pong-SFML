@@ -1,5 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#include <SFML/Window/Keyboard.hpp>
 #include "paddle.h"
 
 constexpr float playerWidth = 20.f;
@@ -10,14 +11,17 @@ class Player : public Paddle
 {
 public:
 	// pass the window's resolution
-	Player(const float winWidth, const float winHeight);
+	Player(const int winWidth, const int winHeight);
+	Player(const Player&) = delete;
+	Player(Player&&) = delete;
+	void setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown);
 	float getTop();
 	float getBottom();
 	float getRight();
 	void update();
 private:
 	float  m_windowWidth, m_windowHeight;
-
+	sf::Keyboard::Key m_kUp, m_kDown;
 
 
 };

@@ -1,17 +1,20 @@
-
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include "player.h"
 #include "ball.h"
 
+
+constexpr int winWidth = 800;
+constexpr int winHeight = 420;
+
 int main()
 {
-	sf::RenderWindow win({ 800,420 }, "sfml");
-	Player player1(800, 420);
+	sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
+	Player player1(winWidth, winHeight);
 	win.setFramerateLimit(60);
 
 
-	Ball ball(800 / 2, 420 / 2);
+	Ball ball(winWidth, winHeight);
 	sf::Event winEvent;
 
 	while (win.isOpen())

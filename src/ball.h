@@ -10,12 +10,13 @@ constexpr float ballVerticalCompensation = ballRadius / 2.0F;
 class Ball
 {
 public:
-	// give the ball's position.
-	Ball(const float x, const float y);
+	// give window size.
+	Ball(const int winWidth, const int winHeight);
+	Ball(const Ball&) = delete;
+	Ball(Ball&&) = delete;
 	const sf::Vector2f& getPosition() const;
 	const sf::Vector2f& getVelocity() const;
 	void setPosition(const float x, const float y);
-	void genVelocity();
 	float getTop();
 	float getBottom();
 	float getLeft();
@@ -23,6 +24,7 @@ public:
 	virtual void update();
 	operator sf::Drawable& ();
 private:
+	const int m_maxBottom, m_maxRight;
 	std::unique_ptr<sf::CircleShape> m_shape;
 	std::unique_ptr<sf::Vector2f> m_velocity;
 };
