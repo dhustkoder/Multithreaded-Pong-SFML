@@ -41,24 +41,24 @@ private:
 
 inline float Paddle::getRight()
 {
-	return m_shape->getPosition().x + (m_horizontalCompensation);
+	return m_shape->getPosition().x + m_horizontalCompensation;
 }
 
 inline float Paddle::getLeft()
 {
-	return m_shape->getPosition().x - (m_horizontalCompensation);
+	return m_shape->getPosition().x - m_horizontalCompensation;
 }
 
 
 
 inline float Paddle::getTop()
 {
-	return m_shape->getPosition().y - (m_verticalCompensation);
+	return m_shape->getPosition().y - m_verticalCompensation;
 }
 
 inline float Paddle::getBottom()
 {
-	return m_shape->getPosition().y + (m_verticalCompensation);
+	return m_shape->getPosition().y + m_verticalCompensation;
 }
 
 

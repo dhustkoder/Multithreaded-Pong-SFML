@@ -1,13 +1,15 @@
 #include "ball.h"
 
-Ball::Ball(const int winWidth, const int winHeight) : 
-	 m_maxBottom(winHeight), m_maxRight(winWidth), m_shape(new sf::CircleShape()), m_velocity(new sf::Vector2f(4.0F, 4.0F))
+Ball::Ball(const float winWidth, const float winHeight) : 
+	 m_maxBottom(winHeight), m_maxRight(winWidth), 
+	m_shape(new sf::CircleShape()), m_velocity(new sf::Vector2f(4.0F, 4.0F))
 {
 	m_shape->setPosition(winWidth / 2, winHeight / 2);
 	m_shape->setRadius(ballRadius);
 	m_shape->setOrigin(ballHorizontalCompensation,ballVerticalCompensation);
 	m_shape->setFillColor(sf::Color::Red);
 }
+
 
 const sf::Vector2f & Ball::getPosition() const
 {
@@ -48,14 +50,14 @@ inline float Ball::getRight()
 void Ball::update()
 {
 	if(getTop() < 1)
-		m_velocity->y = 4.2F;
+		m_velocity->y = ballVelocity;
 	else if(getBottom() > m_maxBottom)
-		m_velocity->y = -4.2F;
+		m_velocity->y = -ballVelocity;
 
 	if(getLeft() < 1)
-		m_velocity->x = 4.2F;
+		m_velocity->x = ballVelocity;
 	else if(getRight() > m_maxRight)
-		m_velocity->x = -4.2F;
+		m_velocity->x = -ballVelocity;
 
 	m_shape->move(*m_velocity);
 }

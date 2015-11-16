@@ -7,8 +7,8 @@
 class Player : public Paddle
 {
 public:
-	// pass the window's resolution
-	Player(const int winWidth, const int winHeight);
+	// pass the window's resolution, and paddle size
+	Player(const float winWidth, const float winHeight, const float sizeX, const float sizeY);
 	void setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown);
 	void update();
 private:

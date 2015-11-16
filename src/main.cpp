@@ -4,13 +4,12 @@
 #include "ball.h"
 
 
-constexpr int winWidth = 800;
-constexpr int winHeight = 420;
-
+constexpr float winWidth = 800;
+constexpr float winHeight = 420;
 int main()
 {
 	sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
-	Player player1(winWidth, winHeight);
+	Player player1(winWidth, winHeight, 30.0F, 80.0F);
 	win.setFramerateLimit(60);
 
 

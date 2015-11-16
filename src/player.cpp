@@ -3,8 +3,8 @@
 
 
 
-Player::Player(const int x, const int y) : Paddle(0, (y / 2), playerWidth, playerHeight),
-	m_windowWidth(x), m_windowHeight(y), m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
+Player::Player(const float winX, const float winY, const float sizeX, const float sizeY) : Paddle(0, (y / 2), sizeX, sizeY),
+	m_windowWidth(winX), m_windowHeight(winY), m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
 {
 
 

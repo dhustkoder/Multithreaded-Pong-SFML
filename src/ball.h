@@ -4,6 +4,7 @@
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 
+constexpr float ballVelocity = 4.2F;
 constexpr float ballRadius = 7.0F;
 constexpr float ballHorizontalCompensation = ballRadius / 2.0F;
 constexpr float ballVerticalCompensation = ballRadius / 2.0F;
@@ -11,7 +12,7 @@ class Ball
 {
 public:
 	// give window size.
-	Ball(const int winWidth, const int winHeight);
+	Ball(const float winWidth, const float winHeight);
 	const sf::Vector2f& getPosition() const;
 	const sf::Vector2f& getVelocity() const;
 	void setPosition(const float x, const float y);
@@ -23,7 +24,7 @@ public:
 	operator sf::Drawable&();
 	
 private:
-	const int m_maxBottom, m_maxRight;
+	const float m_maxBottom, m_maxRight;
 	std::unique_ptr<sf::CircleShape> m_shape;
 	std::unique_ptr<sf::Vector2f> m_velocity;
 
