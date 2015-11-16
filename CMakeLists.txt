@@ -41,4 +41,4 @@ file(GLOB_RECURSE HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.h)
 add_executable(${PROJECT_NAME} ${HEADERS} ${SRCS})
 
 # link
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME} sfml-graphics sfml-window sfml-system sfml-audio)

@@ -16,20 +16,7 @@ void Player::setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown)
 	m_kDown = keyDown;
 }
 
-inline float Player::getTop()
-{
-	return getPosition().y - (playerVerticalCompensation);
-}
 
-inline float Player::getBottom()
-{
-	return getPosition().y + (playerVerticalCompensation);
-}
-
-inline float Player::getRight()
-{
-	return getPosition().x + (playerHorizontalCompensation);
-}
 
 
 void Player::update()

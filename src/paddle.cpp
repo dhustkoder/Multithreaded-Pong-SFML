@@ -2,7 +2,8 @@
 
 
 Paddle::Paddle(const float x, const float y, const float sizeX, const float sizeY) :
-	m_shape(new sf::RectangleShape()), m_velocity(new sf::Vector2f())
+	m_shape(new sf::RectangleShape()), m_velocity(new sf::Vector2f()), 
+	m_horizontalCompensation(sizeX / 2.0F), m_verticalCompensation(sizeY / 2.0F)
 {
 	m_shape->setPosition(x, y);
 	m_shape->setFillColor(sf::Color::White);
@@ -16,7 +17,6 @@ const sf::Vector2f& Paddle::getPosition() const
 {
 	return m_shape->getPosition();
 }
-
 
 
 
