@@ -3,15 +3,16 @@
 #include "player.h"
 #include "ball.h"
 
-
 constexpr float winWidth = 800;
 constexpr float winHeight = 420;
+
 int main()
 {
 	sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
-	Player player1(winWidth, winHeight, 30.0F, 80.0F);
 	win.setFramerateLimit(60);
+	Player player1(winWidth, winHeight, 10.0F, 80.0F);
 
+	player1.setPosition(5.0F, winHeight / 2);
 
 	Ball ball(winWidth, winHeight);
 	sf::Event winEvent;
