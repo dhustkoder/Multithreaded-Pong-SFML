@@ -1,3 +1,4 @@
+#include <cmath>
 #include <SFML/Graphics/CircleShape.hpp>
 #include "ball.h"
 
@@ -29,7 +30,7 @@ void Ball::treatCollision(const Shape &collidedShape)
 
 void Ball::update()
 {
-	if(getTop() < 1)
+	if (getTop() < 1)
 		m_velocity->y = ballVelocity;
 	else if(getBottom() > m_maxBottom)
 		m_velocity->y = -ballVelocity;
@@ -37,7 +38,7 @@ void Ball::update()
 	if(getLeft() < 1)
 		m_velocity->x = ballVelocity;
 	else if(getRight() > m_maxRight)
-		m_velocity->x = -ballVelocity;
+		m_velocity->x = -ballRadius;
 
 	m_shape->move(*m_velocity);
 }

@@ -13,7 +13,7 @@ int main()
 {
 	sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
 	win.setFramerateLimit(60);
-	Player player1(winWidth, winHeight, 10.0F, 80.0F);
+	Player player1(winWidth, winHeight, 30.0F, 80.0F);
 
 	player1.setPosition(5.0F, winHeight / 2);
 
@@ -32,6 +32,7 @@ int main()
 		if (Shape::isColliding(player1, ball))
 		{
 			// TODO: play song
+			std::cout << "collided" << std::endl;
 			ball.treatCollision(player1);
 		}
 		win.draw(player1);

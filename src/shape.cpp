@@ -33,6 +33,11 @@ inline float Shape::getBottom() const
 	return m_shape->getPosition().y + m_verticalCompensation;
 }
 
+const sf::Vector2f &Shape::getVelocity() const
+{
+	return *m_velocity;
+}
+
 void Shape::setCompensation(const float h, const float v)
 {
 	m_horizontalCompensation = h;
@@ -46,7 +51,8 @@ void Shape::setPosition(const float x, const float y)
 
 bool Shape::isColliding(const Shape &first, const Shape &second) 
 {
-	return first.getTop() <= second.getBottom() && second.getBottom() >= first.getTop()
+	return  first.getTop() <= second.getBottom() && second.getTop() <= first.getBottom()
 		&& first.getRight() >= second.getLeft() && second.getLeft() <= first.getRight();
+
 }
 

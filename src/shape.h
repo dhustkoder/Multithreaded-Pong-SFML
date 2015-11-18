@@ -12,6 +12,7 @@ public:
 	float getLeft() const;
 	float getTop() const;
 	float getBottom() const;
+	const sf::Vector2f &getVelocity() const;
 	void setCompensation(const float h, const float v);
 	void setPosition(const float x, const float y);
 	static bool isColliding(const Shape &first, const Shape &second);
