@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 #include "player.h"
@@ -5,6 +6,8 @@
 
 constexpr float winWidth = 800;
 constexpr float winHeight = 420;
+
+
 
 int main()
 {
@@ -16,7 +19,6 @@ int main()
 
 	Ball ball(winWidth, winHeight);
 	sf::Event winEvent;
-
 	while (win.isOpen())
 	{
 		win.pollEvent(winEvent);
@@ -26,6 +28,12 @@ int main()
 		win.clear(sf::Color::Black);
 		player1.update();
 		ball.update();
+
+		if (Shape::isColliding(player1, ball))
+		{
+			// TODO: play song
+			ball.treatCollision(player1);
+		}
 		win.draw(player1);
 		win.draw(ball);
 		win.display();

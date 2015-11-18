@@ -10,6 +10,7 @@ class Ball : public Shape
 public:
 	// give window size.
 	Ball(const float winWidth, const float winHeight);
+	void treatCollision(const Shape &collidedShape);
 	virtual void update();
 private:
 	const float m_maxBottom, m_maxRight;

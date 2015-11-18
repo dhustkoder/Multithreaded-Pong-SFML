@@ -14,12 +14,10 @@ public:
 	float getBottom() const;
 	void setCompensation(const float h, const float v);
 	void setPosition(const float x, const float y);
+	static bool isColliding(const Shape &first, const Shape &second);
 	virtual void update() = 0;
 	inline operator sf::Drawable& ();
 protected:
-	sf::Shape *const getShape();
-	sf::Vector2f *const getVelocity();
-private:
 	std::unique_ptr<sf::Shape> m_shape;
 	std::unique_ptr<sf::Vector2f> m_velocity;
 	float m_horizontalCompensation, m_verticalCompensation;

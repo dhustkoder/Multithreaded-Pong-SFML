@@ -8,8 +8,8 @@ Player::Player(const float winX, const float winY, const float sizeX, const floa
 	m_windowWidth(winX), m_windowHeight(winY), m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
 {
 
-	this->getShape()->setFillColor(sf::Color::White);
-	this->getShape()->setPosition(0, winY / 2.0F);
+	m_shape->setFillColor(sf::Color::White);
+	m_shape->setPosition(0, winY / 2.0F);
 
 }
 
@@ -24,18 +24,16 @@ void Player::setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown)
 
 void Player::update()
 {
-	sf::Vector2f *velocity = this->getVelocity();
-
 	if (sf::Keyboard::isKeyPressed(m_kUp) && getTop() > 0)
-		velocity->y = -playerVelocity;
+		m_velocity->y = -playerVelocity;
 
 	else if (sf::Keyboard::isKeyPressed(m_kDown) && getBottom() < m_windowHeight)
-		velocity->y = playerVelocity;
+		m_velocity->y = playerVelocity;
 
 	else
-		velocity->y = 0;
+		m_velocity->y = 0;
 
-	this->getShape()->move(*velocity);
+	m_shape->move(*m_velocity);
 }
 
 

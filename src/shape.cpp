@@ -11,37 +11,24 @@ Shape::Shape(const float originX, const float originY, sf::Shape *shapeType) :
 }
 
 
-sf::Shape *const Shape::getShape()
-{
-	return m_shape.get();
-}
-
-
-sf::Vector2f *const Shape::getVelocity()
-{
-	return m_velocity.get();
-}
-
-
-
-float Shape::getRight() const
+inline float Shape::getRight() const
 {
 	return m_shape->getPosition().x + m_horizontalCompensation;
 }
 
-float Shape::getLeft() const
+inline float Shape::getLeft() const
 {
 	return m_shape->getPosition().x - m_horizontalCompensation;
 }
 
 
 
-float Shape::getTop() const
+inline float Shape::getTop() const
 {
 	return m_shape->getPosition().y - m_verticalCompensation;
 }
 
-float Shape::getBottom() const
+inline float Shape::getBottom() const
 {
 	return m_shape->getPosition().y + m_verticalCompensation;
 }
@@ -55,5 +42,11 @@ void Shape::setCompensation(const float h, const float v)
 void Shape::setPosition(const float x, const float y)
 {
 	m_shape->setPosition(x, y);
+}
+
+bool Shape::isColliding(const Shape &first, const Shape &second) 
+{
+	return first.getTop() <= second.getBottom() && second.getBottom() >= first.getTop()
+		&& first.getRight() >= second.getLeft() && second.getLeft() <= first.getRight();
 }
 
