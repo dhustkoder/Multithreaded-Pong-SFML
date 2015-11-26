@@ -1,44 +1,90 @@
 #include <iostream>
+#include <thread>
+#include <atomic>
+#include <memory>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Audio.hpp>
 #include "player.h"
 #include "ball.h"
 
 constexpr float winWidth = 800;
 constexpr float winHeight = 420;
 
+Player player1(winWidth, winHeight, 30.0F, 80.0F);
+Ball ball(winWidth, winHeight);
+
+std::atomic<bool> isGameRunning(false);
+std::atomic<bool> doInputAndCollisionProcess(false);
+
+
+void process_input_and_collision()
+{
+    sf::SoundBuffer pongSound;
+    pongSound.loadFromFile("pongs");
+    while(isGameRunning)
+    {
+        if(doInputAndCollisionProcess)
+        {
+
+            player1.update();
+            ball.update();
+
+            if (Shape::isColliding(player1, ball))
+            {
+                // TODO: play song
+                std::cout << "collided" << std::endl;
+                ball.treatCollision(player1);
+            }
+
+            doInputAndCollisionProcess = false;
+        }
+
+        else
+            std::this_thread::yield();
+    }
+}
 
 
 int main()
 {
-	sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
-	win.setFramerateLimit(60);
-	Player player1(winWidth, winHeight, 30.0F, 80.0F);
+    sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
+    sf::Event winEvent;
 
-	player1.setPosition(5.0F, winHeight / 2);
+    player1.setPosition(5.0F, winHeight / 2);
+    winEvent.type = sf::Event::GainedFocus;
+    win.setFramerateLimit(60);
+    win.setVerticalSyncEnabled(true);
 
-	Ball ball(winWidth, winHeight);
-	sf::Event winEvent;
-	while (win.isOpen())
-	{
-		win.pollEvent(winEvent);
-		if (winEvent.type == winEvent.Closed)
-			win.close();
+    std::unique_ptr<std::thread> input_and_collision_thread
+            (new std::thread(process_input_and_collision));
 
-		win.clear(sf::Color::Black);
-		player1.update();
-		ball.update();
+    isGameRunning = true;
 
-		if (Shape::isColliding(player1, ball))
-		{
-			// TODO: play song
-			std::cout << "collided" << std::endl;
-			ball.treatCollision(player1);
-		}
-		win.draw(player1);
-		win.draw(ball);
-		win.display();
-	}
+    while (win.isOpen())
+    {
+        doInputAndCollisionProcess = true;
+
+        win.clear(sf::Color::Black);
+        win.pollEvent(winEvent);
+
+        if (winEvent.type == sf::Event::Closed)
+        {
+            win.close();
+            break;
+        }
 
 
+        while(doInputAndCollisionProcess)
+            std::this_thread::yield();
+
+        win.draw(player1);
+        win.draw(ball);
+        win.display();
+
+    }
+
+    isGameRunning = false;
+    input_and_collision_thread->join();
 }
+

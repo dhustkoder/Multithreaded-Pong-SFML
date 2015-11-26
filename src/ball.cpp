@@ -1,4 +1,3 @@
-#include <cmath>
 #include <SFML/Graphics/CircleShape.hpp>
 #include "ball.h"
 

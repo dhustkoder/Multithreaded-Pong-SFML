@@ -1,5 +1,5 @@
-#ifndef PADDLE_H
-#define PADDLE_H
+#ifndef SHAPE_H
+#define SHAPE_H
 
 #include <memory>
 #include <SFML/Graphics/Shape.hpp>
