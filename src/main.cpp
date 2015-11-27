@@ -15,73 +15,73 @@ Ball ball(winWidth, winHeight);
 
 std::atomic<bool> isGameRunning(false);
 std::atomic<bool> doInputAndCollisionProcess(false);
-
+std::unique_ptr<std::thread> input_and_collision_thread;
 
 void process_input_and_collision()
 {
-    while(isGameRunning)
-    {
-        if(doInputAndCollisionProcess)
-        {
+	while(isGameRunning)
+	{
+		if(doInputAndCollisionProcess)
+		{
 
-            player1.update();
-            ball.update();
+			player1.update();
+			ball.update();
 
-            if (Shape::isColliding(player1, ball))
-            {
-                // TODO: play song
-                std::cout << "collided" << std::endl;
-                ball.treatCollision(player1);
-            }
+			if (Shape::isColliding(player1, ball))
+			{
+				// TODO: play song
+				std::cout << "collided" << std::endl;
+				ball.treatCollision(player1);
+			}
 
-            doInputAndCollisionProcess = false;
-        }
-
-        else
-            std::this_thread::yield();
-    }
+			doInputAndCollisionProcess = false;
+		}
+		else
+			std::this_thread::yield();
+	}
 }
 
 
 int main()
 {
-    sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
-    sf::Event winEvent;
-    player1.setPosition(5.0F, winHeight / 2);
-    winEvent.type = sf::Event::GainedFocus;
-    win.setFramerateLimit(60);
-    win.setVerticalSyncEnabled(true);
-	std::unique_ptr<std::thread> input_and_collision_thread;
+	sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
+	sf::Event winEvent;
+	player1.setPosition(5.0F, winHeight / 2);
+	winEvent.type = sf::Event::GainedFocus;
+	win.setFramerateLimit(60);
+	win.setVerticalSyncEnabled(true);
+	
 
 	isGameRunning = true;
 
 	input_and_collision_thread = std::make_unique<std::thread>(process_input_and_collision);
 
 	
-    while (win.isOpen())
-    {
-        doInputAndCollisionProcess = true;
+	while (win.isOpen())
+	{
+		doInputAndCollisionProcess = true;
 
-        win.clear(sf::Color::Black);
-        win.pollEvent(winEvent);
+		win.clear(sf::Color::Black);
+		win.pollEvent(winEvent);
 
-        if (winEvent.type == sf::Event::Closed)
-        {
-            win.close();
-            break;
-        }
+		if (winEvent.type == sf::Event::Closed)
+		{
+			win.close();
+			break;
+		}
 
 
-        while(doInputAndCollisionProcess)
-            std::this_thread::yield();
+		while(doInputAndCollisionProcess)
+			std::this_thread::yield();
 
-        win.draw(player1);
-        win.draw(ball);
-        win.display();
+		win.draw(player1);
+		win.draw(ball);
+		win.display();
 
-    }
+	}
 
-    isGameRunning = false;
-    input_and_collision_thread->join();
+	isGameRunning = false;
+	input_and_collision_thread->join();
+	input_and_collision_thread.reset();
 }
 
