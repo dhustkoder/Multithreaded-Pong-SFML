@@ -4,7 +4,6 @@
 #include <memory>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
-#include <SFML/Audio.hpp>
 #include "player.h"
 #include "ball.h"
 
@@ -20,8 +19,6 @@ std::atomic<bool> doInputAndCollisionProcess(false);
 
 void process_input_and_collision()
 {
-    sf::SoundBuffer pongSound;
-    pongSound.loadFromFile("pongs");
     while(isGameRunning)
     {
         if(doInputAndCollisionProcess)
@@ -50,17 +47,17 @@ int main()
 {
     sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
     sf::Event winEvent;
-
     player1.setPosition(5.0F, winHeight / 2);
     winEvent.type = sf::Event::GainedFocus;
     win.setFramerateLimit(60);
     win.setVerticalSyncEnabled(true);
+	std::unique_ptr<std::thread> input_and_collision_thread;
 
-    std::unique_ptr<std::thread> input_and_collision_thread
-            (new std::thread(process_input_and_collision));
+	isGameRunning = true;
 
-    isGameRunning = true;
+	input_and_collision_thread = std::make_unique<std::thread>(process_input_and_collision);
 
+	
     while (win.isOpen())
     {
         doInputAndCollisionProcess = true;
