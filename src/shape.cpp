@@ -51,8 +51,8 @@ void Shape::setPosition(const float x, const float y)
 
 bool Shape::isColliding(const Shape &first, const Shape &second) 
 {
-	return  first.getTop() <= second.getBottom() && second.getTop() <= first.getBottom()
-		&& first.getRight() >= second.getLeft() && second.getLeft() <= first.getRight();
+	return  first.getBottom() >= second.getTop() && first.getTop() <= second.getBottom()
+		&& first.getLeft() <= second.getRight() && first.getRight() >= second.getLeft();
 
 }
 

@@ -24,15 +24,13 @@ void Player::setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown)
 
 void Player::update()
 {
-	if (sf::Keyboard::isKeyPressed(m_kUp) && getTop() > 0)
+	if (sf::Keyboard::isKeyPressed(m_kUp) && getTop() >= 0)
 		m_velocity->y = -playerVelocity;
-
-	else if (sf::Keyboard::isKeyPressed(m_kDown) && getBottom() < m_windowHeight)
-		m_velocity->y = playerVelocity;
-
+	else if (sf::Keyboard::isKeyPressed(m_kDown) && getBottom() <= m_windowHeight)
+		m_velocity->y = playerVelocity;	
 	else
 		m_velocity->y = 0;
-
+	
 	m_shape->move(*m_velocity);
 }
 

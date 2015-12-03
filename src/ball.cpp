@@ -13,7 +13,7 @@ Ball::Ball(const float winWidth, const float winHeight) :
 
 }
 
-void Ball::treatCollision(const Shape &collidedShape)
+void Ball::treatCollisionWith(const Shape &collidedShape)
 {
 	float middle_of_collided_shape = collidedShape.getTop() + (collidedShape.getBottom() / 2.0F);
 	float middle_of_ball = getTop() + (getBottom() / 2.0F);
