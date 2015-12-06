@@ -23,9 +23,10 @@ std::atomic<bool> doInputAndCollisionProcess(false);
 void process_input_and_collision()
 {
 	//load sound to memory
-	std::unique_ptr<sf::SoundBuffer> pongBuff = std::make_unique<sf::SoundBuffer>();
-	pongBuff->loadFromFile("../Resources/ballsound");
-	std::unique_ptr<sf::Sound> pongSound = std::make_unique<sf::Sound>(*pongBuff);
+	auto soundBuff = std::make_unique<sf::SoundBuffer>();
+	soundBuff->loadFromFile("../Resources/ballsound");
+	auto sound = std::make_unique<sf::Sound>();
+	sound->setBuffer(*soundBuff); // sound for ball impact
 
 	while (isGameRunning)
 	{
@@ -39,12 +40,12 @@ void process_input_and_collision()
 			
 			if (Shape::isColliding(player1, ball))
 			{
-				pongSound->play();
+				sound->play();
 				ball.treatCollisionWith(player1);
 			}
 			else if (Shape::isColliding(player2, ball))
 			{
-				pongSound->play();
+				sound->play();
 				ball.treatCollisionWith(player2);
 			}
 			doInputAndCollisionProcess = false;
@@ -69,12 +70,9 @@ int main()
 	player1.setPosition(5.0F, winHeight / 2);
 	player2.setPosition(winWidth - 5.0F, winHeight / 2);
 	
-	
-	
-
 	// start game and extra thread
 	isGameRunning = true;
-	std::unique_ptr<std::thread> input_and_collision_thread = std::make_unique<std::thread>(process_input_and_collision);
+	auto input_and_collision_thread = std::make_unique<std::thread>(process_input_and_collision);
 	
 	while (win.isOpen())
 	{
