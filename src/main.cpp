@@ -32,8 +32,7 @@ void process_input_and_collision()
     //load sound to memory
     auto soundBuff = std::make_unique<sf::SoundBuffer>();
     soundBuff->loadFromFile("../Resources/ballsound");
-    auto sound = std::make_unique<sf::Sound>();
-    sound->setBuffer(*soundBuff); // sound for ball impact
+    auto sound = std::make_unique<sf::Sound>(*soundBuff); // sound for ball impact
 
 	while (isGameRunning)
 	{
