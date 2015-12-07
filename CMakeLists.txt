@@ -6,7 +6,7 @@ project(mtPong)
 cmake_minimum_required(VERSION 2.8)
 
 #compiler
-set(CMAKE_CXX_COMPILER "clang++")
+set(CMAKE_CXX_COMPILER "g++")
 
 
 #compiler flags
@@ -41,4 +41,4 @@ file(GLOB_RECURSE HEADERS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.h)
 add_executable(${PROJECT_NAME} ${HEADERS} ${SRCS})
 
 # link
-TARGET_LINK_LIBRARIES( ${PROJECT_NAME} sfml-graphics sfml-window sfml-system sfml-audio)
+TARGET_LINK_LIBRARIES( ${PROJECT_NAME} -lpthread -lX11 sfml-graphics sfml-window sfml-system sfml-audio)

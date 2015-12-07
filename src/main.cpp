@@ -6,6 +6,13 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Sound.hpp>
+
+
+#ifdef __linux__
+#include <X11/Xlib.h>
+#endif
+
+
 #include "player.h"
 #include "ball.h"
 
@@ -22,11 +29,11 @@ std::atomic<bool> doInputAndCollisionProcess(false);
 
 void process_input_and_collision()
 {
-	//load sound to memory
-	auto soundBuff = std::make_unique<sf::SoundBuffer>();
-	soundBuff->loadFromFile("../Resources/ballsound");
-	auto sound = std::make_unique<sf::Sound>();
-	sound->setBuffer(*soundBuff); // sound for ball impact
+    //load sound to memory
+    auto soundBuff = std::make_unique<sf::SoundBuffer>();
+    soundBuff->loadFromFile("../Resources/ballsound");
+    auto sound = std::make_unique<sf::Sound>();
+    sound->setBuffer(*soundBuff); // sound for ball impact
 
 	while (isGameRunning)
 	{
@@ -40,12 +47,12 @@ void process_input_and_collision()
 			
 			if (Shape::isColliding(player1, ball))
 			{
-				sound->play();
+                sound->play();
 				ball.treatCollisionWith(player1);
 			}
 			else if (Shape::isColliding(player2, ball))
 			{
-				sound->play();
+                sound->play();
 				ball.treatCollisionWith(player2);
 			}
 			doInputAndCollisionProcess = false;
@@ -60,10 +67,17 @@ void process_input_and_collision()
 
 int main()
 {
-	sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
-	sf::Event winEvent;
 
-	win.setFramerateLimit(60);
+	
+#ifdef __linux__
+    XInitThreads(); // prevent X11 threads error
+#endif
+
+    sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
+    sf::Event winEvent;
+    winEvent.type = sf::Event::GainedFocus;
+
+    win.setFramerateLimit(60);
 	player1.setPosition(5.0F, winHeight / 2);
 	player2.setPosition(winWidth - 5.0F, winHeight / 2);
 	

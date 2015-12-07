@@ -28,6 +28,26 @@ protected:
 	
 };
 
+inline float Shape::getRight() const
+{
+	return m_shape->getPosition().x + m_horizontalCompensation;
+}
+
+inline float Shape::getLeft() const
+{
+	return m_shape->getPosition().x - m_horizontalCompensation;
+}
+
+
+inline float Shape::getTop() const
+{
+	return m_shape->getPosition().y - m_verticalCompensation;
+}
+
+inline float Shape::getBottom() const
+{
+	return m_shape->getPosition().y + m_verticalCompensation;
+}
 
 
 inline Shape::operator sf::Drawable&()
