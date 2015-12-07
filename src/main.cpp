@@ -63,10 +63,7 @@ int main()
 	sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
 	sf::Event winEvent;
 
-	winEvent.type = sf::Event::GainedFocus;
 	win.setFramerateLimit(60);
-	win.setVerticalSyncEnabled(true);
-
 	player1.setPosition(5.0F, winHeight / 2);
 	player2.setPosition(winWidth - 5.0F, winHeight / 2);
 	
