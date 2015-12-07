@@ -7,9 +7,7 @@ Ball::Ball(const float winWidth, const float winHeight) :
 {
 	m_shape->setFillColor(sf::Color::Red);
 	m_shape->setPosition(winWidth / 2.0F, winHeight / 2.0F);
-
-	m_velocity->x = ballVelocity;
-	m_velocity->y = ballVelocity;
+	m_velocity->y = m_velocity->x = ballVelocity;
 
 }
 
