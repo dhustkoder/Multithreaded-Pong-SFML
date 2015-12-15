@@ -9,20 +9,22 @@ class Player : public Shape
 {
 public:
 	// pass the window's resolution, and player size
-	Player(const float winWidth, const float winHeight, const float sizeX, const float sizeY);
+	Player(const unsigned winWidth, const unsigned winHeight, 
+	const float sizeX, const float sizeY) noexcept;
 	void setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown);
-	void update();
+	
+	void update() noexcept override;
 private:
-	float  m_windowWidth, m_windowHeight;
 	sf::Keyboard::Key m_kUp, m_kDown;
 
 	Player(const Player&) = delete;
 	Player(Player&&) = delete;
-
+	Player& operator=(const Player&) = delete;
+	Player& operator=(Player&&) = delete;
 
 };
 
 
 
 
-#endif
+#endif // PLAYER_H

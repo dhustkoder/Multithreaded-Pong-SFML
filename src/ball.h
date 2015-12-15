@@ -2,21 +2,22 @@
 #define BALL_H
 #include "shape.h"
 
-constexpr float ballVelocity = 4.0F;
+constexpr float ballVelocity = 6.0F;
 constexpr float ballRadius = 7.0F;
 
 class Ball : public Shape
 {
 public:
 	// give window size.
-	Ball(const float winWidth, const float winHeight);
-	void treatCollisionWith(const Shape &collidedShape);
-	virtual void update();
+	Ball(const unsigned winWidth, const unsigned winHeight) noexcept;
+	void treatCollisionWith(const Shape &collidedShape) noexcept;
+	void update() noexcept override;
 private:
-	const float m_maxBottom, m_maxRight;
 
 	Ball(const Ball&) = delete;
 	Ball(Ball&&) = delete;
+	Ball& operator=(const Ball&) = delete;
+	Ball& operator=(Ball&&) = delete;
 };
 
 
@@ -30,4 +31,4 @@ private:
 
 
 
-#endif
+#endif // BALL_H

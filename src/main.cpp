@@ -7,22 +7,24 @@
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Sound.hpp>
 
-
 #ifdef __linux__
 #include <X11/Xlib.h>
 #endif
 
-
+#include "utility.h"
 #include "player.h"
+#include "cpu.h"
 #include "ball.h"
 
-constexpr float winWidth = 800;
-constexpr float winHeight = 420;
+
+
+constexpr unsigned winWidth = 800;
+constexpr unsigned winHeight = 420;
+
 
 Player player1(winWidth, winHeight, 30.0F, 80.0F);
-Player player2(winWidth, winHeight, 30.0F, 80.0F);
 Ball ball(winWidth, winHeight);
-
+Cpu player2(winWidth, winHeight, 30.0F, 80.0F, ball);
 std::atomic<bool> isGameRunning(false);
 std::atomic<bool> doInputAndCollisionProcess(false);
 
@@ -44,17 +46,18 @@ void process_input_and_collision()
 			ball.update();
 	
 	
-			if (Shape::isColliding(player1, ball))
+			if (isColliding(player1, ball))
 			{
 				sound->play();
 				ball.treatCollisionWith(player1);
 			}
-			else if (Shape::isColliding(player2, ball))
+			else if (isColliding(player2, ball))
 			{
 				sound->play();
 				ball.treatCollisionWith(player2);
 			}
-			doInputAndCollisionProcess = false;
+			
+			doInputAndCollisionProcess = false; // wait until next round...
 		}
 		
 		else
@@ -68,33 +71,33 @@ void process_input_and_collision()
 int main()
 {
 
-	
 #ifdef __linux__
 	XInitThreads(); // prevent X11 threads error
 #endif
-  
-	sf::RenderWindow win({ (unsigned)winWidth, (unsigned)winHeight }, "sfml");
+
+
+	sf::RenderWindow mainWindow(sf::VideoMode(winWidth, winHeight, 64), "Multithread-Pong-SFML");
 	sf::Event winEvent;
 	winEvent.type = sf::Event::GainedFocus;
 	
-	win.setFramerateLimit(60);
-	player1.setPosition(5.0F, winHeight / 2);
-	player2.setPosition(winWidth - 5.0F, winHeight / 2);
+	mainWindow.setFramerateLimit(60);
+	player1.setPosition(5u, cexpr_div(winHeight,2u) );
+	player2.setPosition(cexpr_sub(winWidth, 5u), cexpr_div(winHeight,2u));
 	
 	// start game and extra thread
 	isGameRunning = true;
 	auto input_and_collision_thread = std::make_unique<std::thread>(process_input_and_collision);
 
-	while (win.isOpen())
+	while (mainWindow.isOpen())
 	{
 		doInputAndCollisionProcess = true;
 		
-		win.clear(sf::Color::Black);
-		win.pollEvent(winEvent);
+		mainWindow.clear(sf::Color::Black);
+		mainWindow.pollEvent(winEvent);
 	
 		if (winEvent.type == sf::Event::Closed)
 		{
-			win.close();
+			mainWindow.close();
 			break;
 		}
 	
@@ -103,10 +106,10 @@ int main()
 			std::this_thread::yield();
 	
 	
-		win.draw(player1);
-		win.draw(player2);
-		win.draw(ball);
-		win.display();
+		mainWindow.draw(player1);
+		mainWindow.draw(player2);
+		mainWindow.draw(ball);
+		mainWindow.display();
 	}
 	
 	isGameRunning = false;

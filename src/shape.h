@@ -7,55 +7,67 @@
 class Shape
 {
 public:
-	Shape(const float originX, const float originY, sf::Shape *shapeType);
-	float getRight() const;
-	float getLeft() const;
-	float getTop() const;
-	float getBottom() const;
-	const sf::Vector2f &getVelocity() const;
-	void setCompensation(const float h, const float v);
-	void setPosition(const float x, const float y);
-	static bool isColliding(const Shape &first, const Shape &second);
-	virtual void update() = 0;
-	inline operator sf::Drawable& ();
+	Shape(const unsigned winWidth, const unsigned winHeight, 
+	const float originX, const float originY, sf::Shape *shape) noexcept;
+	
+	virtual ~Shape(){}
+	float getRight() const noexcept;
+	float getLeft() const noexcept;
+	float getTop() const noexcept;
+	float getBottom() const noexcept;
+	const sf::Vector2f &getVelocity() const noexcept;
+	void setCompensation(const float h, const float v) noexcept;
+	void setPosition(const float x, const float y) noexcept;
+	inline operator const sf::Drawable& () const noexcept;
+	
+	virtual void update() noexcept = 0;
+
 protected:
 	std::unique_ptr<sf::Shape> m_shape;
 	std::unique_ptr<sf::Vector2f> m_velocity;
 	float m_horizontalCompensation, m_verticalCompensation;
-
+	const unsigned  m_windowWidth, m_windowHeight;
 	Shape(const Shape&) = delete;
 	Shape(Shape&&) = delete;
+	Shape& operator=(const Shape&) = delete;
+	Shape& operator=(Shape&&) = delete;
 	
 };
 
-inline float Shape::getRight() const
+inline float Shape::getRight() const noexcept
 {
 	return m_shape->getPosition().x + m_horizontalCompensation;
 }
 
-inline float Shape::getLeft() const
+inline float Shape::getLeft() const noexcept
 {
 	return m_shape->getPosition().x - m_horizontalCompensation;
 }
 
 
-inline float Shape::getTop() const
+inline float Shape::getTop() const noexcept
 {
 	return m_shape->getPosition().y - m_verticalCompensation;
 }
 
-inline float Shape::getBottom() const
+inline float Shape::getBottom() const noexcept
 {
 	return m_shape->getPosition().y + m_verticalCompensation;
 }
 
 
-inline Shape::operator sf::Drawable&()
+inline Shape::operator const sf::Drawable&() const noexcept
 {
 	return *m_shape;
 }
 
 
+inline bool isColliding(const Shape &first, const Shape &second) noexcept
+{
+	return  first.getBottom() >= second.getTop() && first.getTop() <= second.getBottom()
+		&& first.getLeft() <= second.getRight() && first.getRight() >= second.getLeft();
+
+}
 
 
-#endif
+#endif // SHAPE_H

@@ -1,9 +1,11 @@
 #include "shape.h"
 
+Shape::Shape(const unsigned winWidth, const unsigned winHeight, 
+const float originX, const float originY, sf::Shape *shape) noexcept :
 
-Shape::Shape(const float originX, const float originY, sf::Shape *shapeType) :
-	m_shape(shapeType), m_velocity(new sf::Vector2f()),
-	m_horizontalCompensation(originX), m_verticalCompensation(originY)
+	m_shape(shape), m_velocity(new sf::Vector2f()),
+	m_horizontalCompensation(originX), m_verticalCompensation(originY),
+	m_windowWidth(winWidth), m_windowHeight(winHeight)
 {
 	m_shape->setOrigin(originX, originY);
 	m_velocity->x = 0;
@@ -12,26 +14,20 @@ Shape::Shape(const float originX, const float originY, sf::Shape *shapeType) :
 
 
 
-const sf::Vector2f &Shape::getVelocity() const
+const sf::Vector2f &Shape::getVelocity() const noexcept
 {
 	return *m_velocity;
 }
 
-void Shape::setCompensation(const float h, const float v)
+void Shape::setCompensation(const float h, const float v) noexcept
 {
 	m_horizontalCompensation = h;
 	m_verticalCompensation = v;
 }
 
-void Shape::setPosition(const float x, const float y)
+void Shape::setPosition(const float x, const float y) noexcept
 {
 	m_shape->setPosition(x, y);
 }
 
-bool Shape::isColliding(const Shape &first, const Shape &second) 
-{
-	return  first.getBottom() >= second.getTop() && first.getTop() <= second.getBottom()
-		&& first.getLeft() <= second.getRight() && first.getRight() >= second.getLeft();
-
-}
 

@@ -3,13 +3,11 @@
 
 
 
-Player::Player(const float winX, const float winY, const float sizeX, const float sizeY) : 
-	Shape(sizeX / 2.0F, sizeY / 2.0F, new sf::RectangleShape({sizeX,sizeY})),
-	m_windowWidth(winX), m_windowHeight(winY), m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
+Player::Player(const unsigned winWidth, const unsigned winHeight, const float sizeX, const float sizeY) noexcept : 
+	Shape(winWidth, winHeight, sizeX / 2.0f, sizeY / 2.0f, new sf::RectangleShape(sf::Vector2f(sizeX,sizeY))),
+	m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
 {
-
 	m_shape->setFillColor(sf::Color::White);
-	m_shape->setPosition(0, winY / 2.0F);
 
 }
 
@@ -22,7 +20,7 @@ void Player::setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown)
 
 
 
-void Player::update()
+void Player::update() noexcept
 {
 	if (sf::Keyboard::isKeyPressed(m_kUp) && getTop() >= 0)
 		m_velocity->y = -playerVelocity;
