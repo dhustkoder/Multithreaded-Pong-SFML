@@ -24,7 +24,7 @@ constexpr unsigned winHeight = 420;
 
 Player player1(winWidth, winHeight, 30.0F, 80.0F);
 Ball ball(winWidth, winHeight);
-Cpu player2(winWidth, winHeight, 30.0F, 80.0F, ball);
+Cpu cpuPaddle(winWidth, winHeight, 30.0F, 80.0F, ball);
 std::atomic<bool> isGameRunning(false);
 std::atomic<bool> doInputAndCollisionProcess(false);
 
@@ -42,7 +42,7 @@ void process_input_and_collision()
 		{
 			
 			player1.update();
-			player2.update();
+			cpuPaddle.update();
 			ball.update();
 	
 	
@@ -51,10 +51,10 @@ void process_input_and_collision()
 				sound->play();
 				ball.treatCollisionWith(player1);
 			}
-			else if (isColliding(player2, ball))
+			else if (isColliding(cpuPaddle, ball))
 			{
 				sound->play();
-				ball.treatCollisionWith(player2);
+				ball.treatCollisionWith(cpuPaddle);
 			}
 			
 			doInputAndCollisionProcess = false; // wait until next round...
@@ -82,7 +82,7 @@ int main()
 	
 	mainWindow.setFramerateLimit(60);
 	player1.setPosition(5u, cexpr_div(winHeight,2u) );
-	player2.setPosition(cexpr_sub(winWidth, 5u), cexpr_div(winHeight,2u));
+	cpuPaddle.setPosition(cexpr_sub(winWidth, 5u), cexpr_div(winHeight,2u));
 	
 	// start game and extra thread
 	isGameRunning = true;
@@ -107,7 +107,7 @@ int main()
 	
 	
 		mainWindow.draw(player1);
-		mainWindow.draw(player2);
+		mainWindow.draw(cpuPaddle);
 		mainWindow.draw(ball);
 		mainWindow.display();
 	}

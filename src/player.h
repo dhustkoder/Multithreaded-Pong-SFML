@@ -17,11 +17,6 @@ public:
 private:
 	sf::Keyboard::Key m_kUp, m_kDown;
 
-	Player(const Player&) = delete;
-	Player(Player&&) = delete;
-	Player& operator=(const Player&) = delete;
-	Player& operator=(Player&&) = delete;
-
 };
 
 

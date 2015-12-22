@@ -27,6 +27,8 @@ protected:
 	std::unique_ptr<sf::Vector2f> m_velocity;
 	float m_horizontalCompensation, m_verticalCompensation;
 	const unsigned  m_windowWidth, m_windowHeight;
+	
+	// deleted functions
 	Shape(const Shape&) = delete;
 	Shape(Shape&&) = delete;
 	Shape& operator=(const Shape&) = delete;
