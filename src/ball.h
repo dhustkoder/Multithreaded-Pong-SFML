@@ -2,10 +2,10 @@
 #define BALL_H
 #include "shape.h"
 
-constexpr float ballVelocity = 6.0F;
-constexpr float ballRadius = 7.0F;
+constexpr auto ballVelocity = 6.0F;
+constexpr auto ballRadius = 7.0F;
 
-class Ball : public Shape
+class Ball final: public Shape
 {
 public:
 	// give window size.

@@ -3,9 +3,9 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "shape.h"
 
-constexpr float cpuVelocity = 4.0F;
+constexpr auto cpuVelocity = 4.0F;
 
-class Cpu : public Shape
+class Cpu final : public Shape
 {
 public:
 	Cpu(const unsigned winWidth, const unsigned winHeight, const float sizeX, const float sizeY, Shape &ball) noexcept;

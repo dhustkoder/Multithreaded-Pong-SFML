@@ -3,9 +3,9 @@
 #include <SFML/Window/Keyboard.hpp>
 #include "shape.h"
 
-constexpr float playerVelocity = 4.0F;
+constexpr auto playerVelocity = 4.0F;
 
-class Player : public Shape
+class Player final: public Shape
 {
 public:
 	// pass the window's resolution, and player size
