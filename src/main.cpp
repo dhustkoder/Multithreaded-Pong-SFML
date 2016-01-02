@@ -29,7 +29,7 @@ std::atomic<bool> isGameRunning(false);
 std::atomic<bool> doInputAndCollisionProcess(false);
 
 
-void process_input_and_collision()
+void process_input_and_collision(Ball& ball, Shape& shp1, Shape& shp2)
 {
 	//load sound to memory
 	auto soundBuff = std::make_unique<sf::SoundBuffer>();
@@ -41,20 +41,20 @@ void process_input_and_collision()
 		if(doInputAndCollisionProcess)
 		{
 			
-			player1.update();
-			cpuPaddle.update();
+			shp1.update();
+			shp2.update();
 			ball.update();
 	
 	
-			if (isColliding(player1, ball))
+			if (isColliding(shp1, ball))
 			{
 				sound->play();
-				ball.treatCollisionWith(player1);
+				ball.treatCollisionWith(shp1);
 			}
-			else if (isColliding(cpuPaddle, ball))
+			else if (isColliding(shp2, ball))
 			{
 				sound->play();
-				ball.treatCollisionWith(cpuPaddle);
+				ball.treatCollisionWith(shp2);
 			}
 			
 			doInputAndCollisionProcess = false; // wait until next round...
@@ -86,7 +86,9 @@ int main()
 	
 	// start game and extra thread
 	isGameRunning = true;
-	auto input_and_collision_thread = std::make_unique<std::thread>(process_input_and_collision);
+	auto input_and_collision_thread = 
+		std::make_unique<std::thread>(process_input_and_collision, 
+			std::ref(ball), std::ref(player1), std::ref(cpuPaddle));
 
 	while (mainWindow.isOpen())
 	{
