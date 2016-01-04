@@ -87,7 +87,6 @@ void startGame(GameMode mode)
 		adverShapeUnique = std::make_unique<Player>(winWidth, winHeight, 30.0F, 80.0F);
 		adverShapeUnique->setPosition(cexpr_sub((float)winWidth, 5.f), cexpr_div((float)winHeight, 2.f));
 		static_cast<Player*>(adverShapeUnique.get())->setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
-
 	}
 
 	// init input and collision thread
@@ -109,7 +108,6 @@ void startGame(GameMode mode)
 
 void mainGameLoop(sf::RenderWindow& mainWin, const Shape& shp, const Ball& ball)
 {
-
 	while (mainWin.isOpen())
 	{
 		doInputAndCollisionProcess = true;
@@ -120,8 +118,6 @@ void mainGameLoop(sf::RenderWindow& mainWin, const Shape& shp, const Ball& ball)
 
 		drawAndDisplay(mainWin, player1, shp, ball);
 	}
-
-
 }
 
 
