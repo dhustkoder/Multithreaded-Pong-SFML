@@ -89,7 +89,7 @@ void startGame(GameMode mode)
 		static_cast<Player*>(adverShapeUnique.get())->setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
 	}
 
-	// init input and collision thread
+	// start game and input and collision thread
 	isGameRunning = true;
 	auto input_and_collision_thread =
 		std::make_unique<std::thread>(process_input_and_collision,
