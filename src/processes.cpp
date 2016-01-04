@@ -19,16 +19,22 @@ constexpr unsigned winHeight = 420;
 
 
 // main global variables
+static Player player1(winWidth, winHeight, 30.0F, 80.0F);
+static sf::RenderWindow mainWindow(sf::VideoMode(winWidth, winHeight, 32), "Multithread-Pong-SFML");
+static sf::Event winEvent;
 
 // thread purpose globals
-std::atomic<bool> isGameRunning(false);
-std::atomic<bool> doInputAndCollisionProcess(false);
+static std::atomic<bool> isGameRunning(false);
+static std::atomic<bool> doInputAndCollisionProcess(false);
+
+
+
 
 void process_input_and_collision(Ball& ball, Shape& shp1, Shape& shp2)
 {
 	//load sound to memory
 	auto soundBuff = std::make_unique<sf::SoundBuffer>();
-//	soundBuff->loadFromFile("../Resources/ballsound");
+	soundBuff->loadFromFile("../Resources/ballsound");
 	auto sound = std::make_unique<sf::Sound>(*soundBuff); // sound for ball impact
 
 	while (isGameRunning)
@@ -66,14 +72,11 @@ void process_input_and_collision(Ball& ball, Shape& shp1, Shape& shp2)
 void singlePlayer()
 {
 
-	sf::RenderWindow mainWindow(sf::VideoMode(winWidth, winHeight, 64), "Multithread-Pong-SFML");
-	sf::Event winEvent;
-	Player player1(winWidth, winHeight, 30.0F, 80.0F);
 	Ball ball(winWidth, winHeight);
-
 	Cpu cpuPaddle(winWidth, winHeight, 30.0F, 80.0F, ball);
 	winEvent.type = sf::Event::GainedFocus;
 	mainWindow.setFramerateLimit(60);
+	
 	player1.setPosition(5u, cexpr_div(winHeight,2u) );
 	cpuPaddle.setPosition(cexpr_sub(winWidth, 5u), cexpr_div(winHeight,2u));
 	
