@@ -23,6 +23,7 @@ public:
 	inline operator const sf::Drawable& () const noexcept;
 
 	static void informWindowSize(const unsigned winWidth, const unsigned winHeight) noexcept;
+	static void informWindowSize(sf::Vector2u vSize) noexcept;
 	virtual void update() noexcept = 0;
 
 protected:
@@ -72,9 +73,23 @@ inline Shape::operator const sf::Drawable&() const noexcept
 
 enum class Shape::Position
 {
-	LeftCorner,
-	RightCorner
+    LeftSide,
+    RightSide,
+    Middle
 };
+
+inline void Shape::informWindowSize(const unsigned winWidth, const unsigned winHeight) noexcept
+{
+    m_windowWidth = winWidth;
+    m_windowHeight = winHeight;
+}
+
+
+inline void Shape::informWindowSize(sf::Vector2u vSize) noexcept
+{
+    m_windowWidth = vSize.x;
+    m_windowHeight = vSize.y;
+}
 
 
 inline bool isColliding(const Shape &first, const Shape &second) noexcept
@@ -84,6 +99,15 @@ inline bool isColliding(const Shape &first, const Shape &second) noexcept
 
 }
 
+
+template<typename ...Ts>
+static void updateObjects(Ts&& ...args) noexcept 
+{
+	return (void)std::initializer_list<int>
+	{
+		(std::forward<Ts>(args).update(), 0)...
+	};
+}
 
 
 

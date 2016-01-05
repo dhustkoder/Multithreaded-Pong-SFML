@@ -6,7 +6,7 @@ Ball::Ball() noexcept :
 	Shape({cexpr_div(ballRadius, 2.f), cexpr_div(ballRadius, 2.f)}, new sf::CircleShape(ballRadius))	
 {
 	m_shape->setFillColor(sf::Color::Red);
-	m_shape->setPosition(m_windowWidth / 2u, m_windowHeight / 2u);
+    this->setPosition(Position::Middle);
 	m_velocity->y = m_velocity->x = ballVelocity;
 
 }

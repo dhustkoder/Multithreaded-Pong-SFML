@@ -1,12 +1,11 @@
 #include <thread>
 #include <atomic>
 #include <memory>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Window/Event.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Sound.hpp>
 
 #include "processes.h"
+#include "gamewindow.h"
 #include "utility.h"
 #include "player.h"
 #include "cpu.h"
@@ -19,68 +18,21 @@ constexpr unsigned winHeight = 420;
 
 // main global variables
 static Player player1;
-static sf::Event winEvent;
-
+sf::Event winEvent;
 // thread purpose globals
 static std::atomic<bool> isGameRunning(false);
 static std::atomic<bool> doInputAndCollisionProcess(false);
 
 
 // functions declaration
-void process_input_and_collision(Ball& ball, Shape& shp);
-void mainGameLoop(sf::RenderWindow& mainWin, const Shape& shp, const Ball& ball);
-
-// template functions for window processes
-template<typename ...Ts>
-inline void drawAndDisplay(sf::RenderWindow &win, Ts&& ...args) 
-{
-	(void)std::initializer_list<int>
-	{
-		(win.draw(std::forward<Ts>(args)), 0)...
-	};
-
-	win.display();
-	
-
-}
-
-template<typename ...Ts>
-inline void updateObjects(Ts&& ...args) 
-{
-	return (void)std::initializer_list<int>
-	{
-		(std::forward<Ts>(args).update(), 0)...
-	};
-}
-
-// returns true if window was closed
-bool updateWindowState(sf::RenderWindow& mainWin)
-{
-	mainWin.clear(sf::Color::Black);
-	mainWin.pollEvent(winEvent);
-	
-	if (winEvent.type == sf::Event::Closed) {
-		mainWin.close();
-		return true;
-	}
-
-	return false;
-}
-
+void process_input_and_collision(Ball& ball, Shape& shp) noexcept;
+void mainGameLoop(GameWindow& mainWin, const Shape& shp, const Ball& ball) noexcept;
 
 // main functions
 void startGame(GameMode mode)
 {
-	auto mainWindowUnique =
-		std::make_unique<sf::RenderWindow>(sf::VideoMode(winWidth, winHeight, 32), "Multithread-Pong-SFML");
-
-	winEvent.type = sf::Event::GainedFocus;
-	mainWindowUnique->setFramerateLimit(60);
-	mainWindowUnique->setVerticalSyncEnabled(true);	
-	
-	Shape::informWindowSize(winWidth, winHeight);
-	player1.setPosition(Shape::Position::LeftCorner);
-	
+	auto mainWindowUnique = GameWindow::makeUniqueWindow(sf::VideoMode(winWidth, winHeight, 32), "Multithread-Pong-SFML");
+	player1.setPosition(Shape::Position::LeftSide);
 
 	// create the rest of game objects
 	auto ballUnique = std::make_unique<Ball>();
@@ -88,12 +40,12 @@ void startGame(GameMode mode)
 
 	if (mode == GameMode::SinglePlayer) {
 		adverShapeUnique = std::make_unique<Cpu>(*ballUnique);
-		adverShapeUnique->setPosition(Shape::Position::RightCorner);
+		adverShapeUnique->setPosition(Shape::Position::RightSide);
 	}
 
 	else if (mode == GameMode::MultiplayerLocal) {
 		adverShapeUnique = std::make_unique<Player>();
-		adverShapeUnique->setPosition(Shape::Position::RightCorner);
+		adverShapeUnique->setPosition(Shape::Position::RightSide);
 		static_cast<Player*>(adverShapeUnique.get())->setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
 	}
 
@@ -114,23 +66,23 @@ void startGame(GameMode mode)
 
 
 
-void mainGameLoop(sf::RenderWindow& mainWin, const Shape& adverShape, const Ball& ball)
+void mainGameLoop(GameWindow& mainWin, const Shape& adverShape, const Ball& ball) noexcept
 {
 	while (mainWin.isOpen())
 	{
 		doInputAndCollisionProcess = true;
-		updateWindowState(mainWin);
+		mainWin.updateWindowState();
 
 		while (doInputAndCollisionProcess)
 			std::this_thread::yield();
 
-		drawAndDisplay(mainWin, player1, adverShape, ball);
+		mainWin.drawAndDisplay(player1, adverShape, ball);
 	}
 }
 
 
 
-void process_input_and_collision(Ball& ball, Shape& shp)
+void process_input_and_collision(Ball& ball, Shape& shp) noexcept
 {
 	//load sound to memory
 	auto soundBuff = std::make_unique<sf::SoundBuffer>();

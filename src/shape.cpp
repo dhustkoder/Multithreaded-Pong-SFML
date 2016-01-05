@@ -36,17 +36,12 @@ void Shape::setPosition(const float x, const float y) noexcept
 
 void Shape::setPosition(Position pos) noexcept
 {
-	if(pos == Position::RightCorner)
+    if(pos == Position::RightSide)
 		m_shape->setPosition((float)m_windowWidth - m_horizontalCompensation, m_windowHeight / 2.f);	
 
-	else
+    else if(pos == Position::LeftSide)
 		m_shape->setPosition(m_horizontalCompensation,(float)m_windowHeight / 2.f);
-}
 
-
-
-void Shape::informWindowSize(const unsigned winWidth, const unsigned winHeight) noexcept
-{
-	m_windowWidth = winWidth;
-	m_windowHeight = winHeight;
+    else
+        m_shape->setPosition(m_windowWidth / 2.f, m_windowHeight / 2.f);
 }
