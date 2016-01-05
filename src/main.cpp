@@ -1,3 +1,4 @@
+
 #ifdef __linux__
 #include <X11/Xlib.h>
 #endif
@@ -11,9 +12,7 @@ int main()
 	XInitThreads(); // prevent X11 threads error
 #endif
 
-
-	singlePlayer();
-	
-	
+	startGame(GameMode::SinglePlayer);
+	startGame(GameMode::MultiplayerLocal);
 }
 

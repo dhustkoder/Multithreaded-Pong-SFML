@@ -3,8 +3,12 @@
 class Shape;
 class Ball;
 
+enum class GameMode : int
+{
+	SinglePlayer,
+	MultiplayerLocal
+};
 
-void process_input_and_collision(Ball& ball, Shape& shp1, Shape& shp2);
-void singlePlayer();
+void startGame(GameMode mode);
 
 #endif
