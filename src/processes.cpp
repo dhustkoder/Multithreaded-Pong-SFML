@@ -32,7 +32,8 @@ void mainGameLoop(sf::RenderWindow& mainWin, const Shape& shp, const Ball& ball)
 
 // template functions for window processes
 template<typename ...Ts>
-inline void drawAndDisplay(sf::RenderWindow &win, Ts&& ...args) {
+inline void drawAndDisplay(sf::RenderWindow &win, Ts&& ...args) 
+{
 	(void)std::initializer_list<int>
 	{
 		(win.draw(std::forward<Ts>(args)), 0)...
@@ -44,7 +45,8 @@ inline void drawAndDisplay(sf::RenderWindow &win, Ts&& ...args) {
 }
 
 template<typename ...Ts>
-inline void updateObjects(Ts&& ...args) {
+inline void updateObjects(Ts&& ...args) 
+{
 	return (void)std::initializer_list<int>
 	{
 		(std::forward<Ts>(args).update(), 0)...
@@ -72,20 +74,22 @@ void startGame(GameMode mode)
 	auto mainWindow =
 		std::make_unique<sf::RenderWindow>(sf::VideoMode(winWidth, winHeight, 32), "Multithread-Pong-SFML");
 
-	player1.setPosition(5.f, cexpr_div((float)winHeight, 2.f));
 	winEvent.type = sf::Event::GainedFocus;
 	mainWindow->setFramerateLimit(60);
+	mainWindow->setVerticalSyncEnabled(true);
+	player1.setPosition(5.f, cexpr_div((float)winHeight, 2.f));
+	
 
 	// create the rest of game objects
 	auto ballUnique = std::make_unique<Ball>(winWidth, winHeight);
 	std::unique_ptr<Shape> adverShapeUnique;
 
-	if (mode == GameMode::SinglePlayer){
+	if (mode == GameMode::SinglePlayer) {
 		adverShapeUnique = std::make_unique<Cpu>(winWidth, winHeight, 30.0f, 80.0f, *ballUnique);
 		adverShapeUnique->setPosition(cexpr_sub((float)winWidth, 5.f), cexpr_div((float)winHeight, 2.f));
 	}
 
-	else if (mode == GameMode::MultiplayerLocal){
+	else if (mode == GameMode::MultiplayerLocal) {
 		adverShapeUnique = std::make_unique<Player>(winWidth, winHeight, 30.0F, 80.0F);
 		adverShapeUnique->setPosition(cexpr_sub((float)winWidth, 5.f), cexpr_div((float)winHeight, 2.f));
 		static_cast<Player*>(adverShapeUnique.get())->setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
@@ -137,12 +141,12 @@ void process_input_and_collision(Ball& ball, Shape& shp)
 		{
 			updateObjects(player1, shp, ball);
 
-			if (isColliding(player1, ball)){
+			if (isColliding(player1, ball)) {
 				sound->play();
 				ball.treatCollisionWith(player1);
 			}
 			
-			else if (isColliding(shp, ball)){
+			else if (isColliding(shp, ball)) {
 				sound->play();
 				ball.treatCollisionWith(shp);
 			}
