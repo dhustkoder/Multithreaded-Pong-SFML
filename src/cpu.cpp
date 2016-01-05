@@ -9,7 +9,7 @@ Cpu::Cpu(Shape &ball) noexcept :
 	
 }
 
-Cpu::Cpu(const float sizeX, const float sizeY, Shape &ball) : 
+Cpu::Cpu(const float sizeX, const float sizeY, Shape &ball) noexcept : 
 	Shape({sizeX / 2, sizeY / 2}, new sf::RectangleShape({sizeX, sizeY})),
 		m_ball(ball), m_up_screen_line(60), m_down_screen_line(m_windowHeight - 60) 
 {
