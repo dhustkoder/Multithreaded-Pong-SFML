@@ -2,12 +2,11 @@
 #include "ball.h"
 #include "utility.h"
 
-Ball::Ball(const unsigned winWidth, const unsigned winHeight) noexcept : 
-	Shape(winWidth, winHeight, cexpr_div(ballRadius,2.f), cexpr_div(ballRadius,2.f), new sf::CircleShape(ballRadius))
-	
+Ball::Ball() noexcept : 
+	Shape({ballRadius / 2.f, ballRadius / 2.f }, new sf::CircleShape(ballRadius))	
 {
 	m_shape->setFillColor(sf::Color::Red);
-	m_shape->setPosition(winWidth / 2u, winHeight / 2u);
+	m_shape->setPosition(m_windowWidth / 2u, m_windowHeight / 2u);
 	m_velocity->y = m_velocity->x = ballVelocity;
 
 }

@@ -8,8 +8,8 @@ constexpr auto ballRadius = 7.0F;
 class Ball final: public Shape
 {
 public:
-	// give window size.
-	Ball(const unsigned winWidth, const unsigned winHeight) noexcept;
+	// uses window size informed for class Shape
+	Ball() noexcept;
 	void treatCollisionWith(const Shape &collidedShape) noexcept;
 	void update() noexcept override;
 

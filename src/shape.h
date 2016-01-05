@@ -1,15 +1,39 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
+
 #include <memory>
 #include <SFML/Graphics/Shape.hpp>
+
+
+static struct _DefaultPaddleSize
+{
+	static float x;
+	static float y;
+	
+	auto operator / (const float div) {
+		return std::make_pair(x / div, y / div);
+	}
+
+	operator sf::Vector2f(){
+		return { x, y };
+	}
+
+}DefaultPaddleSize;
+
+
 
 class Shape
 {
 public:
-	Shape(const unsigned winWidth, const unsigned winHeight, 
-	const float originX, const float originY, sf::Shape *shape) noexcept;
-	
+	enum class Position;
+
+	// give the origin
+	Shape(std::pair<float,float> origin, sf::Shape * const shape) noexcept;
+
+	// use  default origin ( DefaulPaddleSize / 2.f )
+	Shape(sf::Shape * const shape) noexcept;
+
 	virtual ~Shape(){}
 	float getRight() const noexcept;
 	float getLeft() const noexcept;
@@ -18,15 +42,17 @@ public:
 	const sf::Vector2f &getVelocity() const noexcept;
 	void setCompensation(const float h, const float v) noexcept;
 	void setPosition(const float x, const float y) noexcept;
+	void setPosition(Position pos) noexcept;
 	inline operator const sf::Drawable& () const noexcept;
-	
+
+	static void informWindowSize(const unsigned winWidth, const unsigned winHeight) noexcept;
 	virtual void update() noexcept = 0;
 
 protected:
 	std::unique_ptr<sf::Shape> m_shape;
 	std::unique_ptr<sf::Vector2f> m_velocity;
 	float m_horizontalCompensation, m_verticalCompensation;
-	const unsigned  m_windowWidth, m_windowHeight;
+	static unsigned  m_windowWidth, m_windowHeight;
 	
 	// deleted functions
 	Shape(const Shape&) = delete;
@@ -62,6 +88,13 @@ inline Shape::operator const sf::Drawable&() const noexcept
 {
 	return *m_shape;
 }
+
+
+enum class Shape::Position
+{
+	LeftCorner,
+	RightCorner
+};
 
 
 inline bool isColliding(const Shape &first, const Shape &second) noexcept

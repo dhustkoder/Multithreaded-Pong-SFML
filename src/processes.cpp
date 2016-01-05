@@ -18,7 +18,7 @@ constexpr unsigned winHeight = 420;
 
 
 // main global variables
-static Player player1(winWidth, winHeight, 30.0F, 80.0F);
+static Player player1;
 static sf::Event winEvent;
 
 // thread purpose globals
@@ -76,22 +76,24 @@ void startGame(GameMode mode)
 
 	winEvent.type = sf::Event::GainedFocus;
 	mainWindow->setFramerateLimit(60);
-	mainWindow->setVerticalSyncEnabled(true);
-	player1.setPosition(5.f, cexpr_div((float)winHeight, 2.f));
+	mainWindow->setVerticalSyncEnabled(true);	
+	
+	Shape::informWindowSize(winWidth, winHeight);
+	player1.setPosition(Shape::Position::LeftCorner);
 	
 
 	// create the rest of game objects
-	auto ballUnique = std::make_unique<Ball>(winWidth, winHeight);
+	auto ballUnique = std::make_unique<Ball>();
 	std::unique_ptr<Shape> adverShapeUnique;
 
 	if (mode == GameMode::SinglePlayer) {
-		adverShapeUnique = std::make_unique<Cpu>(winWidth, winHeight, 30.0f, 80.0f, *ballUnique);
-		adverShapeUnique->setPosition(cexpr_sub((float)winWidth, 5.f), cexpr_div((float)winHeight, 2.f));
+		adverShapeUnique = std::make_unique<Cpu>(*ballUnique);
+		adverShapeUnique->setPosition(Shape::Position::RightCorner);
 	}
 
 	else if (mode == GameMode::MultiplayerLocal) {
-		adverShapeUnique = std::make_unique<Player>(winWidth, winHeight, 30.0F, 80.0F);
-		adverShapeUnique->setPosition(cexpr_sub((float)winWidth, 5.f), cexpr_div((float)winHeight, 2.f));
+		adverShapeUnique = std::make_unique<Player>();
+		adverShapeUnique->setPosition(Shape::Position::RightCorner);
 		static_cast<Player*>(adverShapeUnique.get())->setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
 	}
 

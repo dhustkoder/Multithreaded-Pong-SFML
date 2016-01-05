@@ -27,8 +27,8 @@ endif()
 
 
 # find SFML
-find_package(SFML REQUIRED)
-INCLUDE_DIRECTORIES(${SFML_INCLUDE_DIR})
+#find_package(SFML REQUIRED)
+#INCLUDE_DIRECTORIES(${SFML_INCLUDE_DIR})
 
 
 #source files

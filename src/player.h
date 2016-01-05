@@ -8,9 +8,14 @@ constexpr auto playerVelocity = 4.0F;
 class Player final: public Shape
 {
 public:
-	// pass the window's resolution, and player size
-	Player(const unsigned winWidth, const unsigned winHeight, 
-	const float sizeX, const float sizeY) noexcept;
+	// uses DefaultPaddleSize
+	Player() noexcept;
+
+	// pass the player's size
+	Player(const float sizeX, const float sizeY) noexcept;
+
+
+
 	void setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown);
 	
 	void update() noexcept override;
