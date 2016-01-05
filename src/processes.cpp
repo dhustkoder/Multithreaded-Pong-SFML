@@ -71,12 +71,12 @@ bool updateWindowState(sf::RenderWindow& mainWin)
 // main functions
 void startGame(GameMode mode)
 {
-	auto mainWindow =
+	auto mainWindowUnique =
 		std::make_unique<sf::RenderWindow>(sf::VideoMode(winWidth, winHeight, 32), "Multithread-Pong-SFML");
 
 	winEvent.type = sf::Event::GainedFocus;
-	mainWindow->setFramerateLimit(60);
-	mainWindow->setVerticalSyncEnabled(true);	
+	mainWindowUnique->setFramerateLimit(60);
+	mainWindowUnique->setVerticalSyncEnabled(true);	
 	
 	Shape::informWindowSize(winWidth, winHeight);
 	player1.setPosition(Shape::Position::LeftCorner);
@@ -104,7 +104,7 @@ void startGame(GameMode mode)
 			std::ref(*ballUnique), std::ref(*adverShapeUnique));
 
 	// call mainGameLoop, the loop which controlls window and thread access
-	mainGameLoop(*mainWindow, *adverShapeUnique, *ballUnique);
+	mainGameLoop(*mainWindowUnique, *adverShapeUnique, *ballUnique);
 
 	// stop game wait thread to return, exit
 	isGameRunning = false;
@@ -114,7 +114,7 @@ void startGame(GameMode mode)
 
 
 
-void mainGameLoop(sf::RenderWindow& mainWin, const Shape& shp, const Ball& ball)
+void mainGameLoop(sf::RenderWindow& mainWin, const Shape& adverShape, const Ball& ball)
 {
 	while (mainWin.isOpen())
 	{
@@ -124,7 +124,7 @@ void mainGameLoop(sf::RenderWindow& mainWin, const Shape& shp, const Ball& ball)
 		while (doInputAndCollisionProcess)
 			std::this_thread::yield();
 
-		drawAndDisplay(mainWin, player1, shp, ball);
+		drawAndDisplay(mainWin, player1, adverShape, ball);
 	}
 }
 
