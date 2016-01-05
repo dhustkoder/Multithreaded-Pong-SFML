@@ -6,7 +6,7 @@ project(mtPong)
 cmake_minimum_required(VERSION 2.8)
 
 #compiler
-set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_CXX_COMPILER "clang++")
 
 
 #compiler flags

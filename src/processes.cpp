@@ -33,12 +33,14 @@ void mainGameLoop(sf::RenderWindow& mainWin, const Shape& shp, const Ball& ball)
 // template functions for window processes
 template<typename ...Ts>
 inline void drawAndDisplay(sf::RenderWindow &win, Ts&& ...args) {
-	std::initializer_list<int>
+	(void)std::initializer_list<int>
 	{
 		(win.draw(std::forward<Ts>(args)), 0)...
 	};
-	
+
 	win.display();
+	
+
 }
 
 template<typename ...Ts>
@@ -80,7 +82,7 @@ void startGame(GameMode mode)
 
 	if (mode == GameMode::SinglePlayer){
 		adverShapeUnique = std::make_unique<Cpu>(winWidth, winHeight, 30.0f, 80.0f, *ballUnique);
-		adverShapeUnique->setPosition(cexpr_sub(winWidth, 5u), cexpr_div(winHeight, 2u));
+		adverShapeUnique->setPosition(cexpr_sub((float)winWidth, 5.f), cexpr_div((float)winHeight, 2.f));
 	}
 
 	else if (mode == GameMode::MultiplayerLocal){
@@ -124,7 +126,6 @@ void mainGameLoop(sf::RenderWindow& mainWin, const Shape& shp, const Ball& ball)
 
 void process_input_and_collision(Ball& ball, Shape& shp)
 {
-
 	//load sound to memory
 	auto soundBuff = std::make_unique<sf::SoundBuffer>();
 	soundBuff->loadFromFile("../Resources/ballsound");
@@ -152,8 +153,6 @@ void process_input_and_collision(Ball& ball, Shape& shp)
 		else
 			std::this_thread::yield();
 	}
-
-
 }
 
 
