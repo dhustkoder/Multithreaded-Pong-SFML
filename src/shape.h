@@ -85,4 +85,7 @@ inline bool isColliding(const Shape &first, const Shape &second) noexcept
 }
 
 
+
+
+
 #endif // SHAPE_H

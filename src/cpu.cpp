@@ -3,7 +3,7 @@
 #include "utility.h"
 
 Cpu::Cpu(Shape &ball) noexcept : 
-	Shape(defaultPaddleSize / 2, new sf::RectangleShape(defaultPaddleSize)),
+	Shape(defaultPaddleSize.getOrigin(), new sf::RectangleShape(defaultPaddleSize)),
 	m_ball(ball), m_up_screen_line(60), m_down_screen_line(m_windowHeight - 60) 
 {
 	

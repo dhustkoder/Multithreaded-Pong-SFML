@@ -2,9 +2,8 @@
 #include "player.h"
 #include "utility.h"
 
-
 Player::Player() noexcept : 
-	Shape(defaultPaddleSize / 2, new sf::RectangleShape(defaultPaddleSize)),
+	Shape(defaultPaddleSize.getOrigin(), new sf::RectangleShape(defaultPaddleSize)),
 	m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
 {
 	m_shape->setFillColor(sf::Color::White);

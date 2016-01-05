@@ -1,6 +1,5 @@
-#include "utility.h"
 #include "shape.h"
-
+#include "utility.h"
 
 unsigned Shape::m_windowWidth = 0, Shape::m_windowHeight = 0;
 

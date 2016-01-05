@@ -3,7 +3,7 @@
 #include "utility.h"
 
 Ball::Ball() noexcept : 
-	Shape({ballRadius / 2.f, ballRadius / 2.f }, new sf::CircleShape(ballRadius))	
+	Shape({cexpr_div(ballRadius, 2.f), cexpr_div(ballRadius, 2.f)}, new sf::CircleShape(ballRadius))	
 {
 	m_shape->setFillColor(sf::Color::Red);
 	m_shape->setPosition(m_windowWidth / 2u, m_windowHeight / 2u);
