@@ -16,7 +16,7 @@ template<typename T>
 constexpr T cexpr_sub(const T x, const T y)	{ return x - y; }
 
 // aux constant object for default size and origin of paddle
-constexpr struct DefaultPaddleSize
+static constexpr struct DefaultPaddleSize
 {
 	constexpr static float x = 15;
 	constexpr static float y = 80;
