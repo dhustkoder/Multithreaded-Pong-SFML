@@ -18,8 +18,7 @@ constexpr unsigned winHeight = 420;
 
 // main global variables
 static Player player1;
-sf::Event winEvent;
-// thread purpose globals
+
 static std::atomic<bool> isGameRunning(false);
 static std::atomic<bool> doInputAndCollisionProcess(false);
 

@@ -24,7 +24,6 @@ GameWindow::GameWindow(sf::VideoMode mode, const char *windowName) noexcept :
     ++sm_instances;
 }
 
-
 void GameWindow::updateWindowState() noexcept
 {
     m_renderWindow.clear(sf::Color::Black);

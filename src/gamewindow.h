@@ -4,17 +4,18 @@
 #include <SFML/Window/Event.hpp>
 #include <memory>
 
-class GameWindow
+class GameWindow final
 {
 
 public:
 	static std::unique_ptr<GameWindow> makeUniqueWindow(sf::VideoMode mode, const char* windowName) noexcept;
+
+	~GameWindow();
 	void updateWindowState() noexcept;
 	void setSize(const unsigned width, const unsigned height) noexcept;
 	bool isOpen() const noexcept;
 	template<typename ...Ts>
 	void drawAndDisplay(Ts&& ...args) noexcept;
-
 private:
 	GameWindow(sf::VideoMode, const char*) noexcept;
 	sf::RenderWindow m_renderWindow;
@@ -26,7 +27,9 @@ private:
 	GameWindow(GameWindow&&)      = delete;
 };
 
-
+inline GameWindow::~GameWindow() {
+	--sm_instances;
+}
 
 
 inline bool GameWindow::isOpen() const noexcept {
