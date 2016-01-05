@@ -26,10 +26,11 @@ static std::atomic<bool> isGameRunning(false);
 static std::atomic<bool> doInputAndCollisionProcess(false);
 
 
-// functions
+// functions declaration
 void process_input_and_collision(Ball& ball, Shape& shp);
 void mainGameLoop(sf::RenderWindow& mainWin, const Shape& shp, const Ball& ball);
 
+// template functions for window processes
 template<typename ...Ts>
 inline void drawAndDisplay(sf::RenderWindow &win, Ts&& ...args) {
 	std::initializer_list<int>
@@ -63,9 +64,7 @@ bool updateWindowState(sf::RenderWindow& mainWin)
 }
 
 
-
-
-// game
+// main functions
 void startGame(GameMode mode)
 {
 	auto mainWindow =
@@ -75,42 +74,34 @@ void startGame(GameMode mode)
 	winEvent.type = sf::Event::GainedFocus;
 	mainWindow->setFramerateLimit(60);
 
+	// create the rest of game objects
+	auto ballUnique = std::make_unique<Ball>(winWidth, winHeight);
+	std::unique_ptr<Shape> adverShapeUnique;
 
-	if (mode == GameMode::SinglePlayer)
-	{
-		isGameRunning = true;
-		auto ballUnique = std::make_unique<Ball>(winWidth, winHeight);
-		auto cpuPaddleUnique = std::make_unique<Cpu>(winWidth, winHeight, 30.0f, 80.0f, *ballUnique);
-		cpuPaddleUnique->setPosition(cexpr_sub(winWidth, 5u), cexpr_div(winHeight, 2u));
-
-		auto input_and_collision_thread =
-			std::make_unique<std::thread>(process_input_and_collision,
-				std::ref(*ballUnique.get()), std::ref(*cpuPaddleUnique.get()));
-
-		mainGameLoop(*mainWindow, *cpuPaddleUnique, *ballUnique);
-		isGameRunning = false;
-		input_and_collision_thread->join();
+	if (mode == GameMode::SinglePlayer){
+		adverShapeUnique = std::make_unique<Cpu>(winWidth, winHeight, 30.0f, 80.0f, *ballUnique);
+		adverShapeUnique->setPosition(cexpr_sub(winWidth, 5u), cexpr_div(winHeight, 2u));
 	}
 
-	else if (mode == GameMode::MultiplayerLocal)
-	{
-		isGameRunning = true;
-		auto ballUnique = std::make_unique<Ball>(winWidth, winHeight);
-		auto player2Unique = std::make_unique<Player>(winWidth, winHeight, 30.0F, 80.0F);
-		player2Unique->setPosition(cexpr_sub((float)winWidth, 5.f), cexpr_div((float)winHeight, 2.f));
-		player2Unique->setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
+	else if (mode == GameMode::MultiplayerLocal){
+		adverShapeUnique = std::make_unique<Player>(winWidth, winHeight, 30.0F, 80.0F);
+		adverShapeUnique->setPosition(cexpr_sub((float)winWidth, 5.f), cexpr_div((float)winHeight, 2.f));
+		static_cast<Player*>(adverShapeUnique.get())->setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
 
-		auto input_and_collision_thread =
-			std::make_unique<std::thread>(process_input_and_collision,
-				std::ref(*ballUnique), std::ref(*player2Unique));
-
-		mainGameLoop(*mainWindow, *player2Unique, *ballUnique);
-
-		isGameRunning = false;
-		input_and_collision_thread->join();
 	}
 
+	// init input and collision thread
+	isGameRunning = true;
+	auto input_and_collision_thread =
+		std::make_unique<std::thread>(process_input_and_collision,
+			std::ref(*ballUnique), std::ref(*adverShapeUnique));
 
+	// call mainGameLoop, the loop which controlls window and thread access
+	mainGameLoop(*mainWindow, *adverShapeUnique, *ballUnique);
+
+	// stop game wait thread to return, exit
+	isGameRunning = false;
+	input_and_collision_thread->join();
 
 }
 
@@ -149,13 +140,12 @@ void process_input_and_collision(Ball& ball, Shape& shp)
 		{
 			updateObjects(player1, shp, ball);
 
-			if (isColliding(player1, ball))
-			{
+			if (isColliding(player1, ball)){
 				sound->play();
 				ball.treatCollisionWith(player1);
 			}
-			else if (isColliding(shp, ball))
-			{
+			
+			else if (isColliding(shp, ball)){
 				sound->play();
 				ball.treatCollisionWith(shp);
 			}
