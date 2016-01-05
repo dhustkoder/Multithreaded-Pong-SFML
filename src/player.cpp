@@ -1,10 +1,10 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "player.h"
-
+#include "utility.h"
 
 
 Player::Player() noexcept : 
-	Shape(DefaultPaddleSize / 2.f, new sf::RectangleShape(sf::Vector2f(DefaultPaddleSize))),
+	Shape(defaultPaddleSize / 2, new sf::RectangleShape(defaultPaddleSize)),
 	m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
 {
 	m_shape->setFillColor(sf::Color::White);
@@ -12,7 +12,7 @@ Player::Player() noexcept :
 
 
 Player::Player(const float sizeX, const float sizeY) noexcept : 
-	Shape({sizeX / 2.0f, sizeY / 2.0f}, new sf::RectangleShape(sf::Vector2f(sizeX,sizeY))),
+	Shape({sizeX / 2.0f, sizeY / 2.0f}, new sf::RectangleShape({sizeX,sizeY})),
 	m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
 {
 	m_shape->setFillColor(sf::Color::White);

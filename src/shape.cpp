@@ -1,23 +1,15 @@
 #include "utility.h"
 #include "shape.h"
 
-float _DefaultPaddleSize::x = 15, _DefaultPaddleSize::y = 80;
 
 unsigned Shape::m_windowWidth = 0, Shape::m_windowHeight = 0;
 
 
-Shape::Shape(sf::Shape *const shape) noexcept : 
+Shape::Shape(sf::Vector2f &&origin, sf::Shape * const shape) noexcept :
 	m_shape(shape), m_velocity(new sf::Vector2f()),
-	m_horizontalCompensation(DefaultPaddleSize.x / 2.f), m_verticalCompensation(DefaultPaddleSize.y / 2.f)
+	m_horizontalCompensation(origin.x), m_verticalCompensation(origin.y)
 {
-
-}
-
-Shape::Shape(std::pair<float,float> origin, sf::Shape * const shape) noexcept :
-	m_shape(shape), m_velocity(new sf::Vector2f()),
-	m_horizontalCompensation(origin.first), m_verticalCompensation(origin.second)
-{
-	m_shape->setOrigin(origin.first, origin.second);
+	m_shape->setOrigin(origin.x, origin.y);
 	m_velocity->x = 0;
 	m_velocity->y = 0;
 }

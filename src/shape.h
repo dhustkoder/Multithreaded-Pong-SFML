@@ -1,27 +1,7 @@
 #ifndef SHAPE_H
 #define SHAPE_H
-
-
 #include <memory>
 #include <SFML/Graphics/Shape.hpp>
-
-
-static struct _DefaultPaddleSize
-{
-	static float x;
-	static float y;
-	
-	auto operator / (const float div) {
-		return std::make_pair(x / div, y / div);
-	}
-
-	operator sf::Vector2f(){
-		return { x, y };
-	}
-
-}DefaultPaddleSize;
-
-
 
 class Shape
 {
@@ -29,10 +9,7 @@ public:
 	enum class Position;
 
 	// give the origin
-	Shape(std::pair<float,float> origin, sf::Shape * const shape) noexcept;
-
-	// use  default origin ( DefaulPaddleSize / 2.f )
-	Shape(sf::Shape * const shape) noexcept;
+	Shape(sf::Vector2f &&origin, sf::Shape * const shape) noexcept;
 
 	virtual ~Shape(){}
 	float getRight() const noexcept;
@@ -53,6 +30,9 @@ protected:
 	std::unique_ptr<sf::Vector2f> m_velocity;
 	float m_horizontalCompensation, m_verticalCompensation;
 	static unsigned  m_windowWidth, m_windowHeight;
+
+
+
 	
 	// deleted functions
 	Shape(const Shape&) = delete;
