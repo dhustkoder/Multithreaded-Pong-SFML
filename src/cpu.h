@@ -8,8 +8,11 @@ constexpr auto cpuVelocity = 4.0F;
 class Cpu final : public Shape
 {
 public:
+	// uses defaultPaddleSize
 	Cpu(Shape &ball) noexcept;
-	Cpu(const float sizeX, const float sizeY, Shape &ball);
+	
+	//uses the given size
+	Cpu(const float sizeX, const float sizeY, Shape &ball) noexcept;
 	void update() noexcept override;
 private:
 	const Shape &m_ball;
