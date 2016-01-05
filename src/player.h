@@ -11,13 +11,10 @@ public:
 	// uses DefaultPaddleSize
 	Player() noexcept;
 
-	// pass the player's size
+	// uses the given size
 	Player(const float sizeX, const float sizeY) noexcept;
 
-
-
 	void setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown);
-	
 	void update() noexcept override;
 private:
 	sf::Keyboard::Key m_kUp, m_kDown;
