@@ -20,8 +20,8 @@ GameWindow::GameWindow(const sf::VideoMode mode, const char *windowName) noexcep
 	m_renderWindow.setFramerateLimit(60);
 	m_renderWindow.setVerticalSyncEnabled(true);
 	m_event.type = sf::Event::GainedFocus;
-	sm_width = mode.width;
-	sm_height = mode.height;
+	sm_width = m_renderWindow.getSize().x;
+	sm_height = m_renderWindow.getSize().y;
 	++sm_instances;
 }
 
@@ -35,9 +35,9 @@ void GameWindow::updateWindowState() noexcept
 }
 
 
-void GameWindow::setSize(const unsigned width, const unsigned height) noexcept
+void GameWindow::setSize(const unsigned __width, const unsigned __height) noexcept
 {
-	m_renderWindow.setSize({width, height});
-	sm_width = width;
-	sm_height = height;
+	m_renderWindow.setSize({__width, __height});
+	sm_width = __width;
+	sm_height = __height;
 }

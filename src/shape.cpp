@@ -3,8 +3,8 @@
 #include "utility.h"
 
 
-Shape::Shape(sf::Vector2f &&origin, sf::Shape *const shape) noexcept :
-	m_shape(shape), m_velocity(new sf::Vector2f()),
+Shape::Shape(sf::Vector2f &&origin, std::unique_ptr<sf::Shape>&& shape) noexcept :
+	m_shape(shape.release()), m_velocity(new sf::Vector2f()),
 	m_horizontalCompensation(origin.x), m_verticalCompensation(origin.y)
 {
 	m_shape->setOrigin(origin.x, origin.y);

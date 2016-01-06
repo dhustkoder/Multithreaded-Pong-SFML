@@ -9,7 +9,7 @@ public:
 	enum class Position;
 
 	// give the origin
-	Shape(sf::Vector2f &&origin, sf::Shape *const shape) noexcept;
+	Shape(sf::Vector2f &&origin, std::unique_ptr<sf::Shape>&& shape) noexcept;
 
 	virtual ~Shape(){}
 	float getRight() const noexcept;

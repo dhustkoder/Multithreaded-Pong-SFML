@@ -5,7 +5,7 @@
 
 Ball::Ball() noexcept : 
 	Shape({cexpr_div(ballRadius, 2.f), cexpr_div(ballRadius, 2.f)},
-	      std::make_unique<sf::CircleShape>(ballRadius).release())
+	      std::make_unique<sf::CircleShape>(ballRadius))
 {
 	m_shape->setFillColor(sf::Color::Red);
 	this->setPosition(Position::Middle);

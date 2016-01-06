@@ -18,8 +18,8 @@ public:
 
 inline
 Paddle::Paddle() noexcept :
-	Shape({cexpr_div(defaultWidth, 2.f), cexpr_div(defaultWidth, 2.f)},
-	      std::make_unique<sf::RectangleShape>(sf::Vector2f(defaultWidth, defaultHeight)).release())
+	Shape({cexpr_div(defaultWidth, 2.f), cexpr_div(defaultHeight, 2.f)},
+	      std::make_unique<sf::RectangleShape>(sf::Vector2f(defaultWidth, defaultHeight)))
 {
 
 }
@@ -27,7 +27,7 @@ Paddle::Paddle() noexcept :
 inline
 Paddle::Paddle(const float sizeX, const float sizeY) noexcept :
 	Shape({sizeX / 2.f, sizeY / 2.f},
-	      std::make_unique<sf::RectangleShape>(sf::Vector2f(sizeX, sizeY)).release())
+	      std::make_unique<sf::RectangleShape>(sf::Vector2f(sizeX, sizeY)))
 {
 
 }
