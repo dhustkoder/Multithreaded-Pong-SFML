@@ -7,12 +7,15 @@
 class GameWindow final
 {
 
-	static constexpr unsigned defaultWinWidth = 800;
-	static constexpr unsigned defaultWinHeight = 420;
+	static constexpr unsigned defaultWidth = 800;
+	static constexpr unsigned defaultHeight = 420;
 public:
 	static std::unique_ptr<GameWindow> 
-		makeUniqueWindow(sf::VideoMode mode = {defaultWinWidth, defaultWinHeight, 32}, const char* windowName = "Game-Window") noexcept;
-	
+		makeUniqueWindow(sf::VideoMode &&mode = {defaultWidth, defaultHeight, 32},
+				 const char* windowName = "Game-Window") noexcept;
+	static std::unique_ptr<GameWindow> 
+		makeUniqueWindow(const char* windowName) noexcept;
+
 	static const unsigned &width, &height;
 
 	~GameWindow();
@@ -23,7 +26,7 @@ public:
 	template<typename ...Ts>
 	void drawAndDisplay(Ts&& ...args) noexcept;
 private:
-	GameWindow(const sf::VideoMode, const char*) noexcept;
+	GameWindow(sf::VideoMode&&, const char*) noexcept;
 	sf::RenderWindow m_renderWindow;
 	sf::Event m_event;
 

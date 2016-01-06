@@ -4,7 +4,7 @@
 
 
 Shape::Shape(sf::Vector2f &&origin, std::unique_ptr<sf::Shape>&& shape) noexcept :
-	m_shape(shape.release()), m_velocity(new sf::Vector2f()),
+	m_shape(std::move(shape)), m_velocity(new sf::Vector2f()),
 	m_horizontalCompensation(origin.x), m_verticalCompensation(origin.y)
 {
 	m_shape->setOrigin(origin.x, origin.y);
@@ -42,5 +42,5 @@ void Shape::setPosition(Position pos) noexcept
 		m_shape->setPosition(m_horizontalCompensation,(float)GameWindow::height / 2.f);
 
     else
-	m_shape->setPosition(GameWindow::width / 2.f, GameWindow::height / 2.f);
+		m_shape->setPosition(GameWindow::width / 2.f, GameWindow::height / 2.f);
 }
