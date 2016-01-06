@@ -7,14 +7,12 @@
 #include "processes.h"
 #include "gamewindow.h"
 #include "gamescore.h"
-#include "utility.h"
 #include "player.h"
 #include "cpu.h"
 #include "ball.h"
+#include "utility.h"
 
-// global constants (compile time)
-constexpr unsigned winWidth = 800;
-constexpr unsigned winHeight = 420;
+
 
 
 // main global variables
@@ -31,7 +29,7 @@ void mainGameLoop(GameWindow& mainWin, const Shape& shp, const Ball& ball) noexc
 // main functions
 void startGame(GameMode mode)
 {
-	auto mainWindowUnique = GameWindow::makeUniqueWindow(sf::VideoMode(winWidth, winHeight, 32), "Multithread-Pong-SFML");
+	auto mainWindowUnique = GameWindow::makeUniqueWindow();
 	player1.setPosition(Shape::Position::LeftSide);
 
 	// create the rest of game objects

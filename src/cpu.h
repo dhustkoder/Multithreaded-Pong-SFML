@@ -1,6 +1,5 @@
 #ifndef CPU_H
 #define CPU_H
-#include <SFML/Graphics/RectangleShape.hpp>
 #include "paddle.h"
 
 constexpr auto cpuVelocity = 4.0F;
@@ -21,8 +20,9 @@ private:
 	const unsigned m_down_screen_line;
 };
 
-inline
-bool Cpu::isReady() noexcept {
+
+
+inline bool Cpu::isReady() noexcept {
 	return true;
 }
 

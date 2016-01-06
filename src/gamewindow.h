@@ -7,8 +7,12 @@
 class GameWindow final
 {
 
+	static constexpr unsigned defaultWinWidth = 800;
+	static constexpr unsigned defaultWinHeight = 420;
 public:
-	static std::unique_ptr<GameWindow> makeUniqueWindow(sf::VideoMode mode, const char* windowName) noexcept;
+	static std::unique_ptr<GameWindow> 
+		makeUniqueWindow(sf::VideoMode mode = {defaultWinWidth, defaultWinHeight}, const char* windowName = "Game-Window") noexcept;
+	
 	static const unsigned &width, &height;
 
 	~GameWindow();
