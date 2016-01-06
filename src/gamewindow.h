@@ -36,9 +36,10 @@ inline bool GameWindow::isOpen() const noexcept {
 	return m_renderWindow.isOpen();
 }
 
-
+// sends all args to sf::RenderWindow draw fuction. 
+// (the arguments need to be implicit conversible to sf::Drawable)
 template<typename ...Ts>
-inline void GameWindow::drawAndDisplay(Ts &&...args) noexcept
+void GameWindow::drawAndDisplay(Ts &&...args) noexcept
 {
 	(void)std::initializer_list<int>
 	{
@@ -47,4 +48,8 @@ inline void GameWindow::drawAndDisplay(Ts &&...args) noexcept
 
 	m_renderWindow.display();
 }
+
+
+
+
 #endif // GAMEWINDOW_H
