@@ -71,7 +71,7 @@ void mainGameLoop(GameWindow& mainWin, const Shape& adverShape, const Ball& ball
 	{
 		doInputAndCollisionProcess = true;
 		mainWin.updateWindowState();
-
+		
 		while (doInputAndCollisionProcess)
 			std::this_thread::yield();
 

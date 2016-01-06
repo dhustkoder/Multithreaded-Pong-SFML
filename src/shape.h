@@ -22,19 +22,14 @@ public:
 	void setPosition(Position pos) noexcept;
 	inline operator const sf::Drawable& () const noexcept;
 
-	static void informWindowSize(const unsigned winWidth, const unsigned winHeight) noexcept;
-	static void informWindowSize(sf::Vector2u vSize) noexcept;
 	virtual void update() noexcept = 0;
 
 protected:
 	std::unique_ptr<sf::Shape> m_shape;
 	std::unique_ptr<sf::Vector2f> m_velocity;
 	float m_horizontalCompensation, m_verticalCompensation;
-	static unsigned  m_windowWidth, m_windowHeight;
 
 
-
-	
 	// deleted functions
 	Shape(const Shape&) = delete;
 	Shape(Shape&&) = delete;
@@ -78,18 +73,6 @@ enum class Shape::Position
     Middle
 };
 
-inline void Shape::informWindowSize(const unsigned winWidth, const unsigned winHeight) noexcept
-{
-    m_windowWidth = winWidth;
-    m_windowHeight = winHeight;
-}
-
-
-inline void Shape::informWindowSize(sf::Vector2u vSize) noexcept
-{
-    m_windowWidth = vSize.x;
-    m_windowHeight = vSize.y;
-}
 
 
 inline bool isColliding(const Shape &first, const Shape &second) noexcept

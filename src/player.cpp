@@ -1,6 +1,8 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "player.h"
+#include "gamewindow.h"
 #include "utility.h"
+
 
 Player::Player() noexcept : 
 	Shape(defaultPaddleSize.getOrigin(), new sf::RectangleShape(defaultPaddleSize)),
@@ -30,7 +32,7 @@ void Player::update() noexcept
 {
 	if (sf::Keyboard::isKeyPressed(m_kUp) && getTop() >= 0)
 		m_velocity->y = -playerVelocity;
-	else if (sf::Keyboard::isKeyPressed(m_kDown) && getBottom() <= m_windowHeight)
+	else if (sf::Keyboard::isKeyPressed(m_kDown) && getBottom() <= GameWindow::height)
 		m_velocity->y = playerVelocity;	
 	else
 		m_velocity->y = 0;

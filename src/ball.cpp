@@ -1,5 +1,6 @@
 #include <SFML/Graphics/CircleShape.hpp>
 #include "ball.h"
+#include "gamewindow.h"
 #include "utility.h"
 
 Ball::Ball() noexcept : 
@@ -27,12 +28,12 @@ void Ball::update() noexcept
 {
 	if (getTop() < 1)
 		m_velocity->y = ballVelocity;
-	else if(getBottom() > m_windowHeight)
+	else if(getBottom() > GameWindow::height)
 		m_velocity->y = -ballVelocity;
 
 	if(getLeft() < 1)
 		m_velocity->x = ballVelocity;
-	else if(getRight() > m_windowWidth)
+	else if(getRight() > GameWindow::width)
 		m_velocity->x = -ballRadius;
 
 	m_shape->move(*m_velocity);

@@ -1,7 +1,6 @@
 #include "shape.h"
+#include "gamewindow.h"
 #include "utility.h"
-
-unsigned Shape::m_windowWidth = 0, Shape::m_windowHeight = 0;
 
 
 Shape::Shape(sf::Vector2f &&origin, sf::Shape * const shape) noexcept :
@@ -37,11 +36,11 @@ void Shape::setPosition(const float x, const float y) noexcept
 void Shape::setPosition(Position pos) noexcept
 {
     if(pos == Position::RightSide)
-		m_shape->setPosition((float)m_windowWidth - m_horizontalCompensation, m_windowHeight / 2.f);	
+		m_shape->setPosition((float)GameWindow::width - m_horizontalCompensation, GameWindow::height / 2.f);
 
     else if(pos == Position::LeftSide)
-		m_shape->setPosition(m_horizontalCompensation,(float)m_windowHeight / 2.f);
+		m_shape->setPosition(m_horizontalCompensation,(float)GameWindow::height / 2.f);
 
     else
-        m_shape->setPosition(m_windowWidth / 2.f, m_windowHeight / 2.f);
+	m_shape->setPosition(GameWindow::width / 2.f, GameWindow::height / 2.f);
 }
