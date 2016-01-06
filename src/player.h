@@ -1,11 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include <SFML/Window/Keyboard.hpp>
-#include "shape.h"
+#include "paddle.h"
 
 constexpr auto playerVelocity = 4.0F;
 
-class Player final: public Shape
+class Player final: public Paddle
 {
 public:
 	// uses DefaultPaddleSize
@@ -16,6 +16,7 @@ public:
 
 	void setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown);
 	void update() noexcept override;
+	bool isReady() noexcept override;
 private:
 	sf::Keyboard::Key m_kUp, m_kDown;
 

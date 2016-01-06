@@ -3,7 +3,9 @@ class Ball;
 
 namespace GameScore {
 
-void update(GameWindow& mainWin, const Ball& ball) noexcept;
+void update(const Ball& ball) noexcept;
+
+void display() noexcept;
 
 
 }

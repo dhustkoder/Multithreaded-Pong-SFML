@@ -13,7 +13,7 @@ int main()
 #endif
 
 	// single player and multiplayer test
-	startGame(GameMode::SinglePlayer);
+	//startGame(GameMode::SinglePlayer);
 	startGame(GameMode::MultiplayerLocal);
 }
 

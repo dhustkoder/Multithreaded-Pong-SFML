@@ -6,6 +6,7 @@
 
 #include "processes.h"
 #include "gamewindow.h"
+#include "gamescore.h"
 #include "utility.h"
 #include "player.h"
 #include "cpu.h"
@@ -74,6 +75,9 @@ void mainGameLoop(GameWindow& mainWin, const Shape& adverShape, const Ball& ball
 		
 		while (doInputAndCollisionProcess)
 			std::this_thread::yield();
+
+		GameScore::update(ball);
+		GameScore::display();
 
 		mainWin.drawAndDisplay(player1, adverShape, ball);
 	}

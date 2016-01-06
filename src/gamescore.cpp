@@ -12,7 +12,7 @@ unsigned playerScore = 0, adverScore = 0;
 sf::Font gameFont;
 sf::Text player1Text("0",gameFont), adverText("0", gameFont);
 
-void update(GameWindow &mainWin, const Ball &ball) noexcept
+void update(const Ball &ball) noexcept
 {
 
 	if(ball.getRight() >= GameWindow::width) {
@@ -27,6 +27,10 @@ void update(GameWindow &mainWin, const Ball &ball) noexcept
 
 }
 
+void display() noexcept {
+	std::printf("P1: %u\n", playerScore);
+	std::printf("Adver: %u\n", adverScore);
+}
 
 
 

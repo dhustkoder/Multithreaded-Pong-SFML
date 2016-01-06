@@ -1,11 +1,9 @@
-#include <SFML/Graphics/RectangleShape.hpp>
 #include "player.h"
 #include "gamewindow.h"
 #include "utility.h"
 
 
 Player::Player() noexcept : 
-	Shape(defaultPaddleSize.getOrigin(), new sf::RectangleShape(defaultPaddleSize)),
 	m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
 {
 	m_shape->setFillColor(sf::Color::White);
@@ -13,7 +11,7 @@ Player::Player() noexcept :
 
 
 Player::Player(const float sizeX, const float sizeY) noexcept : 
-	Shape({sizeX / 2.0f, sizeY / 2.0f}, new sf::RectangleShape({sizeX,sizeY})),
+	Paddle(sizeX, sizeY),
 	m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
 {
 	m_shape->setFillColor(sf::Color::White);
@@ -40,5 +38,7 @@ void Player::update() noexcept
 	m_shape->move(*m_velocity);
 }
 
-
+bool Player::isReady() noexcept {
+	return true;
+}
 

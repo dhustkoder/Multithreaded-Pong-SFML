@@ -4,7 +4,8 @@
 #include "utility.h"
 
 Ball::Ball() noexcept : 
-	Shape({cexpr_div(ballRadius, 2.f), cexpr_div(ballRadius, 2.f)}, new sf::CircleShape(ballRadius))
+	Shape({cexpr_div(ballRadius, 2.f), cexpr_div(ballRadius, 2.f)},
+	      std::make_unique<sf::CircleShape>(ballRadius).release())
 {
 	m_shape->setFillColor(sf::Color::Red);
 	this->setPosition(Position::Middle);

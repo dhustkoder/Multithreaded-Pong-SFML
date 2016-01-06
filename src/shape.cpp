@@ -3,7 +3,7 @@
 #include "utility.h"
 
 
-Shape::Shape(sf::Vector2f &&origin, sf::Shape * const shape) noexcept :
+Shape::Shape(sf::Vector2f &&origin, sf::Shape *const shape) noexcept :
 	m_shape(shape), m_velocity(new sf::Vector2f()),
 	m_horizontalCompensation(origin.x), m_verticalCompensation(origin.y)
 {
