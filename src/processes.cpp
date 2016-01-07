@@ -23,8 +23,8 @@ static std::atomic<bool> doInputAndCollisionProcess(false);
 
 
 // functions declaration
-void process_input_and_collision(Ball& ball, Shape& shp) noexcept;
-void mainGameLoop(GameWindow& mainWin, const Shape& shp, const Ball& ball) noexcept;
+void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept;
+void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle) noexcept;
 
 // main functions
 void startGame(GameMode mode)
@@ -34,27 +34,27 @@ void startGame(GameMode mode)
 
 	// create the rest of game objects
 	auto ballUnique = std::make_unique<Ball>();
-	std::unique_ptr<Shape> adverShapeUnique;
+	std::unique_ptr<Paddle> adverPaddleUnique;
 
 	if (mode == GameMode::SinglePlayer) {
-		adverShapeUnique = std::make_unique<Cpu>(*ballUnique);
-		adverShapeUnique->setPosition(Shape::Position::RightSide);
+		adverPaddleUnique = std::make_unique<Cpu>(*ballUnique);
+		adverPaddleUnique->setPosition(Shape::Position::RightSide);
 	}
 
 	else if (mode == GameMode::MultiplayerLocal) {
-		adverShapeUnique = std::make_unique<Player>();
-		adverShapeUnique->setPosition(Shape::Position::RightSide);
-		static_cast<Player&>(*adverShapeUnique).setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
+		adverPaddleUnique = std::make_unique<Player>();
+		adverPaddleUnique->setPosition(Shape::Position::RightSide);
+		static_cast<Player&>(*adverPaddleUnique).setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
 	}
 
 	// start game and input and collision thread
 	isGameRunning = true;
 	auto input_and_collision_thread =
 		std::make_unique<std::thread>(process_input_and_collision,
-			std::ref(*ballUnique), std::ref(*adverShapeUnique));
+			std::ref(*ballUnique), std::ref(*adverPaddleUnique));
 
 	// call mainGameLoop, the loop which controlls window and thread access
-	mainGameLoop(*mainWindowUnique, *adverShapeUnique, *ballUnique);
+	mainGameLoop(*mainWindowUnique, *ballUnique, *adverPaddleUnique);
 
 	// stop game wait thread to return, exit
 	isGameRunning = false;
@@ -64,7 +64,7 @@ void startGame(GameMode mode)
 
 
 
-void mainGameLoop(GameWindow& mainWin, const Shape& adverShape, const Ball& ball) noexcept
+void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle) noexcept
 {
 	while (mainWin.isOpen())
 	{
@@ -77,13 +77,13 @@ void mainGameLoop(GameWindow& mainWin, const Shape& adverShape, const Ball& ball
 		GameScore::update(ball);
 		GameScore::display();
 
-		mainWin.drawAndDisplay(player1, adverShape, ball);
+		mainWin.drawAndDisplay(player1, adverPaddle, ball);
 	}
 }
 
 
 
-void process_input_and_collision(Ball& ball, Shape& shp) noexcept
+void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 {
 	//load sound to memory
 	auto soundBuff = std::make_unique<sf::SoundBuffer>();
@@ -94,16 +94,16 @@ void process_input_and_collision(Ball& ball, Shape& shp) noexcept
 	{
 		if(doInputAndCollisionProcess)
 		{
-			updateObjects(player1, shp, ball);
+			updateObjects(player1, adverPaddle, ball);
 
 			if (isColliding(player1, ball)) {
 				sound->play();
 				ball.treatCollisionWith(player1);
 			}
 			
-			else if (isColliding(shp, ball)) {
+			else if (isColliding(adverPaddle, ball)) {
 				sound->play();
-				ball.treatCollisionWith(shp);
+				ball.treatCollisionWith(adverPaddle);
 			}
 			
 			doInputAndCollisionProcess = false; // wait until next round...
