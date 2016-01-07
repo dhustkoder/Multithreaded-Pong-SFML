@@ -44,7 +44,7 @@ void startGame(GameMode mode)
 	else if (mode == GameMode::MultiplayerLocal) {
 		adverShapeUnique = std::make_unique<Player>();
 		adverShapeUnique->setPosition(Shape::Position::RightSide);
-		static_cast<Player*>(adverShapeUnique.get())->setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
+		static_cast<Player&>(*adverShapeUnique).setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
 	}
 
 	// start game and input and collision thread
