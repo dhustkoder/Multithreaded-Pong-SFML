@@ -2,8 +2,8 @@
 #define BALL_H
 #include "shape.h"
 
-constexpr auto ballVelocity = 5.5F;
-constexpr auto ballRadius = 7.0F;
+constexpr auto ballVelocity = 1.5F;
+constexpr auto ballRadius = 15.0F;
 
 class Ball final: public Shape
 {

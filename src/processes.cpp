@@ -74,8 +74,6 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 		while (doInputAndCollisionProcess)
 			std::this_thread::yield();
 
-		GameScore::update(ball);
-		GameScore::display();
 
 		mainWin.drawAndDisplay(player1, adverPaddle, ball);
 	}
