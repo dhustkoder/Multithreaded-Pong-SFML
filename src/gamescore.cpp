@@ -15,7 +15,7 @@ sf::Text player1Text("0",gameFont), adverText("0", gameFont);
 void update(const Ball &ball) noexcept
 {
 
-	if(ball.getRight() >= GameWindow::width) {
+	if(ball.getRight() >= GameWindow::Width) {
 		++playerScore;
 		player1Text.setString(std::to_string(playerScore));
 	}

@@ -30,7 +30,7 @@ void Player::update() noexcept
 {
 	if (sf::Keyboard::isKeyPressed(m_kUp) && getTop() >= 0)
 		m_velocity->y = -playerVelocity;
-	else if (sf::Keyboard::isKeyPressed(m_kDown) && getBottom() <= GameWindow::height)
+	else if (sf::Keyboard::isKeyPressed(m_kDown) && getBottom() <= GameWindow::Height)
 		m_velocity->y = playerVelocity;	
 	else
 		m_velocity->y = 0;

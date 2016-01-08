@@ -32,9 +32,7 @@ protected:
 
 	// deleted functions
 	Shape(const Shape&) = delete;
-	Shape(Shape&&) = delete;
 	Shape& operator=(const Shape&) = delete;
-	Shape& operator=(Shape&&) = delete;
 	
 };
 
@@ -60,6 +58,12 @@ inline float Shape::getBottom() const noexcept
 }
 
 
+inline const sf::Vector2f &Shape::getVelocity() const noexcept
+{
+	return *m_velocity;
+}
+
+
 inline Shape::operator const sf::Drawable&() const noexcept
 {
 	return *m_shape;
@@ -75,13 +79,13 @@ enum class Shape::Position
 
 
 
+
 inline bool isColliding(const Shape &first, const Shape &second) noexcept
 {
 	return  first.getBottom() >= second.getTop() && first.getTop() <= second.getBottom()
 		&& first.getLeft() <= second.getRight() && first.getRight() >= second.getLeft();
 
 }
-
 
 template<typename ...Ts>
 static void updateObjects(Ts&& ...args) noexcept 

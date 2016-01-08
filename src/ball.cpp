@@ -12,7 +12,7 @@ Ball::Ball() noexcept :
 	static sf::Image image;
 	static sf::Texture texture;
 	image.loadFromFile("../Resources/ballimg");
-	texture.loadFromImage(image, sf::IntRect({(int)ballRadius, (int)ballRadius}, {597, 600}));
+	texture.loadFromImage(image, sf::IntRect({(int)ballRadius / 2, (int)ballRadius / 2}, {597, 600}));
 	m_shape->setTexture(&texture);
 
 	m_velocity->y = m_velocity->x = ballVelocity;
@@ -35,12 +35,12 @@ void Ball::update() noexcept
 {
 	if (getTop() <= 0)
 		m_velocity->y = ballVelocity;
-	else if(getBottom() >= GameWindow::height)
+	else if(getBottom() >= GameWindow::Height)
 		m_velocity->y = -ballVelocity;
 
 	if(getLeft() <= 0)
 		m_velocity->x = ballVelocity;
-	else if(getRight() >= GameWindow::width)
+	else if(getRight() >= GameWindow::Width)
 		m_velocity->x = -ballRadius;
 
 	m_shape->rotate(m_velocity->y);

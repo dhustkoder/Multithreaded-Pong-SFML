@@ -16,26 +16,29 @@ public:
 	static std::unique_ptr<GameWindow> 
 		makeUniqueWindow(const char* windowName) noexcept;
 
-	static const unsigned &width, &height;
-
 	~GameWindow();
 	void updateWindowState() noexcept;
-	void setSize(const unsigned width, const unsigned height) noexcept;
+	void setSize(const unsigned Width, const unsigned Height) noexcept;
 	bool isOpen() const noexcept;
 
 	template<typename ...Ts>
 	void drawAndDisplay(Ts&& ...args) noexcept;
+
+public:
+	static const unsigned &Width, &Height;
+
 private:
 	GameWindow(sf::VideoMode&&, const char*) noexcept;
+
+
 	sf::RenderWindow m_renderWindow;
 	sf::Event m_event;
-
 	static int sm_instances;
 	static unsigned sm_width, sm_height;
 
 	// deleted functions
 	GameWindow(const GameWindow&) = delete;
-	GameWindow(GameWindow&&)      = delete;
+	GameWindow& operator=(const GameWindow&) = delete;
 
 };
 

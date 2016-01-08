@@ -1,7 +1,7 @@
 #include "gamewindow.h"
 
 unsigned GameWindow::sm_width = 0, GameWindow::sm_height = 0;
-const unsigned &GameWindow::width = GameWindow::sm_width, &GameWindow::height = GameWindow::sm_height;
+const unsigned &GameWindow::Width = GameWindow::sm_width, &GameWindow::Height = GameWindow::sm_height;
 
 int GameWindow::sm_instances = 0;
 
@@ -47,9 +47,9 @@ void GameWindow::updateWindowState() noexcept
 }
 
 
-void GameWindow::setSize(const unsigned __width, const unsigned __height) noexcept
+void GameWindow::setSize(const unsigned width, const unsigned height) noexcept
 {
-	m_renderWindow.setSize({__width, __height});
-	sm_width = __width;
-	sm_height = __height;
+	m_renderWindow.setSize({width, height});
+	sm_width = width;
+	sm_height = height;
 }
