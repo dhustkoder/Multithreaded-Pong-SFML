@@ -69,6 +69,7 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 	while (mainWin.isOpen())
 	{
 		doInputAndCollisionProcess = true;
+		mainWin.clear(sf::Color::Black);
 		mainWin.updateWindowState();
 		
 		while (doInputAndCollisionProcess)

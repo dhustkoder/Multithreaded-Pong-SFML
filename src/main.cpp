@@ -19,9 +19,9 @@ int main()
 
 	// single player and multiplayer test
 	//startGame(GameMode::SinglePlayer);
-	//startGame(GameMode::MultiplayerLocal);
+	startGame(GameMode::MultiplayerLocal);
 
-
+/*
 	auto mainWinUnique = GameWindow::makeUniqueWindow();
 
 	auto mainWin = mainWinUnique.get();
@@ -29,7 +29,6 @@ int main()
 	mainWin->clear(sf::Color::Black);
 	ParticleSystem particleSys( { GameWindow::Width, GameWindow::Height } );
 	//particleSys.fuel(1000);
-	particleSys.setDissolutionRate(15);
 	particleSys.setPosition(0,0);
 	particleSys.setGravity(-5.f, 0);
 	unsigned i = 0, j = 0;
@@ -46,11 +45,12 @@ int main()
 		}
 		if(j > GameWindow::Height)
 			i = j = 0;
-		if(particleSys.getNumberOfParticles() < 10) {
-			particleSys.setDissolve();
-			particleSys.fuel(25);
-		}
+		
+		particleSys.setDissolve();	
+		particleSys.fuel(25); 
+
 	
 	}
+*/
 }
 
