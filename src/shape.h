@@ -1,9 +1,11 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 #include <memory>
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Shape.hpp>
 
-class Shape
+class Shape : public sf::Drawable
 {
 public:
 	enum class Position;
@@ -20,8 +22,7 @@ public:
 	void setCompensation(const float h, const float v) noexcept;
 	void setPosition(const float x, const float y) noexcept;
 	void setPosition(Position pos) noexcept;
-	inline operator const sf::Drawable& () const noexcept;
-
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 	virtual void update() noexcept = 0;
 
 protected:
@@ -64,11 +65,10 @@ inline const sf::Vector2f &Shape::getVelocity() const noexcept
 }
 
 
-inline Shape::operator const sf::Drawable&() const noexcept
+inline void Shape::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	return *m_shape;
+	target.draw(*m_shape, states);
 }
-
 
 enum class Shape::Position
 {

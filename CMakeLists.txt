@@ -10,7 +10,7 @@ set(CMAKE_CXX_COMPILER "clang++")
 
 
 #compiler flags
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++14 -Wall -Wextra -Winline")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -std=c++14 -Wall -Wextra -Winline -Wno-unused-parameter")
 
 
 #build_types

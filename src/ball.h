@@ -11,6 +11,7 @@ public:
 	// uses window size informed for class Shape
 	Ball() noexcept;
 	void treatCollisionWith(const Shape &collidedShape) noexcept;
+	void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 	void update() noexcept override;
 
 

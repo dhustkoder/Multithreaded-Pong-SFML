@@ -20,7 +20,7 @@ public:
 	void updateWindowState() noexcept;
 	void setSize(const unsigned Width, const unsigned Height) noexcept;
 	bool isOpen() const noexcept;
-
+	void clear(sf::Color color) noexcept;
 	template<typename ...Ts>
 	void drawAndDisplay(Ts&& ...args) noexcept;
 
@@ -49,6 +49,10 @@ inline GameWindow::~GameWindow() {
 
 inline bool GameWindow::isOpen() const noexcept {
 	return m_renderWindow.isOpen();
+}
+
+inline void GameWindow::clear(sf::Color color) noexcept {
+	return m_renderWindow.clear(color);
 }
 
 // sends all args to sf::RenderWindow draw fuction. 
