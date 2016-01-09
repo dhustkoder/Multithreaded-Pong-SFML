@@ -13,12 +13,19 @@ Ball::Ball() noexcept :
 	      std::make_unique<sf::CircleShape>(ballRadius))
 {
 	static ParticleSystem particleSys({GameWindow::Width, GameWindow::Height});
+	static sf::Image image;
+	static sf::Texture texture;
+
 	g_particleSys = &particleSys;
-	m_shape->setFillColor(sf::Color::Red);
+	image.loadFromFile("../Resources/ballimg");
+	texture.loadFromImage(image, { {0,0}, {600, 600}});
+
+	m_shape->setTexture(&texture);
 	this->setPosition(Position::Middle);
 	m_velocity->y = m_velocity->x = ballVelocity;
-	g_particleSys->setDissolutionRate(5);
+	g_particleSys->setDissolutionRate(20);
 	g_particleSys->setShape(ParticleShape::CIRCLE);
+	g_particleSys->setColor(sf::Color(255, 100, 20, 155));
 
 
 }
@@ -57,12 +64,13 @@ void Ball::update() noexcept
 	g_particleSys->setDissolve();
 	g_particleSys->setPosition(ballPos.x, ballPos.y);
 	g_particleSys->setGravity(-m_velocity->x, -m_velocity->y);
-	g_particleSys->fuel(25);
+	g_particleSys->fuel(45);
+	g_particleSys->update(20.f / 1000);
+
 }
 
 void Ball::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	g_particleSys->draw(target, states);	
 	target.draw(*m_shape, states);
-	g_particleSys->update(20.f / 1000);
 }
