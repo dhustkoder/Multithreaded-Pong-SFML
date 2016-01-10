@@ -19,6 +19,7 @@ public:
 	~GameWindow();
 	void updateWindowState() noexcept;
 	void setSize(const unsigned Width, const unsigned Height) noexcept;
+	sf::Vector2u getSize() const noexcept;
 	bool isOpen() const noexcept;
 	void clear(sf::Color color) noexcept;
 	template<typename ...Ts>
@@ -45,6 +46,10 @@ private:
 
 inline GameWindow::~GameWindow() {
 	--sm_instances;
+}
+
+inline sf::Vector2u GameWindow::getSize() const noexcept {
+	return m_renderWindow.getSize();
 }
 
 inline bool GameWindow::isOpen() const noexcept {

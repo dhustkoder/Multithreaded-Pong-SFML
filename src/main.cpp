@@ -19,38 +19,42 @@ int main()
 
 	// single player and multiplayer test
 	//startGame(GameMode::SinglePlayer);
-	startGame(GameMode::MultiplayerLocal);
+	//startGame(GameMode::MultiplayerLocal);
 
-/*
+
 	auto mainWinUnique = GameWindow::makeUniqueWindow();
 
-	auto mainWin = mainWinUnique.get();
+	auto *mainWin = mainWinUnique.get();
 	
-	mainWin->clear(sf::Color::Black);
-	ParticleSystem particleSys( { GameWindow::Width, GameWindow::Height } );
-	//particleSys.fuel(1000);
-	particleSys.setPosition(0,0);
-	particleSys.setGravity(-5.f, 0);
-	unsigned i = 0, j = 0;
+	sf::Image image;
+	sf::Texture texture;
+	
+	image.loadFromFile("fireball.png");
+
+	sf::IntRect rect;
+	rect.width = 64;
+	rect.height = 64;
+	texture.loadFromImage(image, rect);
+	texture.setSmooth(true);
+	sf::Sprite sprite;
+	sprite.setTexture(texture);
+	sprite.setPosition(static_cast<sf::Vector2f>(mainWin->getSize()) / 2.f);
+	int textureFrameCounter = 0;
 	while(mainWin->isOpen())
 	{
-		particleSys.setPosition(++i, j);	
+		
+		
 		mainWin->clear(sf::Color::Black);
 		mainWin->updateWindowState();
-		mainWin->drawAndDisplay(particleSys);
-		particleSys.update(20.75f / 1000);
-		if( i > GameWindow::Width) {
-			i = 0;
-			++j;
-		}
-		if(j > GameWindow::Height)
-			i = j = 0;
+		mainWin->drawAndDisplay(sprite);
 		
-		particleSys.setDissolve();	
-		particleSys.fuel(25); 
+		++textureFrameCounter;
+		if (textureFrameCounter > 8)
+			textureFrameCounter = 0;
 
-	
+		rect.left = 64 * textureFrameCounter;
+		texture.loadFromImage(image, rect);
 	}
-*/
+
 }
 
