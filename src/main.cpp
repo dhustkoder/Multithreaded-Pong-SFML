@@ -27,9 +27,9 @@ int main()
 	
 	enum { Left, LeftUp, Up, RightUp, Right, DownRight, Down, DownLeft };
 	sf::IntRect spritePos[] = {{0,0, 64,64}, {64 * LeftUp, 64 * LeftUp, 64, 64}, 
-								{64 * Up, 64 * Up, 64, 64}, {64 * RightUp, 64 * RightUp, 64, 64},
-								{64 * Right, 64 * Right, 64, 64}, {64 * DownRight, 64 *DownRight, 64, 64},
-								{64 * Down, 64 * Down, 64, 64}, {64 * DownLeft, 64 * DownLeft, 64, 64}};
+				{64 * Up, 64 * Up, 64, 64}, {64 * RightUp, 64 * RightUp, 64, 64},
+				{64 * Right, 64 * Right, 64, 64}, {64 * DownRight, 64 *DownRight, 64, 64},
+				{64 * Down, 64 * Down, 64, 64}, {64 * DownLeft, 64 * DownLeft, 64, 64}};
 
 
 	sf::Texture texture;
