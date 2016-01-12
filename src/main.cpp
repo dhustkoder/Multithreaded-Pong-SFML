@@ -23,37 +23,91 @@ int main()
 
 
 	auto mainWinUnique = GameWindow::makeUniqueWindow();
-
 	auto *mainWin = mainWinUnique.get();
 	
-	sf::Image image;
-	sf::Texture texture;
-	
-	image.loadFromFile("fireball.png");
+	enum { Left, LeftUp, Up, RightUp, Right, DownRight, Down, DownLeft };
+	sf::IntRect spritePos[] = {{0,0, 64,64}, {64 * LeftUp, 64 * LeftUp, 64, 64}, 
+								{64 * Up, 64 * Up, 64, 64}, {64 * RightUp, 64 * RightUp, 64, 64},
+								{64 * Right, 64 * Right, 64, 64}, {64 * DownRight, 64 *DownRight, 64, 64},
+								{64 * Down, 64 * Down, 64, 64}, {64 * DownLeft, 64 * DownLeft, 64, 64}};
 
+
+	sf::Texture texture;
 	sf::IntRect rect;
 	rect.width = 64;
 	rect.height = 64;
-	texture.loadFromImage(image, rect);
+	texture.loadFromFile("fireball.png");
 	texture.setSmooth(true);
+
+
 	sf::Sprite sprite;
 	sprite.setTexture(texture);
 	sprite.setPosition(static_cast<sf::Vector2f>(mainWin->getSize()) / 2.f);
+
+
 	int textureFrameCounter = 0;
+	int currentDirection = 0;
+	std::clock_t clk = std::clock();
+	constexpr auto frameUpdateTime = CLOCKS_PER_SEC / 800;
 	while(mainWin->isOpen())
 	{
 		
 		
 		mainWin->clear(sf::Color::Black);
 		mainWin->updateWindowState();
-		mainWin->drawAndDisplay(sprite);
+	
 		
-		++textureFrameCounter;
-		if (textureFrameCounter > 8)
-			textureFrameCounter = 0;
 
-		rect.left = 64 * textureFrameCounter;
-		texture.loadFromImage(image, rect);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			currentDirection = LeftUp;
+			sprite.move(-1,-1);
+		}
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			currentDirection = RightUp;
+			sprite.move(1,-1);
+		}
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			currentDirection = DownLeft;
+			sprite.move(-1,1);
+		}
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			currentDirection = DownRight;
+			sprite.move(1,1);
+		}
+
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+			currentDirection = Up;
+			sprite.move(0,-1);
+		}
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+			currentDirection = Down;
+			sprite.move(0,1);
+		}
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+			currentDirection = Left;
+			sprite.move(-1,0);
+		}
+		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+			currentDirection = Right;
+			sprite.move(1,0);
+		}
+
+
+		sf::IntRect &currentRect = spritePos[currentDirection];
+		
+		if((std::clock() - clk) > frameUpdateTime ) 
+		{
+			currentRect.left = 64 * textureFrameCounter;
+			++textureFrameCounter;
+			if(textureFrameCounter > 7)
+				textureFrameCounter = 0;
+
+			clk = std::clock();
+		}
+		
+		sprite.setTextureRect(currentRect);
+
+		mainWin->drawAndDisplay(sprite);
 	}
 
 }
