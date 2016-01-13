@@ -1,32 +1,22 @@
-#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include "ball.h"
 #include "gamewindow.h"
 #include "particlesystem/particle.h"
 #include "utility.h"
 
-static ParticleSystem *g_particleSys;
-
 
 Ball::Ball() noexcept : 
 	Shape({cexpr_div(ballRadius, 2.f), cexpr_div(ballRadius, 2.f)},
-	      std::make_unique<sf::CircleShape>(ballRadius))
+	      std::make_unique<sf::CircleShape>(ballRadius)),
+		
+		m_textureRect(0,0,64,64),
+		m_clock(std::clock())
 {
-	static ParticleSystem particleSys({GameWindow::Width, GameWindow::Height});
-	static sf::Image image;
-	static sf::Texture texture;
-
-	g_particleSys = &particleSys;
-	image.loadFromFile("../Resources/ballimg");
-	texture.loadFromImage(image, { {0,0}, {600, 600}});
-
-	m_shape->setTexture(&texture);
-	this->setPosition(Position::Middle);
 	m_velocity->y = m_velocity->x = ballVelocity;
-	g_particleSys->setDissolutionRate(20);
-	g_particleSys->setShape(ParticleShape::CIRCLE);
-	g_particleSys->setColor(sf::Color(255, 100, 20, 155));
-
+	m_texture.loadFromFile("../Resources/balltexture");
+	m_shape->setTexture(&m_texture);
+	this->setPosition(Position::Middle);
+	updateTextureDirectionFrame();
 
 }
 
@@ -39,38 +29,78 @@ void Ball::treatCollisionWith(const Shape &collidedShape) noexcept
 	(middle_of_ball > middle_of_collided_shape) ? m_velocity->y = ballVelocity : m_velocity->y = -ballVelocity;
 	
 	m_velocity->x = (m_velocity->x == ballVelocity) ? -ballVelocity : ballVelocity;
-	
+
+	updateTextureDirectionFrame();
 }
 
 
 void Ball::update() noexcept
 {
 	
-	if (getTop() <= 0)
+	if (getTop() <= 0) {
 		m_velocity->y = ballVelocity;
-	else if(getBottom() >= GameWindow::Height)
+		updateTextureDirectionFrame();
+	}
+	else if (getBottom() >= GameWindow::Height) {
 		m_velocity->y = -ballVelocity;
+		updateTextureDirectionFrame();
+	}
 
-	if(getLeft() <= 0)
+	if (getLeft() <= 0) {
 		m_velocity->x = ballVelocity;
-	else if(getRight() >= GameWindow::Width)
+		updateTextureDirectionFrame();
+	}
+	else if (getRight() >= GameWindow::Width) {
 		m_velocity->x = -ballVelocity;
+		updateTextureDirectionFrame();
+	}
 
-	m_shape->rotate(m_velocity->y);
+	updateTextureAnimationFrame();
 	m_shape->move(*m_velocity);
-
-	const auto ballPos = m_shape->getPosition();	
-
-	g_particleSys->setDissolve();
-	g_particleSys->setPosition(ballPos.x, ballPos.y);
-	g_particleSys->setGravity(-m_velocity->x, -m_velocity->y);
-	g_particleSys->fuel(45);
-	g_particleSys->update(20.f / 1000);
 
 }
 
 void Ball::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-	g_particleSys->draw(target, states);	
 	target.draw(*m_shape, states);
+}
+
+
+void Ball::updateTextureDirectionFrame() noexcept
+{
+	if (m_velocity->x < 0 && m_velocity->y == 0)
+		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::Left);
+	else if (m_velocity->x < 0 && m_velocity->y < 0)
+		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::UpLeft);
+	else if (m_velocity->x == 0 && m_velocity->y < 0)
+		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::Up);
+	else if (m_velocity->x > 0 && m_velocity->y < 0)
+		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::UpRight);
+	else if (m_velocity->x > 0 && m_velocity->y == 0)
+		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::Right);
+	else if (m_velocity->x > 0 && m_velocity->y > 0)
+		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::DownRight);
+	else if (m_velocity->x == 0 && m_velocity->y > 0)
+		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::Down);
+	else if (m_velocity->x < 0 && m_velocity->y > 0)
+		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::DownLeft);
+
+	m_shape->setTextureRect(m_textureRect);
+
+}
+
+void Ball::updateTextureAnimationFrame() noexcept
+{
+	static int textureFrame = 0;
+	if ((std::clock() - m_clock) > cexpr_div(CLOCKS_PER_SEC, (clock_t)60))
+	{
+		++textureFrame;
+		if (textureFrame > 7)
+			textureFrame = 0;
+
+		m_textureRect.left = ballTextureX * textureFrame;
+		m_shape->setTextureRect(m_textureRect);
+
+		m_clock = std::clock();
+	}
 }

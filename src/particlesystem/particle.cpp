@@ -55,13 +55,13 @@ void ParticleSystem::fuel(int particles)
 			{
 				/* Generate a random angle */
 				UniRealDist randomAngle(0.0f, (2.0f * 3.14159265));
-				float angle = randomAngle(gen);
+				float angle = (float)randomAngle(gen);
 
 				/* Use the random angle as a thrust vector for the particle */
 				UniRealDist randomAngleCos(0.0f, cos(angle));
 				UniRealDist randomAngleSin(0.0f, sin(angle));
-				particle->vel.x = randomAngleCos(gen);
-				particle->vel.y = randomAngleSin(gen);
+				particle->vel.x = (float)randomAngleCos(gen);
+				particle->vel.y = (float)randomAngleSin(gen);
 
 				break;
 			}
@@ -69,8 +69,8 @@ void ParticleSystem::fuel(int particles)
 			{
 				/* Square generation */
 				UniRealDist randomSide(-1.0f, 1.0f);
-				particle->vel.x = randomSide(gen);
-				particle->vel.y = randomSide(gen);
+				particle->vel.x = (float)randomSide(gen);
+				particle->vel.y = (float)randomSide(gen);
 
 				break;
 			}

@@ -49,7 +49,7 @@ public:
 	/* Getters and Setters */
 
 	int getDissolutionRate(void) const { return m_dissolutionRate; }
-	int getNumberOfParticles(void) const { return m_particles.size(); }
+	size_t getNumberOfParticles(void) const { return m_particles.size(); }
 	float getParticleSpeed(void) const { return m_particleSpeed; }
 	const std::string getNumberOfParticlesString(void) const;
 

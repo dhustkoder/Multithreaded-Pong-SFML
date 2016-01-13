@@ -19,29 +19,33 @@ int main()
 
 	// single player and multiplayer test
 	//startGame(GameMode::SinglePlayer);
-	//startGame(GameMode::MultiplayerLocal);
+	startGame(GameMode::MultiplayerLocal);
 
-
+	/*
+	// Tests
 	auto mainWinUnique = GameWindow::makeUniqueWindow();
 	auto *mainWin = mainWinUnique.get();
 	
 	enum { Left, LeftUp, Up, RightUp, Right, DownRight, Down, DownLeft };
-	sf::IntRect spritePos[] = {{0,0, 64,64}, {64 * LeftUp, 64 * LeftUp, 64, 64}, 
-				{64 * Up, 64 * Up, 64, 64}, {64 * RightUp, 64 * RightUp, 64, 64},
-				{64 * Right, 64 * Right, 64, 64}, {64 * DownRight, 64 *DownRight, 64, 64},
-				{64 * Down, 64 * Down, 64, 64}, {64 * DownLeft, 64 * DownLeft, 64, 64}};
-
+	sf::IntRect spritePos[] = 
+	{ 
+		{ 0,0, 64,64 },           { 0, 64 * LeftUp, 64, 64 },
+		{ 0, 64 * Up, 64, 64 },   { 0, 64 * RightUp, 64, 64 },
+		{ 0, 64 * Right, 64, 64 },{ 0, 64 * DownRight, 64, 64 },
+		{ 0, 64 * Down, 64, 64 }, { 0, 64 * DownLeft, 64, 64 } 
+	};
 
 	sf::Texture texture;
 	sf::IntRect rect;
 	rect.width = 64;
 	rect.height = 64;
-	texture.loadFromFile("fireball.png");
+	texture.loadFromFile("../Resources/balltexture");
 	texture.setSmooth(true);
 
 
-	sf::Sprite sprite;
-	sprite.setTexture(texture);
+	sf::CircleShape _sprite(10.5);
+	sf::Shape& sprite = _sprite;
+	sprite.setTexture(&texture);
 	sprite.setPosition(static_cast<sf::Vector2f>(mainWin->getSize()) / 2.f);
 
 
@@ -109,6 +113,6 @@ int main()
 
 		mainWin->drawAndDisplay(sprite);
 	}
-
+	*/
 }
 

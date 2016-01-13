@@ -14,7 +14,8 @@ template<typename T>
 constexpr T cexpr_div(const T x, const T y)	{ return x / y; }
 template<typename T>
 constexpr T cexpr_sub(const T x, const T y)	{ return x - y; }
-
+template<typename T>
+constexpr T cexpr_mult(const T x, const T y) { return x * y; }
 
 
 
