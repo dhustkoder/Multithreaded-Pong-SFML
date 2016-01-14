@@ -36,13 +36,13 @@ struct Particle : public sf::Drawable
 
 };
 
-/* Typedefs */
-typedef std::uniform_real_distribution<> UniRealDist;
-typedef std::uniform_int_distribution<> UniIntDist;
-typedef std::shared_ptr<Particle> ParticlePtr;
+
 
 class ParticleSystem : public sf::Drawable
 {
+	using UniRealDist = std::uniform_real_distribution<>;
+	using UniIntDist = std::uniform_int_distribution<>;
+	using ParticlePtr = std::unique_ptr<Particle>;
 public:
 
 	/* Constructors/Destructor */
@@ -67,7 +67,7 @@ public:
 	void setPosition(float x, float y) { m_startPos.x = x; m_startPos.y = y; }
 	void setPosition(sf::Vector2f position) { m_startPos = position; }
 	void setShape(sf::Uint8 shape) { m_shape = shape; }
-	void setColor(sf::Color color) { m_setedColor = color; m_useSetedColor = true; }
+	void setColor(sf::Color color = sf::Color::Black) { m_setedColor = color; m_useSetedColor = !m_useSetedColor; }
 	/* Member Functions */
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;

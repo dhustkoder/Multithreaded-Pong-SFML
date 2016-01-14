@@ -90,6 +90,7 @@ void ParticleSystem::fuel(int particles)
 		
 		if(m_useSetedColor)
 		{
+			// use selected color
 			particle->drawVertex.color.r = m_setedColor.r;
 			particle->drawVertex.color.g = m_setedColor.g;
 			particle->drawVertex.color.b = m_setedColor.b;
@@ -115,9 +116,10 @@ void ParticleSystem::fuel(int particles)
 /************************************************************/
 const std::string ParticleSystem::getNumberOfParticlesString(void) const
 {
-	std::ostringstream oss;
-	oss << m_particles.size();
-	return oss.str();
+	//std::ostringstream oss;
+	//oss << m_particles.size();
+	//return oss.str();
+	return std::to_string(m_particles.size());
 }
 
 /************************************************************/

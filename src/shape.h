@@ -13,6 +13,8 @@ public:
 public:
 	// give the origin
 	Shape(sf::Vector2f &&origin, std::unique_ptr<sf::Shape>&& shape) noexcept;
+	Shape(const Shape&) = delete;
+	Shape& operator=(const Shape&) = delete;
 
 	virtual ~Shape(){}
 	float getRight() const noexcept;
@@ -29,13 +31,7 @@ public:
 protected:
 	std::unique_ptr<sf::Shape> m_shape;
 	std::unique_ptr<sf::Vector2f> m_velocity;
-	float m_horizontalCompensation, m_verticalCompensation;
-
-
-	// deleted functions
-	Shape(const Shape&) = delete;
-	Shape& operator=(const Shape&) = delete;
-	
+	float m_horizontalCompensation, m_verticalCompensation;	
 };
 
 inline float Shape::getRight() const noexcept
