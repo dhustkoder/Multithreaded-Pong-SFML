@@ -9,4 +9,4 @@ enum class GameMode
 
 void startGame(GameMode mode);
 
-#endif
+#endif // PROCESSES_H

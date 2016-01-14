@@ -1,3 +1,7 @@
+#ifndef PARTICLE_H
+#define PARTICLE_H
+
+
 #include <sstream>
 #include <list>
 #include <memory>
@@ -92,3 +96,10 @@ private:
 	std::vector<ParticlePtr> m_particles;
 
 };
+
+
+
+
+
+
+#endif // PARTICLE_H

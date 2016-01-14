@@ -1,3 +1,6 @@
+#ifndef GAMESCORE_H
+#define GAMESCORE_H
+
 class GameWindow;
 class Ball;
 
@@ -9,3 +12,5 @@ void display() noexcept;
 
 
 }
+
+#endif // GAMESCORE_H
