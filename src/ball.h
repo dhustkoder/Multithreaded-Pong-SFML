@@ -9,7 +9,7 @@
 class Ball final : public Shape
 {
 	constexpr static float ballVelocity = 1.5;
-	constexpr static float ballRadius = 40.0;
+	constexpr static float ballRadius = 38.0;
 	constexpr static int ballTextureX = 64;
 	constexpr static int ballTextureY = 64;
 	enum class BallTextureDirection {

@@ -6,8 +6,7 @@
 
 
 Ball::Ball() noexcept : 
-	Shape({cexpr_div(ballRadius, 2.f), cexpr_div(ballRadius, 2.f)},
-	      std::make_unique<sf::CircleShape>(ballRadius)),
+	Shape({ballRadius,ballRadius}, std::make_unique<sf::CircleShape>(ballRadius)),		
 		
 		m_textureRect(0,0,64,64),
 		m_clock(std::clock())
