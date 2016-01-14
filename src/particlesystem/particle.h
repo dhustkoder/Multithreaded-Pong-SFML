@@ -67,7 +67,8 @@ public:
 	void setPosition(float x, float y) { m_startPos.x = x; m_startPos.y = y; }
 	void setPosition(sf::Vector2f position) { m_startPos = position; }
 	void setShape(sf::Uint8 shape) { m_shape = shape; }
-	void setColor(sf::Color color = sf::Color::Black) { m_setedColor = color; m_useSetedColor = !m_useSetedColor; }
+	void setColor(sf::Color color) { m_setedColor = color; m_useSetedColor = true; }
+	void unsetColor() { m_useSetedColor = false; }
 	/* Member Functions */
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
