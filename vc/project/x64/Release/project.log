@@ -1,0 +1,15 @@
+﻿  ball.cpp
+  cpu.cpp
+  gamescore.cpp
+  gamewindow.cpp
+  main.cpp
+  player.cpp
+  processes.cpp
+  shape.cpp
+  Generating code
+  0 of 604 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    9 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  project.vcxproj -> C:\cygwin64\home\Rafael\Git\github\multithreaded-pong-sfml\vc\project\x64\Release\project.exe
+  project.vcxproj -> C:\cygwin64\home\Rafael\Git\github\multithreaded-pong-sfml\vc\project\x64\Release\project.pdb (Full PDB)

@@ -6,9 +6,11 @@
 
 class GameWindow final
 {
-
 	static constexpr unsigned defaultWidth = 800;
 	static constexpr unsigned defaultHeight = 420;
+public:
+	static const unsigned &Width, &Height;
+
 public:
 	static std::unique_ptr<GameWindow> 
 		makeUniqueWindow(sf::VideoMode &&mode = {defaultWidth, defaultHeight, 32},
@@ -24,9 +26,6 @@ public:
 	void clear(sf::Color color) noexcept;
 	template<typename ...Ts>
 	void drawAndDisplay(Ts&& ...args) noexcept;
-
-public:
-	static const unsigned &Width, &Height;
 
 private:
 	GameWindow(sf::VideoMode&&, const char*) noexcept;

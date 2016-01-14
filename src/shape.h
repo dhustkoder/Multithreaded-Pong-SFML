@@ -10,6 +10,7 @@ class Shape : public sf::Drawable
 public:
 	enum class Position;
 
+public:
 	// give the origin
 	Shape(sf::Vector2f &&origin, std::unique_ptr<sf::Shape>&& shape) noexcept;
 

@@ -68,21 +68,21 @@ void Ball::draw(sf::RenderTarget &target, sf::RenderStates states) const
 void Ball::updateTextureDirectionFrame() noexcept
 {
 	if (m_velocity->x < 0 && m_velocity->y == 0)
-		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::Left);
+		m_textureRect.top = cexpr_mul(ballTextureY, BallTextureDirection::Left);
 	else if (m_velocity->x < 0 && m_velocity->y < 0)
-		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::UpLeft);
+		m_textureRect.top = cexpr_mul(ballTextureY, BallTextureDirection::UpLeft);
 	else if (m_velocity->x == 0 && m_velocity->y < 0)
-		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::Up);
+		m_textureRect.top = cexpr_mul(ballTextureY, BallTextureDirection::Up);
 	else if (m_velocity->x > 0 && m_velocity->y < 0)
-		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::UpRight);
+		m_textureRect.top = cexpr_mul(ballTextureY, BallTextureDirection::UpRight);
 	else if (m_velocity->x > 0 && m_velocity->y == 0)
-		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::Right);
+		m_textureRect.top = cexpr_mul(ballTextureY, BallTextureDirection::Right);
 	else if (m_velocity->x > 0 && m_velocity->y > 0)
-		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::DownRight);
+		m_textureRect.top = cexpr_mul(ballTextureY, BallTextureDirection::DownRight);
 	else if (m_velocity->x == 0 && m_velocity->y > 0)
-		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::Down);
+		m_textureRect.top = cexpr_mul(ballTextureY, BallTextureDirection::Down);
 	else if (m_velocity->x < 0 && m_velocity->y > 0)
-		m_textureRect.top = cexpr_mult(ballTextureY, (int)BallTextureDirection::DownLeft);
+		m_textureRect.top = cexpr_mul(ballTextureY, BallTextureDirection::DownLeft);
 
 	m_shape->setTextureRect(m_textureRect);
 
