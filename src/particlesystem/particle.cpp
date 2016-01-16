@@ -26,8 +26,7 @@ ParticleSystem::~ParticleSystem(void)
 }
 
 /************************************************************/
-void ParticleSystem::draw(
-  sf::RenderTarget& target, sf::RenderStates states) const
+void ParticleSystem::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for(const auto& item : m_particles)
 		target.draw(&item.get()->drawVertex, 1, sf::Points);
@@ -35,7 +34,7 @@ void ParticleSystem::draw(
 }
 
 /************************************************************/
-void ParticleSystem::fuel(int particles)
+void ParticleSystem::fuel(const int particles)
 {
 	for(int i = 0; i < particles; i++)
 	{
@@ -123,7 +122,7 @@ const std::string ParticleSystem::getNumberOfParticlesString(void) const
 }
 
 /************************************************************/
-void ParticleSystem::update(float deltaTime)
+void ParticleSystem::update(const float deltaTime)
 {
   /* Run through each particle and apply our system to it */
 	for(auto it = m_particles.begin(); it != m_particles.end(); it++)

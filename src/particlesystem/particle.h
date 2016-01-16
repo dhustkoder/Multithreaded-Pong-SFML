@@ -72,17 +72,16 @@ public:
 
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override final;
 
-	void fuel(int particles);     /*< Adds new particles */
-	void update(float deltaTime); /*< Updates particles */
+	void fuel(const int particles);     /*< Adds new particles */
+	void update(const float deltaTime); /*< Updates particles */
 
 private:
-
   /* Data Members */
 
-	bool        m_dissolve;       /*< Dissolution enabled? */
-	float       m_particleSpeed;  /*< Pixels per second (at most) */
+	bool m_dissolve;       /*< Dissolution enabled? */
+	float m_particleSpeed;  /*< Pixels per second (at most) */
 
-	sf::Color   m_transparent;    /*< sf::Color(0, 0, 0, 0) */
+	sf::Color m_transparent;    /*< sf::Color(0, 0, 0, 0) */
 	sf::Color m_setedColor;
 	bool m_useSetedColor;	
 	sf::Uint8   m_dissolutionRate;/*< Rate particles disolve */
