@@ -1,16 +1,10 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
-
-
-#include <sstream>
-#include <list>
 #include <memory>
 #include <random>
-#include <sstream>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
+
 
 
 

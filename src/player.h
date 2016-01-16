@@ -3,10 +3,11 @@
 #include <SFML/Window/Keyboard.hpp>
 #include "paddle.h"
 
-constexpr auto playerVelocity = 4.0F;
+
 
 class Player final: public Paddle
 {
+	constexpr static auto playerVelocity = 4.0F;
 public:
 	// uses DefaultPaddleSize
 	Player() noexcept;

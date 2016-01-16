@@ -2,10 +2,11 @@
 #define CPU_H
 #include "paddle.h"
 
-constexpr auto cpuVelocity = 4.0F;
+
 
 class Cpu final : public Paddle
 {
+	constexpr static auto cpuVelocity = 4.0F;
 public:
 	// uses defaultPaddleSize
 	Cpu(Shape &ball) noexcept;

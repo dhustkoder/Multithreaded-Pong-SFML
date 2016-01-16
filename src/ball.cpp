@@ -8,7 +8,7 @@
 Ball::Ball() noexcept : 
                                         // float(ballRadius) for clang/gcc, because make_unique take args by ref 
                                         // (it cant take ref to constexpr static member)
-	Shape({ballRadius,ballRadius}, std::make_unique<sf::CircleShape>(float(ballRadius))), 
+	Shape({ballRadius,ballRadius}, std::make_unique<sf::CircleShape>(float(ballRadius))),
 		m_textureRect(0,0,64,64),
 		m_clock(std::clock())
 {
