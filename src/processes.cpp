@@ -31,7 +31,7 @@ void startGame(GameMode mode)
 {
 	auto mainWindowUnique = GameWindow::makeUniqueWindow();
 	player1.setPosition(Shape::Position::LeftSide);
-
+	
 	// create the rest of game objects
 	auto ballUnique = std::make_unique<Ball>();
 	std::unique_ptr<Paddle> adverPaddleUnique;

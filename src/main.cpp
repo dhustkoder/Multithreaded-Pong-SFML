@@ -7,6 +7,7 @@
 #include "processes.h"
 
 #include <SFML/Graphics.hpp>
+#include "shape.h"
 #include "gamewindow.h"
 #include "particlesystem/particle.h"
 
@@ -20,6 +21,7 @@ int main()
 	// single player and multiplayer test
 	//startGame(GameMode::SinglePlayer);
 	startGame(GameMode::MultiplayerLocal);
+	
 
 	/*
 	// Tests

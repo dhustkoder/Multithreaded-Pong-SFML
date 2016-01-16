@@ -22,23 +22,22 @@
 namespace ParticleShape { enum { CIRCLE, SQUARE }; }
 
 /* Particle Structure */
-struct Particle : public sf::Drawable
+struct Particle final : public sf::Drawable
 {
 	/* Data Members */
-
 	sf::Vertex drawVertex; /*< To replace pos */
 	sf::Vector2f vel; // Velocity
 
 	/* Member Functions */
-
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
-	{ target.draw(&drawVertex, 1, sf::Points, states); }
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override final { 
+		target.draw(&drawVertex, 1, sf::Points, states); 
+	}
 
 };
 
 
 
-class ParticleSystem : public sf::Drawable
+class ParticleSystem final : public sf::Drawable
 {
 	using UniRealDist = std::uniform_real_distribution<>;
 	using UniIntDist = std::uniform_int_distribution<>;
@@ -57,21 +56,21 @@ public:
 	float getParticleSpeed(void) const { return m_particleSpeed; }
 	const std::string getNumberOfParticlesString(void) const;
 
-	void setCanvasSize(sf::Vector2u newSize) { m_canvasSize = newSize; }
-	void setDissolutionRate(sf::Uint8 rate) { m_dissolutionRate = rate; }
+	void setCanvasSize(const sf::Vector2u newSize) { m_canvasSize = newSize; }
+	void setDissolutionRate(const sf::Uint8 rate) { m_dissolutionRate = rate; }
 	void setDissolve(void) { m_dissolve = !m_dissolve; }
 	void setDistribution(void) { m_shape = (m_shape + 1) % 2; }
-	void setGravity(float x, float y) { m_gravity.x = x; m_gravity.y = y; }
-	void setGravity(sf::Vector2f gravity) { m_gravity = gravity; }
-	void setParticleSpeed(float speed) { m_particleSpeed = speed; }
-	void setPosition(float x, float y) { m_startPos.x = x; m_startPos.y = y; }
-	void setPosition(sf::Vector2f position) { m_startPos = position; }
-	void setShape(sf::Uint8 shape) { m_shape = shape; }
-	void setColor(sf::Color color) { m_setedColor = color; m_useSetedColor = true; }
+	void setGravity(const float x, const float y) { m_gravity.x = x; m_gravity.y = y; }
+	void setGravity(const sf::Vector2f gravity) { m_gravity = gravity; }
+	void setParticleSpeed(const float speed) { m_particleSpeed = speed; }
+	void setPosition(const float x, const float y) { m_startPos.x = x; m_startPos.y = y; }
+	void setPosition(const sf::Vector2f position) { m_startPos = position; }
+	void setShape(const sf::Uint8 shape) { m_shape = shape; }
+	void setColor(const sf::Color color) { m_setedColor = color; m_useSetedColor = true; }
 	void unsetColor() { m_useSetedColor = false; }
 	/* Member Functions */
 
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override final;
 
 	void fuel(int particles);     /*< Adds new particles */
 	void update(float deltaTime); /*< Updates particles */
