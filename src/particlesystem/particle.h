@@ -6,12 +6,6 @@
 #include <SFML/Graphics.hpp>
 
 
-
-
-
-
-
-
 /* Enum for particle distribution type */
 namespace ParticleShape { enum { CIRCLE, SQUARE }; }
 

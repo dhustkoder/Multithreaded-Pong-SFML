@@ -17,7 +17,7 @@ Player::Player(const float sizeX, const float sizeY) noexcept :
 	m_shape->setFillColor(sf::Color::White);
 }
 
-void Player::setKeys(sf::Keyboard::Key keyUp, sf::Keyboard::Key keyDown)
+void Player::setKeys(const sf::Keyboard::Key keyUp, const sf::Keyboard::Key keyDown)
 {
 	m_kUp = keyUp;
 	m_kDown = keyDown;

@@ -9,10 +9,10 @@ class Cpu final : public Paddle
 	constexpr static auto cpuVelocity = 4.0F;
 public:
 	// uses defaultPaddleSize
-	Cpu(Shape &ball) noexcept;
+	Cpu(const Shape &ball) noexcept;
 	
 	//uses the given size
-	Cpu(const float sizeX, const float sizeY, Shape &ball) noexcept;
+	Cpu(const float sizeX, const float sizeY, const Shape &ball) noexcept;
 	void update() noexcept override;
 	bool isReady() noexcept override;
 private:
