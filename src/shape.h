@@ -27,17 +27,29 @@ public:
 	float getTop() const noexcept;
 	float getBottom() const noexcept;
 	const sf::Vector2f &getVelocity() const noexcept;
-	bool isIntersectedWith(Shape& second) noexcept;
-	bool isIntersecting() const noexcept;
-	bool collided(Shape& second) noexcept;
-
-
 	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 	virtual void update() noexcept = 0;
 
+	bool isIntersectingWith(Shape& second) noexcept;
+	bool isIntersecting() const noexcept;
+
+
+	// will check for a new collision.
+	// if a new collision is found between the given Shapes
+	// ( between (this) and (second) )
+	// the intersectingShape is set for both Shapes
+	// and then returns true. If this function is called again
+	// while those same Shapes are still in collision, then it will
+	// returns false. This function only returns true again,
+	// if the Shapes ended the first collision and collide again.
+	// To check if given Shapes are still in collision, just call
+	// 'Shape::isIntersectingWith(second)'. 
+	bool checkForCollision(Shape &second) noexcept;
+
 protected:
+	// this function tests (this) and m_intersectingShape
+	// positions, to make sure they are still intersecting
 	void updateIntersectingShape() noexcept;
-	bool collidedNoCheck(Shape& second) noexcept;
 
 protected:
 	std::unique_ptr<sf::Shape> m_shape;
@@ -78,19 +90,19 @@ inline const sf::Vector2f &Shape::getVelocity() const noexcept {
 
 
 
-// returns true if (this) has collided with 
+// returns true if (this) is still intersecting with some other Shape,
+// keep in mind that to get the right answer the checkForCollision,
+// must be called to update the status of the Shape.
 inline bool Shape::isIntersecting() const noexcept {
 	return m_intersectingShape != nullptr;
 }
 
-// returns absolutely answer: if (this) m_intersectingShape is nullptr, then 
-// this function execute and returns the result of 'collided' function,
-// if m_intersectingShape is not null, then check if 'second' is the Shape pointed 
-// by m_intersetingShape. If you do not wan't the result of function 'collided',
-// check with 'Shape::isIntersecting' to be sure the Shape is intersecting with 
-// some other Shape before calling 'Shape::isIntersectingWith'.
-inline bool Shape::isIntersectedWith(Shape& second) noexcept {
-	return (m_intersectingShape == nullptr) ? this->collidedNoCheck(second) : m_intersectingShape == &second;
+// returns absolutely answer: if (this) is intersecting with the 
+// 'second' Shape then returns true, else returns false.
+// before calling this function, you need to update the Shape
+// status calling 'checkForCollision'
+inline bool Shape::isIntersectingWith(Shape& second) noexcept {
+	return m_intersectingShape == &second;
 }
 
 inline void Shape::draw(sf::RenderTarget &target, sf::RenderStates states) const {

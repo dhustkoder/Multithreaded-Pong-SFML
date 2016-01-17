@@ -16,7 +16,7 @@
 
 
 // main global variables
-static Player &player1 = *(new Player);
+static Player player1;
 
 static std::atomic<bool> isGameRunning(false);
 static std::atomic<bool> doInputAndCollisionProcess(false);
@@ -31,7 +31,7 @@ void startGame(GameMode mode)
 {
 	auto mainWindowUnique = GameWindow::makeUniqueWindow();
 	player1.setPosition(Shape::Position::LeftSide);
-	
+
 	// create the rest of game objects
 	auto ballUnique = std::make_unique<Ball>();
 	std::unique_ptr<Paddle> adverPaddleUnique;
@@ -98,14 +98,12 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 		{
 			updateObjects(player1, adverPaddle, ball);
 
-			if (ball.collided(player1)) 
-			{
+			if (ball.checkForCollision(player1)) {
 				sound->play();
 				ball.treatCollision();
-			//	player1.tremble(7);
 			}
 			
-			else if (ball.collided(adverPaddle)) {
+			else if (ball.checkForCollision(adverPaddle)) {
 				sound->play();
 				ball.treatCollision();
 			}

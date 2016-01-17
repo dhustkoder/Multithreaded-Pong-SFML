@@ -44,28 +44,11 @@ void Shape::setPosition(Position pos) noexcept
 }
 
 
-bool Shape::collided(Shape &second) noexcept
+bool Shape::checkForCollision(Shape &second) noexcept
 {
 	if (m_intersectingShape != nullptr)
 		updateIntersectingShape();
 
-	if ( m_intersectingShape == nullptr )
-		if ( this->getBottom() >= second.getTop() 
-			&& this->getTop() <= second.getBottom()
-			&& this->getLeft() <= second.getRight() 
-			&& this->getRight() >= second.getLeft())
-		{
-			this->m_intersectingShape = &second;
-			second.m_intersectingShape = this;
-			return true;
-		}
-	
-	return false;
-
-}
-
-bool Shape::collidedNoCheck(Shape &second) noexcept
-{
 	if (m_intersectingShape == nullptr)
 		if (this->getBottom() >= second.getTop()
 			&& this->getTop() <= second.getBottom()
@@ -73,13 +56,14 @@ bool Shape::collidedNoCheck(Shape &second) noexcept
 			&& this->getRight() >= second.getLeft())
 		{
 			this->m_intersectingShape = &second;
-			second.m_intersectingShape = (Shape*)this;
+			second.m_intersectingShape = this;
 			return true;
 		}
 
 	return false;
 
 }
+
 
 void Shape::updateIntersectingShape() noexcept
 {
