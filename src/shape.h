@@ -27,8 +27,7 @@ public:
 	float getTop() const noexcept;
 	float getBottom() const noexcept;
 	const sf::Vector2f &getVelocity() const noexcept;
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-	virtual void update() noexcept = 0;
+	
 
 	bool isIntersectingWith(Shape& second) noexcept;
 	bool isIntersecting() const noexcept;
@@ -45,6 +44,9 @@ public:
 	// To check if given Shapes are still in collision, just call
 	// 'Shape::isIntersectingWith(second)'. 
 	bool checkForCollision(Shape &second) noexcept;
+	
+	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+	virtual void update() noexcept = 0;
 
 protected:
 	// this function tests (this) and m_intersectingShape
