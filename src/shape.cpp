@@ -5,10 +5,10 @@
 
 Shape::Shape(sf::Vector2f &&origin, std::unique_ptr<sf::Shape>&& shape) noexcept :
 	m_shape(std::move(shape)), 
-		m_velocity(new sf::Vector2f()),
-		m_intersectingShape(nullptr),
-		m_horizontalCompensation(origin.x), 
-		m_verticalCompensation(origin.y)
+	m_velocity(new sf::Vector2f()),
+	m_intersectingShape(nullptr),
+	m_horizontalCompensation(origin.x), 
+	m_verticalCompensation(origin.y)
 {
 	m_shape->setOrigin(origin.x, origin.y);
 	m_velocity->x = 0;
@@ -64,7 +64,7 @@ bool Shape::collided(Shape &second) noexcept
 
 }
 
-bool Shape::collidedNoCheck(Shape &second) const noexcept
+bool Shape::collidedNoCheck(Shape &second) noexcept
 {
 	if (m_intersectingShape == nullptr)
 		if (this->getBottom() >= second.getTop()

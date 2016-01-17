@@ -37,7 +37,7 @@ public:
 
 protected:
 	void updateIntersectingShape() noexcept;
-	bool collidedNoCheck(Shape& second) const noexcept;
+	bool collidedNoCheck(Shape& second) noexcept;
 
 protected:
 	std::unique_ptr<sf::Shape> m_shape;
