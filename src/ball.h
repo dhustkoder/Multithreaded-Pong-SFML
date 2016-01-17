@@ -9,7 +9,7 @@
 class Ball final : public Shape
 {
 	constexpr static float ballVelocity = 1.5;
-	constexpr static float ballRadius = 38.0;
+	constexpr static float ballRadius = 32;
 	constexpr static int ballTextureX = 64;
 	constexpr static int ballTextureY = 64;
 	enum class BallTextureDirection {
@@ -18,7 +18,7 @@ class Ball final : public Shape
 public:
 	// uses window size informed for class Shape
 	Ball() noexcept;
-	void treatCollisionWith(const Shape &collidedShape) noexcept;
+	void treatCollision() noexcept;
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 	void update() noexcept override;
 private:

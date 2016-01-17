@@ -1,6 +1,8 @@
+#include <random>
 #include "player.h"
 #include "gamewindow.h"
 #include "utility.h"
+
 
 
 Player::Player() noexcept : 
@@ -15,14 +17,16 @@ Player::Player(const float sizeX, const float sizeY) noexcept :
 	m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
 {
 	m_shape->setFillColor(sf::Color::White);
+
 }
+
+
 
 void Player::setKeys(const sf::Keyboard::Key keyUp, const sf::Keyboard::Key keyDown)
 {
 	m_kUp = keyUp;
 	m_kDown = keyDown;
 }
-
 
 
 
@@ -34,7 +38,7 @@ void Player::update() noexcept
 		m_velocity->y = playerVelocity;	
 	else
 		m_velocity->y = 0;
-	
+
 	m_shape->move(*m_velocity);
 }
 

@@ -149,7 +149,8 @@ void ParticleSystem::update(const float deltaTime)
 		   || it->drawVertex.color.a < 10)
 		{
 			itr = m_particles.erase(itr);
-			if(itr == m_particles.end()) return;
+			if(itr == m_particles.end()) 
+				return;
 		}
 
 	}

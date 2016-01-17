@@ -4,9 +4,11 @@
 #undef None
 #endif
 
+#include <iostream>
+#include <SFML/Graphics.hpp>
 #include "processes.h"
 
-#include <SFML/Graphics.hpp>
+
 #include "shape.h"
 #include "gamewindow.h"
 #include "particlesystem/particle.h"
@@ -17,44 +19,26 @@ int main()
 #ifdef __linux__
 	XInitThreads(); // prevent X11 threads error
 #endif
-
+	
 	// single player and multiplayer test
 	//startGame(GameMode::SinglePlayer);
 	startGame(GameMode::MultiplayerLocal);
 	
 
+	
 	/*
-	// Tests
 	auto mainWinUnique = GameWindow::makeUniqueWindow();
 	auto *mainWin = mainWinUnique.get();
+
+	Shape rect1({ 40 / 2, 40 / 2 }, std::make_unique<sf::RectangleShape>(sf::Vector2f(40, 40 ))),
+		rect2({ 40 / 2, 40 / 2 }, std::make_unique<sf::RectangleShape>(sf::Vector2f(40, 40)));
+
+	rect1.getShape().setFillColor(sf::Color::Red);
+	rect1.setPosition(0, 0);
 	
-	enum { Left, LeftUp, Up, RightUp, Right, DownRight, Down, DownLeft };
-	sf::IntRect spritePos[] = 
-	{ 
-		{ 0,0, 64,64 },           { 0, 64 * LeftUp, 64, 64 },
-		{ 0, 64 * Up, 64, 64 },   { 0, 64 * RightUp, 64, 64 },
-		{ 0, 64 * Right, 64, 64 },{ 0, 64 * DownRight, 64, 64 },
-		{ 0, 64 * Down, 64, 64 }, { 0, 64 * DownLeft, 64, 64 } 
-	};
+	rect2.getShape().setFillColor(sf::Color::Blue);
+	rect2.setPosition(GameWindow::Width / 2, GameWindow::Height / 2);
 
-	sf::Texture texture;
-	sf::IntRect rect;
-	rect.width = 64;
-	rect.height = 64;
-	texture.loadFromFile("../Resources/balltexture");
-	texture.setSmooth(true);
-
-
-	sf::CircleShape _sprite(10.5);
-	sf::Shape& sprite = _sprite;
-	sprite.setTexture(&texture);
-	sprite.setPosition(static_cast<sf::Vector2f>(mainWin->getSize()) / 2.f);
-
-
-	int textureFrameCounter = 0;
-	int currentDirection = 0;
-	std::clock_t clk = std::clock();
-	constexpr auto frameUpdateTime = CLOCKS_PER_SEC / 800;
 	while(mainWin->isOpen())
 	{
 		
@@ -62,58 +46,50 @@ int main()
 		mainWin->clear(sf::Color::Black);
 		mainWin->updateWindowState();
 	
-		
-
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			currentDirection = LeftUp;
-			sprite.move(-1,-1);
+			
+			rect1.getShape().move(-1,-1);
 		}
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			currentDirection = RightUp;
-			sprite.move(1,-1);
+
+			rect1.getShape().move(1,-1);
 		}
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			currentDirection = DownLeft;
-			sprite.move(-1,1);
+			
+			rect1.getShape().move(-1,1);
 		}
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			currentDirection = DownRight;
-			sprite.move(1,1);
+			
+			rect1.getShape().move(1,1);
 		}
 
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			currentDirection = Up;
-			sprite.move(0,-1);
+			
+			rect1.getShape().move(0,-1);
 		}
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			currentDirection = Down;
-			sprite.move(0,1);
+			
+			rect1.getShape().move(0,1);
 		}
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			currentDirection = Left;
-			sprite.move(-1,0);
+			
+			rect1.getShape().move(-1,0);
 		}
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			currentDirection = Right;
-			sprite.move(1,0);
+	
+			rect1.getShape().move(1,0);
 		}
 
-
-		sf::IntRect &currentRect = spritePos[currentDirection];
-		
-		if((std::clock() - clk) > frameUpdateTime ) 
-		{
-			currentRect.left = 64 * textureFrameCounter;
-			++textureFrameCounter;
-			if(textureFrameCounter > 7)
-				textureFrameCounter = 0;
-
-			clk = std::clock();
+		if (rect1.collided(rect2)) {
+			static auto counter = 0;
+			std::cout << "collided" << std::endl;
+			if (++counter > 10) {
+				system("cls");
+				counter = 0;
+			}
+			
 		}
-		
-		sprite.setTextureRect(currentRect);
-
-		mainWin->drawAndDisplay(sprite);
+		mainWin->drawAndDisplay(rect1, rect2);
 	}
 	*/
 }

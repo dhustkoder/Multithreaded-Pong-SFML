@@ -16,7 +16,7 @@
 
 
 // main global variables
-static Player player1;
+static Player &player1 = *(new Player);
 
 static std::atomic<bool> isGameRunning(false);
 static std::atomic<bool> doInputAndCollisionProcess(false);
@@ -36,15 +36,18 @@ void startGame(GameMode mode)
 	auto ballUnique = std::make_unique<Ball>();
 	std::unique_ptr<Paddle> adverPaddleUnique;
 
-	if (mode == GameMode::SinglePlayer) {
-		adverPaddleUnique = std::make_unique<Cpu>(*ballUnique);
-		adverPaddleUnique->setPosition(Shape::Position::RightSide);
-	}
-
-	else if (mode == GameMode::MultiplayerLocal) {
-		adverPaddleUnique = std::make_unique<Player>();
-		adverPaddleUnique->setPosition(Shape::Position::RightSide);
-		static_cast<Player&>(*adverPaddleUnique).setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
+	switch (mode)
+	{
+		case GameMode::SinglePlayer:
+			adverPaddleUnique = std::make_unique<Cpu>(*ballUnique);
+			adverPaddleUnique->setPosition(Shape::Position::RightSide);
+			break;
+		
+		case GameMode::MultiplayerLocal:
+			adverPaddleUnique = std::make_unique<Player>();
+			adverPaddleUnique->setPosition(Shape::Position::RightSide);
+			static_cast<Player&>(*adverPaddleUnique).setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
+			break;
 	}
 
 	// start game and input and collision thread
@@ -95,14 +98,16 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 		{
 			updateObjects(player1, adverPaddle, ball);
 
-			if (isColliding(player1, ball)) {
+			if (ball.collided(player1)) 
+			{
 				sound->play();
-				ball.treatCollisionWith(player1);
+				ball.treatCollision();
+			//	player1.tremble(7);
 			}
 			
-			else if (isColliding(adverPaddle, ball)) {
+			else if (ball.collided(adverPaddle)) {
 				sound->play();
-				ball.treatCollisionWith(adverPaddle);
+				ball.treatCollision();
 			}
 			
 			doInputAndCollisionProcess = false; // wait until next round...

@@ -8,22 +8,23 @@
 Ball::Ball() noexcept : 
                                         // float(ballRadius) for clang/gcc, because make_unique take args by ref 
                                         // (it cant take ref to constexpr static member)
-	Shape({ballRadius,ballRadius}, std::make_unique<sf::CircleShape>(float(ballRadius))),
+Shape({ ballRadius, ballRadius}, std::make_unique<sf::CircleShape>(float(ballRadius))),
 		m_textureRect(0,0,64,64),
 		m_clock(std::clock())
 {
 	m_velocity->y = m_velocity->x = ballVelocity;
 	m_texture.loadFromFile("../Resources/balltexture");
 	m_shape->setTexture(&m_texture);
+	m_shape->setScale(2, 2);
 	this->setPosition(Position::Middle);
 	updateTextureDirectionFrame();
 
 }
 
-void Ball::treatCollisionWith(const Shape &collidedShape) noexcept
+void Ball::treatCollision() noexcept
 {
 
-	float middle_of_collided_shape = (collidedShape.getBottom() + collidedShape.getTop()) / 2.0F;
+	float middle_of_collided_shape = (m_intersectingShape->getBottom() + m_intersectingShape->getTop()) / 2.0F;
 	float middle_of_ball = ( getBottom() + getTop() ) / 2.0F;
 
 	(middle_of_ball > middle_of_collided_shape) ? m_velocity->y = ballVelocity : m_velocity->y = -ballVelocity;
@@ -36,6 +37,14 @@ void Ball::treatCollisionWith(const Shape &collidedShape) noexcept
 
 void Ball::update() noexcept
 {
+	if (getLeft() <= 0) {
+		m_velocity->x = ballVelocity;
+		updateTextureDirectionFrame();
+	}
+	else if (getRight() >= GameWindow::Width) {
+		m_velocity->x = -ballVelocity;
+		updateTextureDirectionFrame();
+	}
 	
 	if (getTop() <= 0) {
 		m_velocity->y = ballVelocity;
@@ -43,15 +52,6 @@ void Ball::update() noexcept
 	}
 	else if (getBottom() >= GameWindow::Height) {
 		m_velocity->y = -ballVelocity;
-		updateTextureDirectionFrame();
-	}
-
-	if (getLeft() <= 0) {
-		m_velocity->x = ballVelocity;
-		updateTextureDirectionFrame();
-	}
-	else if (getRight() >= GameWindow::Width) {
-		m_velocity->x = -ballVelocity;
 		updateTextureDirectionFrame();
 	}
 
@@ -92,7 +92,7 @@ void Ball::updateTextureDirectionFrame() noexcept
 void Ball::updateTextureAnimationFrame() noexcept
 {
 	static int textureFrame = 0;
-	if ((std::clock() - m_clock) > cexpr_div(CLOCKS_PER_SEC, (clock_t)60))
+	if ((std::clock() - m_clock) > cexpr_div((clock_t)CLOCKS_PER_SEC, (clock_t)20))
 	{
 		++textureFrame;
 		if (textureFrame > 7)
