@@ -39,11 +39,10 @@ GameWindow::GameWindow(sf::VideoMode &&mode, const char *windowName) noexcept :
 
 void GameWindow::updateWindowState() noexcept
 {
-//	m_renderWindow.clear(sf::Color::Black);
 	m_renderWindow.pollEvent(m_event);
 
 	if (m_event.type == sf::Event::Closed)
-	m_renderWindow.close();
+		m_renderWindow.close();
 }
 
 

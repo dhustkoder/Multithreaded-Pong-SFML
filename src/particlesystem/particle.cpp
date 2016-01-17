@@ -125,28 +125,31 @@ const std::string ParticleSystem::getNumberOfParticlesString(void) const
 void ParticleSystem::update(const float deltaTime)
 {
   /* Run through each particle and apply our system to it */
-	for(auto it = m_particles.begin(); it != m_particles.end(); it++)
+	Particle *it;
+	for (auto itr = m_particles.begin(); itr != m_particles.end(); ++itr)
 	{
 		/* Apply Gravity */
-		(*it)->vel.x += m_gravity.x * deltaTime;
-		(*it)->vel.y += m_gravity.y * deltaTime;
+		it = itr->get();
+		it->vel.x += m_gravity.x * deltaTime;
+		it->vel.y += m_gravity.y * deltaTime;
 
 		/* Apply thrust */
-		(*it)->drawVertex.position.x += (*it)->vel.x * deltaTime * m_particleSpeed;
-		(*it)->drawVertex.position.y += (*it)->vel.y * deltaTime * m_particleSpeed;
+		it->drawVertex.position.x += it->vel.x * deltaTime * m_particleSpeed;
+		it->drawVertex.position.y += it->vel.y * deltaTime * m_particleSpeed;
 
 		/* If they are set to disolve, disolve */
-		if(m_dissolve) (*it)->drawVertex.color.a -= m_dissolutionRate;
+		if(m_dissolve) 
+			it->drawVertex.color.a -= m_dissolutionRate;
 
 		
-		if((*it)->drawVertex.position.x > m_canvasSize.x
-		   || (*it)->drawVertex.position.x < 0
-		   || (*it)->drawVertex.position.y > m_canvasSize.y
-		   || (*it)->drawVertex.position.y < 0
-		   || (*it)->drawVertex.color.a < 10)
+		if(it->drawVertex.position.x > m_canvasSize.x
+		   || it->drawVertex.position.x < 0
+		   || it->drawVertex.position.y > m_canvasSize.y
+		   || it->drawVertex.position.y < 0
+		   || it->drawVertex.color.a < 10)
 		{
-			it = m_particles.erase(it);
-			if(it == m_particles.end()) return;
+			itr = m_particles.erase(itr);
+			if(itr == m_particles.end()) return;
 		}
 
 	}

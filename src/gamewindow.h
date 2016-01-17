@@ -19,11 +19,13 @@ public:
 		makeUniqueWindow(const char* windowName) noexcept;
 
 	~GameWindow();
+	void clear(const sf::Color color) noexcept;
 	void updateWindowState() noexcept;
+	const sf::Event& getEvent() const noexcept;
 	void setSize(const unsigned Width, const unsigned Height) noexcept;
 	sf::Vector2u getSize() const noexcept;
 	bool isOpen() const noexcept;
-	void clear(sf::Color color) noexcept;
+	
 	template<typename ...Ts>
 	void drawAndDisplay(Ts&& ...args) noexcept;
 
@@ -45,6 +47,7 @@ private:
 
 inline GameWindow::~GameWindow() {
 	--sm_instances;
+	sm_width = sm_height = 0;
 }
 
 inline sf::Vector2u GameWindow::getSize() const noexcept {
@@ -55,9 +58,14 @@ inline bool GameWindow::isOpen() const noexcept {
 	return m_renderWindow.isOpen();
 }
 
-inline void GameWindow::clear(sf::Color color) noexcept {
+inline const sf::Event& GameWindow::getEvent() const noexcept {
+	return m_event;
+}
+
+inline void GameWindow::clear(const sf::Color color) noexcept {
 	return m_renderWindow.clear(color);
 }
+
 
 // sends all args to sf::RenderWindow draw fuction. 
 // (the arguments need to be implicit conversible to sf::Drawable)
