@@ -72,8 +72,9 @@ void Shape::updateIntersectingShape() noexcept
 		|| ! (this->getLeft() <= m_intersectingShape->getRight())
 		|| ! (this->getRight() >= m_intersectingShape->getLeft()))
 	{
+		// is no more colliding	
 		m_intersectingShape->m_intersectingShape = nullptr;
-		m_intersectingShape = nullptr; // is no more colliding	
+		m_intersectingShape = nullptr; 
 	}
 	
 }

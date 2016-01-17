@@ -29,7 +29,7 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 // main functions
 void startGame(GameMode mode)
 {
-	auto mainWindowUnique = GameWindow::makeUniqueWindow();
+	auto mainWindowUnique = GameWindow::makeUniqueWindow({400, 640});
 	player1.setPosition(Shape::Position::LeftSide);
 
 	// create the rest of game objects
