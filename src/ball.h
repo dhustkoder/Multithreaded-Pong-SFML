@@ -8,7 +8,7 @@
 
 class Ball final : public Shape
 {
-	constexpr static float ballVelocity = 4.5;
+	constexpr static float ballVelocity = 2.5;
 	constexpr static float ballRadius = 15;
 	constexpr static int ballTextureX = 64;
 	constexpr static int ballTextureY = 64;

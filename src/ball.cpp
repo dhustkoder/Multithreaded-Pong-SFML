@@ -24,8 +24,8 @@ Shape({ ballRadius, ballRadius}, std::make_unique<sf::CircleShape>(float(ballRad
 void Ball::treatCollision() noexcept
 {
 
-	float middle_of_collided_shape = (m_intersectingShape->getBottom() + m_intersectingShape->getTop()) / 2.0F;
-	float middle_of_ball = ( getBottom() + getTop() ) / 2.0F;
+	float middle_of_collided_shape = (m_intersectingShape->getBottom() + m_intersectingShape->getTop()) * 0.5f;
+	float middle_of_ball = ( getBottom() + getTop() ) * 0.5f;
 
 	(middle_of_ball > middle_of_collided_shape) ? m_velocity->y = ballVelocity : m_velocity->y = -ballVelocity;
 	
