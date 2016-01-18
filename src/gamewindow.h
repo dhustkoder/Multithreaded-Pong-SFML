@@ -35,8 +35,8 @@ private:
 
 	sf::RenderWindow m_renderWindow;
 	sf::Event m_event;
-	static int sm_instances;
-	static unsigned sm_width, sm_height;
+	static int s_instances;
+	static unsigned s_width, s_height;
 
 	// deleted functions
 	GameWindow(const GameWindow&) = delete;
@@ -46,8 +46,8 @@ private:
 
 
 inline GameWindow::~GameWindow() {
-	--sm_instances;
-	sm_width = sm_height = 0;
+	--s_instances;
+	s_width = s_height = 0;
 }
 
 inline sf::Vector2u GameWindow::getSize() const noexcept {

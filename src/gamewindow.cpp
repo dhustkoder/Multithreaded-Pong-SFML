@@ -1,13 +1,13 @@
 #include "gamewindow.h"
 
-unsigned GameWindow::sm_width = 0, GameWindow::sm_height = 0;
-const unsigned &GameWindow::Width = GameWindow::sm_width, &GameWindow::Height = GameWindow::sm_height;
+unsigned GameWindow::s_width = 0, GameWindow::s_height = 0;
+const unsigned &GameWindow::Width = GameWindow::s_width, &GameWindow::Height = GameWindow::s_height;
 
-int GameWindow::sm_instances = 0;
+int GameWindow::s_instances = 0;
 
 std::unique_ptr<GameWindow> GameWindow::makeUniqueWindow(sf::VideoMode&& mode, const char *windowName) noexcept
 {
-	if(sm_instances > 0)
+	if(s_instances > 0)
 		return nullptr;
 
 	return std::unique_ptr<GameWindow>(new GameWindow(std::move(mode), windowName));
@@ -17,7 +17,7 @@ std::unique_ptr<GameWindow> GameWindow::makeUniqueWindow(sf::VideoMode&& mode, c
 
 std::unique_ptr<GameWindow> GameWindow::makeUniqueWindow(const char *windowName) noexcept
 {
-	if(sm_instances > 0)
+	if(s_instances > 0)
 		return nullptr;
 
 	return std::unique_ptr<GameWindow>(new GameWindow({defaultWidth,defaultHeight}, windowName));
@@ -32,9 +32,9 @@ GameWindow::GameWindow(sf::VideoMode &&mode, const char *windowName) noexcept :
 	m_renderWindow.setFramerateLimit(60);
 	m_renderWindow.setVerticalSyncEnabled(true);
 	m_event.type = sf::Event::GainedFocus;
-	sm_width = mode.width;
-	sm_height = mode.height;
-	++sm_instances;
+	s_width = mode.width;
+	s_height = mode.height;
+	++s_instances;
 }
 
 void GameWindow::updateWindowState() noexcept
@@ -49,6 +49,6 @@ void GameWindow::updateWindowState() noexcept
 void GameWindow::setSize(const unsigned width, const unsigned height) noexcept
 {
 	m_renderWindow.setSize({width, height});
-	sm_width = width;
-	sm_height = height;
+	s_width = width;
+	s_height = height;
 }
