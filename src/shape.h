@@ -29,7 +29,7 @@ public:
 	const sf::Vector2f &getVelocity() const noexcept;
 	
 
-	bool isIntersectingWith(Shape& second) noexcept;
+	bool isIntersectingWith(Shape& second) const noexcept;
 	bool isIntersecting() const noexcept;
 
 
@@ -56,7 +56,7 @@ protected:
 protected:
 	std::unique_ptr<sf::Shape> m_shape;
 	std::unique_ptr<sf::Vector2f> m_velocity;
-	Shape* m_intersectingShape;
+	mutable Shape* m_intersectingShape;
 	float m_horizontalCompensation, m_verticalCompensation;
 
 };
@@ -103,7 +103,7 @@ inline bool Shape::isIntersecting() const noexcept {
 // 'second' Shape then returns true, else returns false.
 // before calling this function, you need to update the Shape
 // status calling 'checkForCollision'
-inline bool Shape::isIntersectingWith(Shape& second) noexcept {
+inline bool Shape::isIntersectingWith(Shape& second) const noexcept {
 	return m_intersectingShape == &second;
 }
 

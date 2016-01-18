@@ -1,9 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <SFML/Window/Keyboard.hpp>
 #include "paddle.h"
-
-
 
 class Player final : public Paddle
 {
