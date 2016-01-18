@@ -4,10 +4,9 @@
 #include <SFML/Graphics/Texture.hpp>
 #include "shape.h"
 
-
-
 class Ball final : public Shape
 {
+	
 	constexpr static float ballVelocity = 2.5;
 	constexpr static float ballRadius = 15;
 	constexpr static int ballTextureX = 64;

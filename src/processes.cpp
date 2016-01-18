@@ -1,16 +1,8 @@
-#include <thread>
-#include <atomic>
-#include <memory>
-#include <SFML/Audio/SoundBuffer.hpp>
-#include <SFML/Audio/Sound.hpp>
-
-#include "processes.h"
-#include "gamewindow.h"
+#include "pch.h"
 #include "gamescore.h"
 #include "player.h"
 #include "cpu.h"
 #include "ball.h"
-#include "utility.h"
 
 
 

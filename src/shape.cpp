@@ -1,6 +1,6 @@
+#include "pch.h"
 #include "shape.h"
-#include "gamewindow.h"
-#include "utility.h"
+
 
 
 Shape::Shape(sf::Vector2f &&origin, std::unique_ptr<sf::Shape>&& shape) noexcept :

@@ -1,7 +1,5 @@
-#include <string>
-#include <SFML/Graphics/Text.hpp>
+#include "pch.h"
 #include "gamescore.h"
-#include "gamewindow.h"
 #include "ball.h"
 
 

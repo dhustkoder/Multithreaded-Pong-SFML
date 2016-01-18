@@ -1,4 +1,4 @@
-#include "gamewindow.h"
+#include "pch.h"
 
 unsigned GameWindow::s_width = 0, GameWindow::s_height = 0;
 const unsigned &GameWindow::Width = GameWindow::s_width, &GameWindow::Height = GameWindow::s_height;

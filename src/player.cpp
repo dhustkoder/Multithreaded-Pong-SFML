@@ -1,7 +1,5 @@
-#include <SFML/Window/Keyboard.hpp>
+#include "pch.h"
 #include "player.h"
-#include "gamewindow.h"
-#include "utility.h"
 
 
 

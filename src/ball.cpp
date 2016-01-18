@@ -1,8 +1,6 @@
-#include <SFML/Graphics/CircleShape.hpp>
+#include "pch.h"
 #include "ball.h"
-#include "gamewindow.h"
-#include "particlesystem/particle.h"
-#include "utility.h"
+
 
 
 Ball::Ball() noexcept : 

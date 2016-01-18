@@ -4,14 +4,8 @@
 #undef None
 #endif
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
-#include "processes.h"
+#include "pch.h"
 
-
-#include "shape.h"
-#include "gamewindow.h"
-#include "particlesystem/particle.h"
 
 int main()
 {
