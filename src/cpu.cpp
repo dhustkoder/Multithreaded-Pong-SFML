@@ -41,19 +41,18 @@ void Cpu::initializer()
 void Cpu::update() noexcept
 {
 	if ( m_ball.getVelocity().x > 0
-		&& static_cast<seconds>(std::clock() - m_reactionDelayClock) > m_reactionDelayTime)
+		&& static_cast<seconds>(std::clock() - m_reactionDelayClock) > m_reactionDelayTime )
 	{
 
 		const auto &ballVelocity = m_ball.getVelocity();
 		const auto &ballPosition = m_ball.getPosition();
-		const auto &cpuPosition = m_shape->getPosition();
 
 		const auto ballCollisionPosition =
 			calculateBallCollisionPosition(ballPosition.x, ballPosition.y,
 				ballVelocity.x, ballVelocity.y, this->getLeft());
 
 		if (ballCollisionPosition.y >= this->getTop()
-			&& ballCollisionPosition.y <= this->getBottom())
+			&& ballCollisionPosition.y <= this->getBottom()) 
 		{
 			return;
 		}
@@ -69,7 +68,7 @@ void Cpu::update() noexcept
 		}
 
 
-		if(m_reactionDurationClock == 0)// check if is first reaction
+		if(m_reactionDurationClock == 0) // check if is first reaction
 			m_reactionDurationClock = std::clock();
 
 		else if (static_cast<seconds>(std::clock() - m_reactionDurationClock) > m_reactionDurationTime) {

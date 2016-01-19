@@ -40,7 +40,7 @@ void Shape::setPosition(Position pos) noexcept
 		m_shape->setPosition(m_horizontalCompensation,(float)GameWindow::Height / 2.f);
 
     else
-		m_shape->setPosition(GameWindow::Width / 2.f, GameWindow::Height / 2.f);
+		m_shape->setPosition(GameWindow::Width * 0.50f, GameWindow::Height * 0.50f);
 }
 
 

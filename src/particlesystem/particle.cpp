@@ -1,6 +1,5 @@
 #include "pch.h"
 
-
 /************************************************************/
 ParticleSystem::ParticleSystem(sf::Vector2u canvasSize) :
 	m_dissolve(false),
