@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "cpu.h"
 
+static sf::Vector2f calculateBallCollisionPosition(float x, float y, float absVelX, float absVelY, float leftLimit);
+
+
 
 Cpu::Cpu(const Shape &ball) noexcept : 
 	m_ball(ball)
@@ -33,79 +36,34 @@ void Cpu::initializer()
 	this->setReactionDelay(defaultReactionDelayTime);
 }
 
+
+
 void Cpu::update() noexcept
 {
 	if ( m_ball.getVelocity().x > 0
 		&& static_cast<seconds>(std::clock() - m_reactionDelayClock) > m_reactionDelayTime)
 	{
+
 		const auto &ballVelocity = m_ball.getVelocity();
 		const auto &ballPosition = m_ball.getPosition();
 		const auto &cpuPosition = m_shape->getPosition();
-		const auto cpuLeft = GameWindow::Width - this->getLeft();
 
-		if (ballVelocity.y > 0 && ballPosition.y < cpuPosition.y)
+		const auto ballCollisionPosition =
+			calculateBallCollisionPosition(ballPosition.x, ballPosition.y,
+				ballVelocity.x, ballVelocity.y, this->getLeft());
+
+		if (ballCollisionPosition.y >= this->getTop()
+			&& ballCollisionPosition.y <= this->getBottom())
 		{
-			auto ballPosY = ballPosition.y;
-			auto ballPosX = ballPosition.x;
-			
-			while ( ballPosY < GameWindow::Height
-				&& ballPosX < cpuLeft)
-			{
-				ballPosY += ballVelocity.y;
-				ballPosX += ballVelocity.x / 2.f;
-			}
-
-			if(ballPosY >= GameWindow::Height
-				&& ballPosX < cpuLeft)
-				while (ballPosY > 0
-					&& ballPosX < cpuLeft)
-				{
-					ballPosY -= ballVelocity.y;
-					ballPosX += ballVelocity.x / 2.f;
-				}
-
-			
-			if (ballPosY >= this->getTop()
-				&& ballPosY <= this->getBottom())
-			{
-				return;
-			}
-		}
-
-		else if (ballVelocity.y < 0 && ballPosition.y > cpuPosition.y)
-		{
-			auto ballPosY = ballPosition.y;
-			auto ballPosX = ballPosition.x;
-			while ( ballPosY > 0
-				&& ballPosX < cpuLeft)
-			{
-				ballPosY -= ballVelocity.y;
-				ballPosX += ballVelocity.x / 2.f;
-			}
-
-			if (ballPosY <= 0
-				&& ballPosX < cpuLeft)
-				while (ballPosY < GameWindow::Height
-					&& ballPosX < cpuLeft)
-				{
-					ballPosY += ballVelocity.y;
-					ballPosX += ballVelocity.x / 2.f;
-				}
-			
-
-			if (ballPosY >= this->getTop()
-				&& ballPosY <= this->getBottom())
-			{
-				return;
-			}
+			return;
 		}
 
 		else
 		{
-			m_velocity->y = (ballVelocity.y > 0) ? 
-				((this->getBottom() < GameWindow::Height) ? defaultCpuVelocity : 0) 
+			m_velocity->y = (ballCollisionPosition.y < this->getTop() ) ? 
+				((this->getTop() > 0) ? -defaultCpuVelocity : 0) 
 				: 
-				((this->getTop() > 0) ? -defaultCpuVelocity : 0);
+				((this->getBottom() < GameWindow::Height ) ? defaultCpuVelocity : 0);
 
 			m_shape->move(*m_velocity);
 		}
@@ -121,4 +79,44 @@ void Cpu::update() noexcept
 	}
 
 	
+}
+
+
+
+static sf::Vector2f calculateBallCollisionPosition(float x, float y, const float velX, const float velY, const float leftLimit)
+{
+	enum DIRECTION { RightUp, RightDown };
+	DIRECTION direction = (velY < 0) ? RightUp : RightDown;
+
+	const auto absVelY = std::abs(velY);
+
+	switch (direction)
+	{
+		case DIRECTION::RightUp:
+			while (x < leftLimit && y > 0) {
+				x += velX;
+				y -= absVelY;
+			}
+
+			if (x < leftLimit && y <= 0) // ball hited the roof
+				return calculateBallCollisionPosition(x, y, velX, -velY, leftLimit);
+			
+
+			break;
+
+		case DIRECTION::RightDown:
+
+			while (x < leftLimit && y < GameWindow::Height) {
+				x += velX;
+				y += absVelY;
+			}
+
+			if (x < leftLimit && y >= GameWindow::Height) // ball hited the ground
+				return calculateBallCollisionPosition(x, y, velX, -velY, leftLimit);
+			
+
+			break;
+	}
+
+	return { x, y };
 }

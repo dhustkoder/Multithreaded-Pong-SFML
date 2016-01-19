@@ -4,6 +4,7 @@
 // precompiled header, add all external dependency header used in cpp files
 // or this project's header which doesn't change often
 
+#include <cmath>
 #include <thread>
 #include <atomic>
 #include <memory>
