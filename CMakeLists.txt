@@ -45,6 +45,7 @@ set(LIBS -lpthread -lX11 -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audi
 
 #source files
 file(GLOB_RECURSE SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} src/*.cpp)
+list(REMOVE_ITEM SRCS "src/pch.cpp")
 
 add_executable(${PROJECT_NAME} ${SRCS})
 

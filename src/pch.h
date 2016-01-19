@@ -8,6 +8,12 @@
 #include <atomic>
 #include <memory>
 #include <string>
+#ifdef __linux__
+#include <X11/Xlib.h>
+#undef None
+#undef Status
+#endif
+
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Sound.hpp>

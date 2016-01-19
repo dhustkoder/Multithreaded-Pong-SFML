@@ -1,10 +1,3 @@
-
-#ifdef __linux__
-#include <X11/Xlib.h>
-#undef None
-#undef Status
-#endif
-
 #include "pch.h"
 
 

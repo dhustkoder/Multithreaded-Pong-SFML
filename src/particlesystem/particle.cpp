@@ -1,7 +1,5 @@
-#ifdef _MSC_VER
 #include "pch.h"
-#endif
-#include "particle.h"
+
 
 /************************************************************/
 ParticleSystem::ParticleSystem(sf::Vector2u canvasSize) :
