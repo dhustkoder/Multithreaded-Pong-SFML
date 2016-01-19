@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "cpu.h"
 
-static sf::Vector2f calculateBallCollisionPosition(float x, float y, float absVelX, float absVelY, float leftLimit);
+static sf::Vector2f calculateBallCollisionPosition(float x, float y, const float velX, const float velY, const float leftLimit);
 
 
 
