@@ -13,7 +13,6 @@ Shape({ ballRadius, ballRadius}, std::make_unique<sf::CircleShape>(float(ballRad
 	m_velocity->y = m_velocity->x = ballVelocity;
 	m_texture.loadFromFile("../Resources/balltexture");
 	m_shape->setTexture(&m_texture);
-	m_shape->setScale(2, 2);
 	this->setPosition(Position::Middle);
 	updateTextureDirectionFrame();
 

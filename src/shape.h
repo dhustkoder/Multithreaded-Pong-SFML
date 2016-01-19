@@ -12,7 +12,7 @@ public:
 
 public:
 	// give the origin
-	Shape(sf::Vector2f &&origin, std::unique_ptr<sf::Shape>&& shape) noexcept;
+	Shape(sf::Vector2f&& origin, std::unique_ptr<sf::Shape>&& shape) noexcept;
 	Shape(const Shape&) = delete;
 	Shape& operator=(const Shape&) = delete;
 
@@ -26,7 +26,8 @@ public:
 	float getLeft() const noexcept;
 	float getTop() const noexcept;
 	float getBottom() const noexcept;
-	const sf::Vector2f &getVelocity() const noexcept;
+	const sf::Vector2f& getPosition() const noexcept;
+	const sf::Vector2f& getVelocity() const noexcept;
 	
 
 	bool isIntersectingWith(Shape& second) const noexcept;
@@ -43,9 +44,9 @@ public:
 	// if the Shapes ended the first collision and collide again.
 	// To check if given Shapes are still in collision, just call
 	// 'Shape::isIntersectingWith(second)'. 
-	bool checkForCollision(Shape &second) noexcept;
+	bool checkForCollision(Shape& second) noexcept;
 	
-	virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	virtual void update() noexcept = 0;
 
 protected:
@@ -86,8 +87,12 @@ inline float Shape::getBottom() const noexcept {
 }
 
 
-inline const sf::Vector2f &Shape::getVelocity() const noexcept {
+inline const sf::Vector2f& Shape::getVelocity() const noexcept {
 	return *m_velocity;
+}
+
+inline const sf::Vector2f& Shape::getPosition() const noexcept {
+	return m_shape->getPosition();
 }
 
 

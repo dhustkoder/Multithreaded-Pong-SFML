@@ -33,6 +33,7 @@ void startGame(GameMode mode)
 		case GameMode::SinglePlayer:
 			adverPaddleUnique = std::make_unique<Cpu>(*ballUnique);
 			adverPaddleUnique->setPosition(Shape::Position::RightSide);
+			static_cast<Cpu&>(*adverPaddleUnique).setReactionDelay(0.0);
 			break;
 		
 		case GameMode::MultiplayerLocal:
