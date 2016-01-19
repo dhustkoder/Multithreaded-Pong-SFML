@@ -82,5 +82,4 @@ void GameWindow::drawAndDisplay(Ts &&...args) noexcept
 
 
 
-
 #endif // GAMEWINDOW_H
