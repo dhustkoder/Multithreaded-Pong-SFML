@@ -41,7 +41,7 @@ void Cpu::update() noexcept
 		const auto &ballVelocity = m_ball.getVelocity();
 		const auto &ballPosition = m_ball.getPosition();
 		const auto &cpuPosition = m_shape->getPosition();
-		auto cpuLeft = GameWindow::Width - this->getLeft();
+		const auto cpuLeft = GameWindow::Width - this->getLeft();
 
 		if (ballVelocity.y > 0 && ballPosition.y < cpuPosition.y)
 		{
