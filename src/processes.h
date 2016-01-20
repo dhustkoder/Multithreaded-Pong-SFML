@@ -8,5 +8,5 @@ enum class GameMode
 };
 
 void startGame(GameMode mode);
-
+void ballDebug();
 #endif // PROCESSES_H

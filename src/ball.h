@@ -20,12 +20,15 @@ public:
 	void treatCollision() noexcept;
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 	void update() noexcept override;
+	void setDebugControll() { m_debugControll = !m_debugControll; }
 private:
 	void updateTextureDirectionFrame() noexcept;
 	void updateTextureAnimationFrame() noexcept;
+	void debugControll() noexcept;
 	sf::IntRect m_textureRect;
 	sf::Texture m_texture;
 	std::clock_t m_clock;
+	bool m_debugControll;
 
 };
 

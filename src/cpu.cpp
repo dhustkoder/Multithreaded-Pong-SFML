@@ -40,11 +40,12 @@ void Cpu::initializer()
 
 void Cpu::update() noexcept
 {
-	if (m_ball.getVelocity().x > 0
+	
+	const auto &ballVelocity = m_ball.getVelocity();
+
+	if (ballVelocity.x > 0
 		&& static_cast<Seconds>(std::clock() - m_reactionDelayClock) > m_reactionDelayTime)
 	{
-
-		const auto &ballVelocity = m_ball.getVelocity();
 		const auto &ballPosition = m_ball.getPosition();
 
 		const auto ballCollisionPosition =
@@ -59,10 +60,9 @@ void Cpu::update() noexcept
 
 		else
 		{
-			m_velocity->y = (ballCollisionPosition.y < this->getTop() ) ? 
-				((this->getTop() > 0) ? -defaultCpuVelocity : 0) 
-				: 
-				((this->getBottom() < GameWindow::Height ) ? defaultCpuVelocity : 0);
+			m_velocity->y = (ballCollisionPosition.y < this->getTop() ) 
+				? ((this->getTop() > 0) ? -defaultCpuVelocity : 0) 
+				: ((this->getBottom() < GameWindow::Height ) ? defaultCpuVelocity : 0);
 
 			m_shape->move(*m_velocity);
 		}
@@ -77,41 +77,37 @@ void Cpu::update() noexcept
 		}
 	}
 
-	
+	return;
 }
 
 
 
 static sf::Vector2f calculateBallCollisionPosition(float x, float y, const float velX, const float velY, const float leftLimit)
 {
-	enum DIRECTION { RightUp, RightDown };
-	DIRECTION direction = (velY < 0) ? RightUp : RightDown;
-
 	const auto absVelY = std::abs(velY);
-
-	switch (direction)
+	
+	// ball is going RightUp
+	if (velY < 0)
 	{
-		case DIRECTION::RightUp:
-			while (x < leftLimit && y > 0) {
-				x += velX;
-				y -= absVelY;
-			}
+		while (x < leftLimit && y > 0) {
+			x += velX;
+			y -= absVelY;
+		}
 
-			if (x < leftLimit && y <= 0) // ball hited the roof
-				return calculateBallCollisionPosition(x, y, velX, -velY, leftLimit);
-			
-			break;
+		if (x < leftLimit && y <= 0) // ball hited the roof
+			return calculateBallCollisionPosition(x, y, velX, -velY, leftLimit);
+	}
 
-		case DIRECTION::RightDown:
-			while (x < leftLimit && y < GameWindow::Height) {
-				x += velX;
-				y += absVelY;
-			}
+	// ball is going RightDown
+	else
+	{
+		while (x < leftLimit && y < GameWindow::Height) {
+			x += velX;
+			y += absVelY;
+		}
 
-			if (x < leftLimit && y >= GameWindow::Height) // ball hited the ground
-				return calculateBallCollisionPosition(x, y, velX, -velY, leftLimit);
-			
-			break;
+		if (x < leftLimit && y >= GameWindow::Height) // ball hited the ground
+			return calculateBallCollisionPosition(x, y, velX, -velY, leftLimit);
 	}
 
 	return { x, y };

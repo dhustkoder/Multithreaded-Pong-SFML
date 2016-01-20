@@ -76,7 +76,7 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 	}
 }
 
-
+#include <iostream>
 
 void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 {
@@ -91,16 +91,18 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 		{
 			updateObjects(player1, adverPaddle, ball);
 
-			if (ball.checkForCollision(player1)) {
+			if (ball.checkForCollision(player1)) 
+			{
 				sound->play();
 				ball.treatCollision();
 			}
 			
-			else if (ball.checkForCollision(adverPaddle)) {
+			else if (ball.checkForCollision(adverPaddle)) 
+			{
 				sound->play();
 				ball.treatCollision();
 			}
-			
+		
 			doInputAndCollisionProcess = false; // wait until next round...
 		}
 		
@@ -110,6 +112,32 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 }
 
 
+void ballDebug()
+{
+	auto mainWindowUnique = GameWindow::makeUniqueWindow({ 400, 640 });
+	player1.setPosition(Shape::Position::LeftSide);
 
+	// create the rest of game objects
+	auto ballUnique = std::make_unique<Ball>();
+	auto adverPaddleUnique = std::make_unique<Cpu>(*ballUnique);
+	
+	ballUnique->setDebugControll();
+	adverPaddleUnique->setPosition(Shape::Position::RightSide);
+	
+
+	// start game and input and collision thread
+	isGameRunning = true;
+	auto input_and_collision_thread =
+		std::make_unique<std::thread>(process_input_and_collision,
+			std::ref(*ballUnique), std::ref(*adverPaddleUnique));
+
+	// call mainGameLoop, the loop which controlls window and thread access
+	mainGameLoop(*mainWindowUnique, *ballUnique, *adverPaddleUnique);
+
+	// stop game wait thread to return, exit
+	isGameRunning = false;
+	input_and_collision_thread->join();
+
+}
 
 

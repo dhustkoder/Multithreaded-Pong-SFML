@@ -1,6 +1,5 @@
 #include "pch.h"
 
-#include <iostream>
 int main()
 {
 
@@ -11,7 +10,7 @@ int main()
 	// single player and multiplayer test
 	startGame(GameMode::SinglePlayer);
 	//startGame(GameMode::MultiplayerLocal);
-	
+	//ballDebug();
 
 	
 	/*

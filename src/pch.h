@@ -8,6 +8,7 @@
 #include <thread>
 #include <atomic>
 #include <memory>
+#include <random>
 #include <string>
 #ifdef __linux__
 #include <X11/Xlib.h>
