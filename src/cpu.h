@@ -17,13 +17,13 @@ public:
 	
 	//uses the given size
 	Cpu(const float sizeX, const float sizeY, const Shape &ball) noexcept;
-	void setReactionDuration(Seconds reactionTime);
-	void setReactionDelay(Seconds reactionDelay);
+	void setReactionDuration(const Seconds reactionDuration) noexcept;
+	void setReactionDelay(const Seconds reactionDelay) noexcept;
 	void update() noexcept override;
 	bool isReady() noexcept override;
 
 private:
-	void initializer();
+	void initializer() noexcept;
 
 
 private:

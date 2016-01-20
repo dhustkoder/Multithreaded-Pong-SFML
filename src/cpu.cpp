@@ -3,6 +3,13 @@
 
 static sf::Vector2f calculateBallCollisionPosition(float x, float y, const float velX, const float velY, const float leftLimit);
 
+void Cpu::initializer() noexcept
+{
+	m_reactionDurationClock = 0;
+	m_reactionDelayClock = std::clock();
+	this->setReactionDuration(defaultReactionDurationTime);
+	this->setReactionDelay(defaultReactionDelayTime);
+}
 
 
 Cpu::Cpu(const Shape &ball) noexcept : 
@@ -18,31 +25,22 @@ Cpu::Cpu(const float sizeX, const float sizeY, const Shape &ball) noexcept :
 	initializer();
 }
 
-void Cpu::setReactionDuration(Seconds reactionTime)
+void Cpu::setReactionDuration(const Seconds reactionDuration) noexcept
 {
-	m_reactionDurationTime = static_cast<Seconds>(CLOCKS_PER_SEC) * reactionTime;
+	m_reactionDurationTime = static_cast<Seconds>(CLOCKS_PER_SEC) * reactionDuration;
 }
 
-void Cpu::setReactionDelay(Seconds reactionDelay)
+void Cpu::setReactionDelay(const Seconds reactionDelay) noexcept
 {
 	m_reactionDelayTime = static_cast<Seconds>(CLOCKS_PER_SEC) * reactionDelay;
 }
-
-void Cpu::initializer()
-{
-	m_reactionDurationClock = 0;
-	m_reactionDelayClock = std::clock();
-	this->setReactionDuration(defaultReactionDurationTime);
-	this->setReactionDelay(defaultReactionDelayTime);
-}
-
 
 
 void Cpu::update() noexcept
 {
 	
 	const auto &ballVelocity = m_ball.getVelocity();
-
+	ballVelocity == *m_velocity;
 	if (ballVelocity.x > 0
 		&& static_cast<Seconds>(std::clock() - m_reactionDelayClock) > m_reactionDelayTime)
 	{

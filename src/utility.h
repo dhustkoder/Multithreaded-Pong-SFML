@@ -11,7 +11,7 @@
 
 // enumerators to underlying-type
 template<typename E>
-std::underlying_type_t<E> toUType(E enumerator) noexcept
+constexpr std::underlying_type_t<E> toUType(E enumerator) noexcept
 {
 	return static_cast<std::underlying_type_t<E>>(enumerator);
 }
@@ -55,8 +55,6 @@ cexpr_mul(const T x, const T2 y) noexcept
 {
 	return x * toUType(y); 
 }
-
-
 
 #endif // UTILITY_H
 
