@@ -193,7 +193,7 @@ static float genVelocity(const float min, const float max, const bool allowZero)
 
 float getPercent(const float value, const float percentage)
 {
-	return (value / 100) * percentage;
+	return (value * 0.01) * percentage;
 }
 
 
