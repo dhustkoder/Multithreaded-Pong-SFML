@@ -24,18 +24,15 @@ public:
 private:
 	void updateTextureDirectionFrame() noexcept;
 	void updateTextureAnimationFrame() noexcept;
-	void debugControll() noexcept;
+
+private:
 	sf::IntRect m_textureRect;
 	sf::Texture m_texture;
+	sf::IntRect m_explosionRect;
 	sf::Texture m_explosionTexture;
 	sf::Sprite m_explosionSprite;
 	std::clock_t m_clock;
-
-#ifdef P_DEBUG
-	bool m_debugControll;
-public:
-	void setDebugControll() { m_debugControll = !m_debugControll; }
-#endif
+	bool m_drawingExplosion;
 };
 
 

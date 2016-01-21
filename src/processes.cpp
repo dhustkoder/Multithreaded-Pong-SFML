@@ -9,7 +9,6 @@
 
 // main global variables
 static Player player1;
-
 static std::atomic<bool> isGameRunning(false);
 static std::atomic<bool> doInputAndCollisionProcess(false);
 
@@ -112,6 +111,17 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 }
 
 
+
+
+
+
+
+
+
+
+
+
+/*
 void ballDebug()
 {
 	auto mainWindowUnique = GameWindow::makeUniqueWindow({ 400, 640 });
@@ -139,5 +149,4 @@ void ballDebug()
 	input_and_collision_thread->join();
 
 }
-
-
+*/

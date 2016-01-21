@@ -4,7 +4,7 @@
 
 class Player final : public Paddle
 {
-	constexpr static auto playerVelocity = 4.0F;
+	constexpr static auto defaultVelocity = 4.0F;
 public:
 	// uses DefaultPaddleSize
 	Player() noexcept;

@@ -31,9 +31,9 @@ void Player::setKeys(const sf::Keyboard::Key keyUp, const sf::Keyboard::Key keyD
 void Player::update() noexcept
 {
 	if (sf::Keyboard::isKeyPressed(m_kUp) && getTop() >= 0)
-		m_velocity->y = -playerVelocity;
+		m_velocity->y = -defaultVelocity;
 	else if (sf::Keyboard::isKeyPressed(m_kDown) && getBottom() <= GameWindow::Height)
-		m_velocity->y = playerVelocity;	
+		m_velocity->y = defaultVelocity;	
 	else
 		m_velocity->y = 0;
 

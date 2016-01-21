@@ -40,7 +40,7 @@ void Cpu::update() noexcept
 {
 	
 	const auto &ballVelocity = m_ball.getVelocity();
-	ballVelocity == *m_velocity;
+
 	if (ballVelocity.x > 0
 		&& static_cast<Seconds>(std::clock() - m_reactionDelayClock) > m_reactionDelayTime)
 	{
@@ -84,7 +84,7 @@ static sf::Vector2f calculateBallCollisionPosition(float x, float y, const float
 {
 	const auto absVelY = std::abs(velY);
 	
-	// ball is going RightUp
+	// ball is going Up
 	if (velY < 0)
 	{
 		while (x < leftLimit && y > 0) {
@@ -96,7 +96,7 @@ static sf::Vector2f calculateBallCollisionPosition(float x, float y, const float
 			return calculateBallCollisionPosition(x, y, velX, -velY, leftLimit);
 	}
 
-	// ball is going RightDown
+	// ball is going Down
 	else
 	{
 		while (x < leftLimit && y < GameWindow::Height) {
