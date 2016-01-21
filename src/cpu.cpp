@@ -79,8 +79,7 @@ void Cpu::update() noexcept
 }
 
 
-
-static sf::Vector2f calculateBallCollisionPosition(float x, float y, const float velX, const float velY, const float leftLimit)
+sf::Vector2f calculateBallCollisionPosition(float x, float y, const float velX, const float velY, const float leftLimit)
 {
 	const auto absVelY = std::abs(velY);
 	

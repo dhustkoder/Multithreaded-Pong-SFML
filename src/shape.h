@@ -121,7 +121,7 @@ inline void Shape::draw(sf::RenderTarget &target, sf::RenderStates states) const
 template<typename ...Ts>
 constexpr static void updateObjects(Ts&& ...args) noexcept 
 {
-	return (void) constexpr std::initializer_list<int>
+	return (void) std::initializer_list<int>
 	{
 		(std::forward<Ts>(args).update(), 0)...
 	};

@@ -17,6 +17,7 @@ Ball::Ball() noexcept :
 	m_velocity->y = m_velocity->x = defaultVelocity;
 	m_texture.loadFromFile("../Resources/balltexture");
 	m_shape->setTexture(&m_texture);
+	m_shape->setScale(3,3);
 	this->setPosition(Position::Middle);
 	updateTextureDirectionFrame();
 
@@ -139,7 +140,7 @@ void Ball::updateTextureAnimationFrame() noexcept
 	const auto averageVel = 
 		static_cast<std::clock_t>((std::abs(m_velocity->x) + std::abs(m_velocity->y)) / 2);
 
-	if ((std::clock() - m_clock) > CLOCKS_PER_SEC / (averageVel + 20))
+	if ((std::clock() - m_clock) > cexpr_div(CLOCKS_PER_SEC, (clock_t)20) + averageVel)
 	{
 		++textureFrame;
 		if (textureFrame > 7)
@@ -177,7 +178,7 @@ void Ball::updateTextureAnimationFrame() noexcept
 
 
 
-static float genVelocity(const float min, const float max, const bool allowZero)
+float genVelocity(const float min, const float max, const bool allowZero)
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
