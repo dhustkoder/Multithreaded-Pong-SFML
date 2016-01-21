@@ -45,7 +45,7 @@ public:
 	// To check if given Shapes are still in collision, just call
 	// 'Shape::isIntersectingWith(second)'. 
 	bool checkForCollision(Shape& second) noexcept;
-	
+
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	virtual void update() noexcept = 0;
 
@@ -118,9 +118,9 @@ inline void Shape::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 
 template<typename ...Ts>
-static void updateObjects(Ts&& ...args) noexcept 
+constexpr static void updateObjects(Ts&& ...args) noexcept 
 {
-	return (void)std::initializer_list<int>
+	return (void) constexpr std::initializer_list<int>
 	{
 		(std::forward<Ts>(args).update(), 0)...
 	};
