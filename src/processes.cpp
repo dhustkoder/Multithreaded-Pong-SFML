@@ -75,7 +75,6 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 	}
 }
 
-#include <iostream>
 
 void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 {
@@ -109,8 +108,6 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 			std::this_thread::yield();
 	}
 }
-
-
 
 
 
