@@ -47,6 +47,7 @@ public:
 	bool checkForCollision(Shape& second) noexcept;
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	virtual void treatCollision() noexcept { };
 	virtual void update() noexcept = 0;
 
 protected:
@@ -57,7 +58,7 @@ protected:
 protected:
 	std::unique_ptr<sf::Shape> m_shape;
 	std::unique_ptr<sf::Vector2f> m_velocity;
-	mutable Shape* m_intersectingShape;
+	Shape* m_intersectingShape;
 	float m_horizontalCompensation, m_verticalCompensation;
 
 };

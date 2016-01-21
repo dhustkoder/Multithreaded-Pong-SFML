@@ -59,8 +59,8 @@ void Cpu::update() noexcept
 		else
 		{
 			m_velocity->y = (ballCollisionPosition.y < this->getTop() ) 
-				? ((this->getTop() > 0) ? -defaultCpuVelocity : 0) 
-				: ((this->getBottom() < GameWindow::Height ) ? defaultCpuVelocity : 0);
+				? ((this->getTop() > 0) ? -defaultVelocity : 0) 
+				: ((this->getBottom() < GameWindow::Height ) ? defaultVelocity : 0);
 
 			m_shape->move(*m_velocity);
 		}
