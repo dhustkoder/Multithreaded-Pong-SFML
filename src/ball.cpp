@@ -9,9 +9,9 @@ static float getPercent(const float value, const float percentage) noexcept;
 // (it cant take ref to constexpr static member)
 Ball::Ball() noexcept : 
 	Shape({ defaultRadius, defaultRadius }, std::make_unique<sf::CircleShape>(float(defaultRadius))),
+	m_clock(std::clock()),
 	m_textureRect(0, 0, defaultTextureWidth, defaultTextureHeight),
 	m_explosionRect(m_textureRect),
-	m_clock(std::clock()),
 	m_drawingExplosion(false)
 {
 	m_velocity->y = m_velocity->x = defaultVelocity;
@@ -190,7 +190,7 @@ float genVelocity(const float min, const float max, const bool allowZero) noexce
 
 float getPercent(const float value, const float percentage) noexcept
 {
-	return (value * 0.01) * percentage;
+	return (value * 0.01f) * percentage;
 }
 
 

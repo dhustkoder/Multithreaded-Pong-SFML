@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\ball.cpp" />
     <ClCompile Include="..\..\src\cpu.cpp" />
+    <ClCompile Include="..\..\src\effects.cpp" />
     <ClCompile Include="..\..\src\gamescore.cpp" />
     <ClCompile Include="..\..\src\gamewindow.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
@@ -157,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\ball.h" />
     <ClInclude Include="..\..\src\cpu.h" />
+    <ClInclude Include="..\..\src\effects.h" />
     <ClInclude Include="..\..\src\gamescore.h" />
     <ClInclude Include="..\..\src\gamewindow.h" />
     <ClInclude Include="..\..\src\paddle.h" />
@@ -165,6 +167,7 @@
     <ClInclude Include="..\..\src\player.h" />
     <ClInclude Include="..\..\src\processes.h" />
     <ClInclude Include="..\..\src\shape.h" />
+    <ClInclude Include="..\..\src\timewrp.h" />
     <ClInclude Include="..\..\src\utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

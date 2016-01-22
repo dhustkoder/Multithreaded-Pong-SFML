@@ -27,15 +27,6 @@ Cpu::Cpu(const float sizeX, const float sizeY, const Shape &ball) noexcept :
 	initializer();
 }
 
-void Cpu::setReactionDuration(const Seconds reactionDuration) noexcept
-{
-	m_reactionDurationTime = static_cast<Seconds>(CLOCKS_PER_SEC) * reactionDuration;
-}
-
-void Cpu::setReactionDelay(const Seconds reactionDelay) noexcept
-{
-	m_reactionDelayTime = static_cast<Seconds>(CLOCKS_PER_SEC) * reactionDelay;
-}
 
 
 void Cpu::update() noexcept
@@ -44,7 +35,7 @@ void Cpu::update() noexcept
 	const auto &ballVelocity = m_ball.getVelocity();
 
 	if (ballVelocity.x > 0
-		&& static_cast<Seconds>(std::clock() - m_reactionDelayClock) > m_reactionDelayTime)
+		&& (std::clock() - m_reactionDelayClock) > m_reactionDelayTime)
 	{
 		const auto &ballPosition = m_ball.getPosition();
 
@@ -71,7 +62,7 @@ void Cpu::update() noexcept
 		if (m_reactionDurationClock == 0) // check if is first reaction
 			m_reactionDurationClock = std::clock();
 
-		else if (static_cast<Seconds>(std::clock() - m_reactionDurationClock) > m_reactionDurationTime) {
+		else if ((std::clock() - m_reactionDurationClock) > m_reactionDurationTime) {
 			m_reactionDelayClock = std::clock();
 			m_reactionDurationClock = 0;
 		}

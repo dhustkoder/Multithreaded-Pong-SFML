@@ -1,13 +1,10 @@
 #ifndef CPU_H
 #define CPU_H
-#include <ctime>
 #include "paddle.h"
-
-
+#include "timewrp.h"
 
 class Cpu final : public Paddle
 {
-	using Seconds = float;
 	constexpr static auto defaultVelocity = 4.5f;
 	constexpr static Seconds defaultReactionDurationTime = 0.5f; // seconds
 	constexpr static Seconds defaultReactionDelayTime = 0.3f;
@@ -36,11 +33,20 @@ private:
 
 
 
-inline bool Cpu::isReady() noexcept {
+inline 
+bool Cpu::isReady() noexcept {
 	return true;
 }
 
+inline
+void Cpu::setReactionDuration(const Seconds reactionDuration) noexcept {
+	m_reactionDurationTime = reactionDuration;
+};
 
+inline
+void Cpu::setReactionDelay(const Seconds reactionDelay) noexcept {
+	m_reactionDelayTime = reactionDelay;
+}
 
 
 #endif // CPU_H
