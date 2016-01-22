@@ -7,7 +7,7 @@ enum class GameMode
 	MultiplayerLocal
 };
 
-void startGame(GameMode mode);
+void startGame(const GameMode mode);
 
 
 

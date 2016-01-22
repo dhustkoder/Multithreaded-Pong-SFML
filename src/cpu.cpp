@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "cpu.h"
 
-static sf::Vector2f calculateBallCollisionPosition(float x, float y, const float velX, const float velY, const float leftLimit);
+static sf::Vector2f calculateBallCollisionPosition(float x, float y, 
+	const float velX, const float velY, const float leftLimit) noexcept;
 
 void Cpu::initializer() noexcept
 {
@@ -17,6 +18,7 @@ Cpu::Cpu(const Shape &ball) noexcept :
 {
 	initializer();
 }
+
 
 Cpu::Cpu(const float sizeX, const float sizeY, const Shape &ball) noexcept : 
 	Paddle(sizeX, sizeY),
@@ -79,7 +81,8 @@ void Cpu::update() noexcept
 }
 
 
-sf::Vector2f calculateBallCollisionPosition(float x, float y, const float velX, const float velY, const float leftLimit)
+sf::Vector2f calculateBallCollisionPosition(float x, float y, 
+	const float velX, const float velY, const float leftLimit) noexcept
 {
 	const auto absVelY = std::abs(velY);
 	

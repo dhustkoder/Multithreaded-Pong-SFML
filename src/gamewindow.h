@@ -13,7 +13,7 @@ public:
 
 public:
 	static std::unique_ptr<GameWindow> 
-		makeUniqueWindow(sf::VideoMode &&mode = {defaultWidth, defaultHeight, 32},
+		makeUniqueWindow(const sf::VideoMode &&mode = {defaultWidth, defaultHeight, 32},
 				 const char* windowName = "Game-Window") noexcept;
 	static std::unique_ptr<GameWindow> 
 		makeUniqueWindow(const char* windowName) noexcept;
@@ -30,7 +30,7 @@ public:
 	void drawAndDisplay(Ts&& ...args) noexcept;
 
 private:
-	GameWindow(sf::VideoMode&&, const char*) noexcept;
+	GameWindow(const sf::VideoMode&&, const char*) noexcept;
 
 
 	sf::RenderWindow m_renderWindow;

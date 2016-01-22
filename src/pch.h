@@ -31,7 +31,5 @@
 #include "particlesystem/particle.h"
 
 
-#define P_DEBUG
-
 
 #endif

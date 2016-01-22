@@ -18,7 +18,7 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept;
 void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle) noexcept;
 
 // main functions
-void startGame(GameMode mode)
+void startGame(const GameMode mode)
 {
 	auto mainWindowUnique = GameWindow::makeUniqueWindow({400, 640});
 	player1.setPosition(Shape::Position::LeftSide);
@@ -89,14 +89,12 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 		{
 			updateObjects(player1, adverPaddle, ball);
 
-			if (ball.checkForCollision(player1)) 
-			{
+			if (ball.checkForCollision(player1)) {
 				sound->play();
 				ball.treatCollision();
 			}
 			
-			else if (ball.checkForCollision(adverPaddle)) 
-			{
+			else if (ball.checkForCollision(adverPaddle)) {
 				sound->play();
 				ball.treatCollision();
 			}

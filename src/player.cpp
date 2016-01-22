@@ -4,7 +4,8 @@
 
 
 Player::Player() noexcept : 
-	m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
+	m_kUp(sf::Keyboard::Up), 
+	m_kDown(sf::Keyboard::Down)
 {
 	m_shape->setFillColor(sf::Color::White);
 }
@@ -12,7 +13,8 @@ Player::Player() noexcept :
 
 Player::Player(const float sizeX, const float sizeY) noexcept : 
 	Paddle(sizeX, sizeY),
-	m_kUp(sf::Keyboard::Up), m_kDown(sf::Keyboard::Down)
+	m_kUp(sf::Keyboard::Up), 
+	m_kDown(sf::Keyboard::Down)
 {
 	m_shape->setFillColor(sf::Color::White);
 

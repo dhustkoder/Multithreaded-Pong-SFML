@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "ball.h"
 
-static float genVelocity(const float min, const float max, const bool allowZero = false);
-static float getPercent(const float value, const float percentage);
+static float genVelocity(const float min, const float max, const bool allowZero = false) noexcept;
+static float getPercent(const float value, const float percentage) noexcept;
 
 
 // float(defaultRadius) for clang/gcc, because make_unique take args by ref 
@@ -17,7 +17,6 @@ Ball::Ball() noexcept :
 	m_velocity->y = m_velocity->x = defaultVelocity;
 	m_texture.loadFromFile("../Resources/balltexture");
 	m_shape->setTexture(&m_texture);
-	m_shape->setScale(3,3);
 	this->setPosition(Position::Middle);
 	updateTextureDirectionFrame();
 
@@ -33,7 +32,6 @@ Ball::Ball() noexcept :
 
 void Ball::treatCollision() noexcept
 {
-	updateIntersectingShape();
 	if (m_intersectingShape == nullptr)
 		return;
 
@@ -138,7 +136,7 @@ void Ball::updateTextureAnimationFrame() noexcept
 {
 	static int textureFrame = 0;
 	const auto averageVel = 
-		static_cast<std::clock_t>((std::abs(m_velocity->x) + std::abs(m_velocity->y)) / 2);
+		static_cast<std::clock_t>((std::abs(m_velocity->x) + std::abs(m_velocity->y)) / 2.f);
 
 	if ((std::clock() - m_clock) > cexpr_div(CLOCKS_PER_SEC, (clock_t)20) + averageVel)
 	{
@@ -157,16 +155,14 @@ void Ball::updateTextureAnimationFrame() noexcept
 		static int explLeft = 0;
 		static int explTop = 0;
 
-		++explLeft;
-		if (explLeft > 3)
+		
+		if (++explLeft > 3)
 		{
-			++explTop;
-			if (explTop > 3) {
-				m_explosionRect.left = m_explosionRect.top = explLeft = explTop = 0;
-				m_drawingExplosion = false;
+			explLeft = 0;
+			if (++explTop > 3) {
+				m_drawingExplosion = m_explosionRect.left = m_explosionRect.top = explLeft = explTop = 0;
 				return;
 			}
-			explLeft = 0;
 		}
 
 		m_explosionRect.left = defaultTextureWidth * explLeft;
@@ -178,7 +174,7 @@ void Ball::updateTextureAnimationFrame() noexcept
 
 
 
-float genVelocity(const float min, const float max, const bool allowZero)
+float genVelocity(const float min, const float max, const bool allowZero) noexcept
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -192,7 +188,7 @@ float genVelocity(const float min, const float max, const bool allowZero)
 
 }
 
-float getPercent(const float value, const float percentage)
+float getPercent(const float value, const float percentage) noexcept
 {
 	return (value * 0.01) * percentage;
 }
