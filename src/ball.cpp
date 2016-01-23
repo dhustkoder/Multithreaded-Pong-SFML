@@ -5,10 +5,9 @@ static float genVelocity(const float min, const float max, const bool allowZero 
 static float getPercent(const float value, const float percentage) noexcept;
 
 
-// float(defaultRadius) for clang/gcc, because make_unique take args by ref 
-// (it cant take ref to constexpr static member)
+constexpr float Ball::defaultRadius;
 Ball::Ball() noexcept : 
-	Shape({ defaultRadius, defaultRadius }, std::make_unique<sf::CircleShape>(float(defaultRadius))),
+	Shape({ defaultRadius, defaultRadius }, std::make_unique<sf::CircleShape>(defaultRadius)),
 	m_clock(std::clock()),
 	m_textureRect(0, 0, defaultTextureWidth, defaultTextureHeight),
 	m_explosionRect(m_textureRect),
