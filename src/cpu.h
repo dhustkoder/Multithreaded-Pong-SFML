@@ -6,7 +6,7 @@
 class Cpu final : public Paddle
 {
 	constexpr static auto defaultVelocity = 4.5f;
-	constexpr static Seconds defaultReactionDurationTime = 0.5f; // seconds
+	constexpr static Seconds defaultReactionDurationTime = 0.5f;
 	constexpr static Seconds defaultReactionDelayTime = 0.3f;
 public:
 	// uses defaultPaddleSize

@@ -4,7 +4,7 @@ project(mtPong)
 cmake_minimum_required(VERSION 3.4)
 
 #compiler
-set(CMAKE_CXX_COMPILER "clang++")
+set(CMAKE_CXX_COMPILER "g++")
 
 #precompiled header - path
 set(PRECOMPILED_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/src/pch.h")

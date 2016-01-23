@@ -4,6 +4,10 @@
 static sf::Vector2f calculateBallCollisionPosition(float x, float y, 
 	const float velX, const float velY, const float leftLimit) noexcept;
 
+
+
+constexpr Seconds Cpu::defaultReactionDurationTime;
+constexpr Seconds Cpu::defaultReactionDelayTime;
 void Cpu::initializer() noexcept
 {
 	m_reactionDurationClock = 0;
