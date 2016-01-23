@@ -137,7 +137,7 @@ void Ball::updateTextureAnimationFrame() noexcept
 	const auto averageVel = 
 		static_cast<std::clock_t>((std::abs(m_velocity->x) + std::abs(m_velocity->y)) / 2.f);
 
-	if ((std::clock() - m_clock) > cexpr_div(CLOCKS_PER_SEC, (clock_t)20) + averageVel)
+	if ((std::clock() - m_clock) > cexpr_div(CLOCKS_PER_SEC, (clock_t)20) * averageVel)
 	{
 		++textureFrame;
 		if (textureFrame > 7)

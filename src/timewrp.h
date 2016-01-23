@@ -38,9 +38,9 @@ private:
 
 private:
 	constexpr static float mul(const float x, const float y) noexcept { return x * y; }
-	constexpr static std::clock_t toClock_t(const float value) noexcept {
+	constexpr static std::clock_t toClock_t(float value) noexcept {
 		return ((value - static_cast<std::clock_t>(value)) > 0.4f) 
-					? static_cast<std::clock_t>(value + 1)
+					? static_cast<std::clock_t>(++value)
 					: static_cast<std::clock_t>(value);
 	}
 
