@@ -8,12 +8,9 @@ struct Seconds
 	Seconds() noexcept = default;
 	
 	constexpr Seconds(const float seconds) noexcept :
-		m_seconds(0) 
+		m_seconds(toClock_t(mul((float)CLOCKS_PER_SEC, seconds))) 
 	{
-		const float result = mul((float)CLOCKS_PER_SEC, seconds);
-		m_seconds = static_cast<std::clock_t>(result);
-		if(( result - static_cast<float>(m_seconds)) > 0.4f)
-			++m_seconds;
+		
 	}
 	
 	constexpr Seconds(const Seconds& rhs) noexcept :
@@ -28,11 +25,7 @@ struct Seconds
 	}
 	
 	Seconds& operator=(const float seconds) noexcept {
-		const float result = static_cast<float>(CLOCKS_PER_SEC) * seconds;
-		m_seconds = result;
-		if( (result - m_seconds) > 0.4f)
-			++m_seconds;
-		
+		m_seconds = toClock_t(mul((float)CLOCKS_PER_SEC, seconds));
 		return *this;
 	}
 
@@ -45,6 +38,11 @@ private:
 
 private:
 	constexpr static float mul(const float x, const float y) noexcept { return x * y; }
+	constexpr static std::clock_t toClock_t(const float value) noexcept {
+		return ((value - static_cast<std::clock_t>(value)) > 0.4f) 
+					? static_cast<std::clock_t>(value + 1)
+					: static_cast<std::clock_t>(value);
+	}
 
 };
 
