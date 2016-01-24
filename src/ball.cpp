@@ -10,19 +10,14 @@ Ball::Ball() noexcept :
 	Shape({ defaultRadius, defaultRadius }, std::make_unique<sf::CircleShape>(defaultRadius)),
 	m_clock(std::clock()),
 	m_textureRect(0, 0, defaultTextureWidth, defaultTextureHeight),
-	m_explosionRect(m_textureRect),
-	m_drawingExplosion(false)
+	m_explosionEffect("../Resources/explosion", {defaultTextureWidth, defaultTextureHeight},
+	{cexpr_mul(defaultTextureWidth, 3), cexpr_mul(defaultTextureHeight, 3)})
 {
 	m_velocity->y = m_velocity->x = defaultVelocity;
 	m_texture.loadFromFile("../Resources/balltexture");
 	m_shape->setTexture(&m_texture);
 	this->setPosition(Position::Middle);
 	updateTextureDirectionFrame();
-
-	m_explosionTexture.loadFromFile("../Resources/explosion");
-	m_explosionSprite.setTexture(m_explosionTexture);
-	m_explosionSprite.setTextureRect({ 0,0,64,64 });
-	m_explosionSprite.setOrigin(32, 32);
 
 }
 
@@ -50,9 +45,9 @@ void Ball::treatCollision() noexcept
 	
 	updateTextureDirectionFrame();
 	
-	if (!m_drawingExplosion) {
-		m_drawingExplosion = true;
-		m_explosionSprite.setPosition(this->getPosition());
+	if (!m_explosionEffect.isActive()) {
+		m_explosionEffect.active();
+		m_explosionEffect.setPosition(this->getPosition());
 	}
 }
 
@@ -79,8 +74,11 @@ void Ball::update() noexcept
 		updateTextureDirectionFrame();
 	}
 
+	
 	updateTextureAnimationFrame();
 	m_shape->move(*m_velocity);
+	m_explosionEffect.update();
+	
 
 }
 
@@ -89,9 +87,8 @@ void Ball::update() noexcept
 void Ball::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	target.draw(*m_shape, states);
-	if(m_drawingExplosion)
-		target.draw(m_explosionSprite, states);
-	
+	if (m_explosionEffect.isActive())
+		m_explosionEffect.draw(target, states);
 	
 	
 
@@ -147,26 +144,6 @@ void Ball::updateTextureAnimationFrame() noexcept
 		m_shape->setTextureRect(m_textureRect);
 
 		m_clock = std::clock();
-	}
-
-	if (m_drawingExplosion)
-	{
-		static int explLeft = 0;
-		static int explTop = 0;
-
-		
-		if (++explLeft > 3)
-		{
-			explLeft = 0;
-			if (++explTop > 3) {
-				m_drawingExplosion = m_explosionRect.left = m_explosionRect.top = explLeft = explTop = 0;
-				return;
-			}
-		}
-
-		m_explosionRect.left = defaultTextureWidth * explLeft;
-		m_explosionRect.top = defaultTextureHeight * explTop;
-		m_explosionSprite.setTextureRect(m_explosionRect);
 	}
 }
 

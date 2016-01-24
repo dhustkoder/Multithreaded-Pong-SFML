@@ -4,7 +4,6 @@
 #include <type_traits>
 #include <SFML/System/Vector2.hpp>
 
-
 #define LOG(x, ...) printf(x "\n", ##__VA_ARGS__)
 #define LOGerr(x, ...) fprintf(stderr, x "\n", ##__VA_ARGS__)
 

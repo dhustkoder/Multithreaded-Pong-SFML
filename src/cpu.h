@@ -5,9 +5,9 @@
 
 class Cpu final : public Paddle
 {
-	constexpr static auto defaultVelocity = 4.5f;
-	constexpr static Seconds defaultReactionDurationTime = 1.f;
-	constexpr static Seconds defaultReactionDelayTime = 1.f;
+	static constexpr auto defaultVelocity = 4.5f;
+	static constexpr Seconds defaultReactionDurationTime = 1.f;
+	static constexpr Seconds defaultReactionDelayTime = 1.f;
 public:
 	// uses defaultPaddleSize
 	Cpu(const Shape &ball) noexcept;

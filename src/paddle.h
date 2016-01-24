@@ -7,8 +7,8 @@
 
 class Paddle : public Shape
 {
-	constexpr static float defaultWidth = 15;
-	constexpr static float defaultHeight = 80;
+	static constexpr float defaultWidth = 15;
+	static constexpr float defaultHeight = 80;
 public:
 
 	Paddle() noexcept :

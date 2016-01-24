@@ -56,8 +56,9 @@ void startGame(const GameMode mode)
 
 }
 
+#include <condition_variable>
 
-
+std::condition_variable cond;
 void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle) noexcept
 {
 	while (mainWin.isOpen())
@@ -65,11 +66,10 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 		doInputAndCollisionProcess = true;
 		mainWin.clear(sf::Color::Black);
 		mainWin.updateWindowState();
-		
+	
 		while (doInputAndCollisionProcess)
 			std::this_thread::yield();
-
-
+		
 		mainWin.drawAndDisplay(player1, adverPaddle, ball);
 	}
 }
@@ -84,7 +84,7 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 
 	while (isGameRunning)
 	{
-		if(doInputAndCollisionProcess)
+		if (doInputAndCollisionProcess)
 		{
 			updateObjects(player1, adverPaddle, ball);
 
@@ -92,15 +92,15 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
 				sound->play();
 				ball.treatCollision();
 			}
-			
+
 			else if (ball.checkForCollision(adverPaddle)) {
 				sound->play();
 				ball.treatCollision();
 			}
-		
+
 			doInputAndCollisionProcess = false; // wait until next round...
 		}
-		
+
 		else
 			std::this_thread::yield();
 	}

@@ -24,7 +24,6 @@ Cpu::Cpu(const float sizeX, const float sizeY, const Shape &ball) noexcept :
 }
 
 
-#include <iostream>
 void Cpu::update() noexcept
 {
 	
@@ -46,7 +45,7 @@ void Cpu::update() noexcept
 		if (ballCollisionPosition.y >= this->getTop()
 			&& ballCollisionPosition.y <= this->getBottom()) 
 		{
-			return;
+			return; // yeah, does nothing
 		}
 
 		else
@@ -60,7 +59,6 @@ void Cpu::update() noexcept
 
 	}
 
-	return;
 }
 
 

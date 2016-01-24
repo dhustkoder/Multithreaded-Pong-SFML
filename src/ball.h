@@ -3,14 +3,15 @@
 #include <ctime>
 #include <SFML/Graphics/Texture.hpp>
 #include "shape.h"
+#include "effects.h"
 
 class Ball final : public Shape
 {
 	
-	constexpr static float defaultVelocity = 2.5;
-	constexpr static float defaultRadius = 15;
-	constexpr static int defaultTextureWidth = 64;
-	constexpr static int defaultTextureHeight = 64;
+	static constexpr float defaultVelocity = 2.5;
+	static constexpr float defaultRadius = 15;
+	static constexpr int defaultTextureWidth = 64;
+	static constexpr int defaultTextureHeight = 64;
 	enum class BallTextureDirection {
 		Left, UpLeft, Up, UpRight, Right, DownRight, Down, DownLeft
 	};
@@ -29,11 +30,8 @@ private:
 	std::clock_t m_clock;
 	sf::IntRect m_textureRect;
 	sf::Texture m_texture;
-	sf::IntRect m_explosionRect;
-	sf::Texture m_explosionTexture;
-	sf::Sprite m_explosionSprite;
+	SpriteEffect m_explosionEffect;
 
-	bool m_drawingExplosion;
 };
 
 

@@ -30,17 +30,25 @@ struct Seconds
 		return *this;
 	}
 
-	// implicit clock_t conversion
+	// implicit clock_t conversion / operators
 	constexpr operator std::clock_t() const noexcept {
 		return m_seconds;
 	}
+
+	template<typename T>
+	typename std::enable_if<std::is_integral<T>::value, Seconds&>::type
+	operator/(const T x) noexcept {
+		m_seconds /= static_cast<std::clock_t>(x);
+		return *this;
+	}
+
 private:
 	std::clock_t m_seconds;
 
 private:
-	constexpr static float mul(const float x, const float y) noexcept { return x * y; }
-	constexpr static std::clock_t toClock_t(float value) noexcept {
-		return ((value - static_cast<std::clock_t>(value)) > 0.4f) 
+	static constexpr float mul(const float x, const float y) noexcept { return x * y; }
+	static constexpr std::clock_t toClock_t(float value) noexcept {
+		return ((value - static_cast<std::clock_t>(value)) > 0.5f) 
 					? static_cast<std::clock_t>(++value)
 					: static_cast<std::clock_t>(value);
 	}
@@ -89,6 +97,8 @@ public:
 			return false;
 	}
 
+	struct ChronoGuard;
+
 private:
 	std::clock_t m_clock;
 	Seconds m_seconds;
@@ -97,5 +107,15 @@ private:
 };
 
 
+struct Chrono::ChronoGuard
+{
+public:
+		// this make sure to call start on a Chrono object at the end of scope
+		ChronoGuard(Chrono& ref) : m_chronoRef(ref) {}
+		~ChronoGuard() { m_chronoRef.start(); }
+private:
+		Chrono& m_chronoRef;
+	
+};
 
 #endif
