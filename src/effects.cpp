@@ -20,29 +20,25 @@ SpriteEffect::SpriteEffect(const char* spriteSheetFile, const sf::Vector2i sprit
 
 void SpriteEffect::update() noexcept
 {
-	if (m_isActive)
+	if ( m_isActive && m_frameDelay.finished() )
 	{
-		if (m_frameDelay.finished())
+		Chrono::ChronoGuard cGuard(m_frameDelay);
+		if (m_textureRect.left == m_maxLeftAndTop.x)
 		{
-			Chrono::ChronoGuard cGuard(m_frameDelay);
-			if (m_textureRect.left == m_maxLeftAndTop.x)
-			{
-				if (m_textureRect.top == m_maxLeftAndTop.y) {
-					m_textureRect.left = m_textureRect.top = 0;
-					m_isActive = false;
-				}
-
-				else {
-					m_textureRect.left = 0;
-					m_textureRect.top += m_textureRect.height;
-				}
+			if (m_textureRect.top == m_maxLeftAndTop.y) {
+				m_textureRect.left = m_textureRect.top = 0;
+				m_isActive = false;
 			}
-			else
-				m_textureRect.left += m_textureRect.width;
-			
-			m_sprite.setTextureRect(m_textureRect);
-		}
 
+			else {
+				m_textureRect.left = 0;
+				m_textureRect.top += m_textureRect.height;
+			}
+		}
+		else
+			m_textureRect.left += m_textureRect.width;
 		
+		m_sprite.setTextureRect(m_textureRect);
 	}
+
 }
