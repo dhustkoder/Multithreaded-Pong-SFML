@@ -103,25 +103,25 @@ void Ball::updateTextureDirectionFrame() noexcept
 	const auto absVelX = std::abs(m_velocity->x);
 	const auto absVelY = std::abs(m_velocity->y);
 
-	if (m_velocity->x < 0 && absVelY < getPercent(absVelX, 30))
+	if (m_velocity->x < 0 && absVelY < getPercent(absVelX, 45))
 		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::Left);
 	
 	else if (m_velocity->x < 0 && m_velocity->y < 0)
 		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::UpLeft);
 
-	else if (m_velocity->y < 0 && absVelX < getPercent(absVelY, 30))
+	else if (m_velocity->y < 0 && absVelX < getPercent(absVelY, 45))
 		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::Up);
 	
 	else if (m_velocity->x > 0 && m_velocity->y < 0)
 		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::UpRight);
 	
-	else if (m_velocity->x > 0 && absVelY < getPercent(absVelX, 30))
+	else if (m_velocity->x > 0 && absVelY < getPercent(absVelX, 45))
 		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::Right);
 	
 	else if (m_velocity->x > 0 && m_velocity->y > 0)
 		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::DownRight);
 	
-	else if (m_velocity->y > 0 && absVelX < getPercent(absVelY, 30))
+	else if (m_velocity->y > 0 && absVelX < getPercent(absVelY, 45))
 		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::Down);
 	
 	else if (m_velocity->x < 0 && m_velocity->y > 0)

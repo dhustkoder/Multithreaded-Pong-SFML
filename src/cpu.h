@@ -20,11 +20,9 @@ public:
 	bool isReady() noexcept override;
 
 private:
-	void initialize() noexcept;
-
 	const Shape &m_ball;
-	Chrono m_reactionDuration;
-	Chrono m_reactionDelay;
+	Chrono m_reactionDuration = {defaultReactionDurationTime};
+	Chrono m_reactionDelay = { defaultReactionDelayTime, true };
 };
 
 

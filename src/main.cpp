@@ -16,8 +16,7 @@ int main()
 	//ballDebug();
 
 
- 
-	
+
 	/*
 	auto mainWinUnique = GameWindow::makeUniqueWindow();
 	auto *mainWin = mainWinUnique.get();

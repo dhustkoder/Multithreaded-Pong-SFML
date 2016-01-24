@@ -51,7 +51,6 @@ private:
 class Chrono
 {
 public:
-	Chrono(std::clock_t, bool) = delete;
 	Chrono() noexcept :
 		m_clock(0),
 		m_seconds(0),
@@ -60,10 +59,10 @@ public:
 
 	}
 
-	Chrono(const Seconds timeToElapse, bool startNow = false)  noexcept :
+	Chrono(const Seconds timeToElapse, const bool startNow = false)  noexcept :
 		m_clock((startNow ? std::clock() : 0)),
 		m_seconds(timeToElapse),
-		m_isRunning(startNow ? true : false)
+		m_isRunning(startNow)
 	{
 
 	}
@@ -76,7 +75,6 @@ public:
 		return m_isRunning;
 	}
 	
-	
 	void start() noexcept {
 		m_isRunning = true;
 		m_clock = std::clock();
@@ -85,20 +83,17 @@ public:
 
 	bool finished() noexcept
 	{
-		if (m_isRunning && (std::clock() - m_clock) > m_seconds) {
-			m_isRunning = false;
-			return true;
-		}
+		if ((std::clock() - m_clock) > m_seconds)
+			return ! (m_isRunning = false); // assign false to m_isRunning, and return true
 		else
 			return false;
 	}
 
-
-	
 private:
 	std::clock_t m_clock;
 	Seconds m_seconds;
 	bool m_isRunning;
+
 };
 
 
