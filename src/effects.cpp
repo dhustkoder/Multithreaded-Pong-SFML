@@ -39,8 +39,10 @@ void SpriteEffect::update() noexcept
 			}
 			else
 				m_textureRect.left += m_textureRect.width;
+			
+			m_sprite.setTextureRect(m_textureRect);
 		}
 
-		m_sprite.setTextureRect(m_textureRect);
+		
 	}
 }
