@@ -9,7 +9,7 @@ class SpriteEffect : sf::Drawable
 {
 	static constexpr unsigned defaultFramesPerSec = 15;
 public:
-	SpriteEffect(const char* spriteSheetFile, const sf::Vector2i spriteSize, const sf::Vector2i leftAndTopMax) noexcept;
+	SpriteEffect(const char* spriteSheetFile, const sf::Vector2i& spriteSize, const sf::Vector2i& leftAndTopMax) noexcept;
 	bool isActive() const noexcept;
 	void setActive() noexcept;
 	void setFps(const unsigned fps) noexcept;
@@ -24,7 +24,6 @@ private:
 	sf::Sprite m_sprite;
 	sf::IntRect m_textureRect;
 	sf::Vector2i m_maxLeftAndTop;
-	ParticleSystem m_particleSys;
 	Chrono m_frameDelay;
 };
 
@@ -46,12 +45,10 @@ inline void SpriteEffect::setPosition(const float x, const float y) noexcept {
 
 inline void SpriteEffect::setPosition(const sf::Vector2f& pos) noexcept {
 	m_sprite.setPosition(pos);
-	m_particleSys.setPosition(pos);
 }
 
 inline void SpriteEffect::draw(sf::RenderTarget& target, const sf::RenderStates states) const {
 		target.draw(m_sprite, states);
-		m_particleSys.draw(target, states);
 }
 
 

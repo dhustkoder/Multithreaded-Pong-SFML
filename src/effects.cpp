@@ -3,11 +3,10 @@
 
 
 constexpr unsigned SpriteEffect::defaultFramesPerSec;
-SpriteEffect::SpriteEffect(const char* spriteSheetFile, const sf::Vector2i spriteSize, const sf::Vector2i leftAndTopMax) noexcept :
+SpriteEffect::SpriteEffect(const char* spriteSheetFile, const sf::Vector2i& spriteSize, const sf::Vector2i& leftAndTopMax) noexcept :
 	m_isActive(false),
 	m_textureRect(0, 0, spriteSize.x, spriteSize.y),
 	m_maxLeftAndTop(leftAndTopMax),
-	m_particleSys({GameWindow::Width, GameWindow::Height}),
 	m_frameDelay(Seconds(1) / defaultFramesPerSec )
 {
 	m_texture.loadFromFile(spriteSheetFile);
@@ -40,8 +39,6 @@ void SpriteEffect::update() noexcept
 			m_textureRect.left += m_textureRect.width;
 		
 		m_sprite.setTextureRect(m_textureRect);
-		m_particleSys.update(0.5);
-		m_particleSys.fuel(20);
 	}
 
 }
