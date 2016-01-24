@@ -6,8 +6,8 @@
 class Cpu final : public Paddle
 {
 	constexpr static auto defaultVelocity = 4.5f;
-	constexpr static Seconds defaultReactionDurationTime = 0.5f;
-	constexpr static Seconds defaultReactionDelayTime = 0.3f;
+	constexpr static Seconds defaultReactionDurationTime = 1.f;
+	constexpr static Seconds defaultReactionDelayTime = 1.f;
 public:
 	// uses defaultPaddleSize
 	Cpu(const Shape &ball) noexcept;
@@ -20,15 +20,11 @@ public:
 	bool isReady() noexcept override;
 
 private:
-	void initializer() noexcept;
+	void initialize() noexcept;
 
-
-private:
 	const Shape &m_ball;
-	std::clock_t m_reactionDurationClock;
-	std::clock_t m_reactionDelayClock;
-	Seconds m_reactionDurationTime;
-	Seconds m_reactionDelayTime;
+	Chrono m_reactionDuration;
+	Chrono m_reactionDelay;
 };
 
 
@@ -40,12 +36,12 @@ bool Cpu::isReady() noexcept {
 
 inline
 void Cpu::setReactionDuration(const Seconds reactionDuration) noexcept {
-	m_reactionDurationTime = reactionDuration;
+	m_reactionDuration.setTime(reactionDuration);
 };
 
 inline
 void Cpu::setReactionDelay(const Seconds reactionDelay) noexcept {
-	m_reactionDelayTime = reactionDelay;
+	m_reactionDelay.setTime(reactionDelay);
 }
 
 

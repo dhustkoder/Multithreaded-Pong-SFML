@@ -8,19 +8,18 @@ static sf::Vector2f calculateBallCollisionPosition(float x, float y,
 
 constexpr Seconds Cpu::defaultReactionDurationTime;
 constexpr Seconds Cpu::defaultReactionDelayTime;
-void Cpu::initializer() noexcept
-{
-	m_reactionDurationClock = 0;
-	m_reactionDelayClock = std::clock();
-	this->setReactionDuration(defaultReactionDurationTime);
-	this->setReactionDelay(defaultReactionDelayTime);
-}
 
+void Cpu::initialize() noexcept
+{
+	m_reactionDuration.setTime(defaultReactionDurationTime);
+	m_reactionDelay.setTime(defaultReactionDelayTime);
+	m_reactionDelay.start();
+}
 
 Cpu::Cpu(const Shape &ball) noexcept : 
 	m_ball(ball)
 {
-	initializer();
+	initialize();
 }
 
 
@@ -28,19 +27,28 @@ Cpu::Cpu(const float sizeX, const float sizeY, const Shape &ball) noexcept :
 	Paddle(sizeX, sizeY),
 	m_ball(ball)
 {
-	initializer();
+	initialize();
 }
 
 
-
+#include <iostream>
 void Cpu::update() noexcept
 {
 	
 	const auto &ballVelocity = m_ball.getVelocity();
 
-	if (ballVelocity.x > 0
-		&& (std::clock() - m_reactionDelayClock) > m_reactionDelayTime)
+	if (ballVelocity.x > 0 && m_reactionDelay.finished())
 	{
+		if (!m_reactionDuration.isRunning()) {// check if is first reaction
+			m_reactionDuration.start();
+			std::cout << "cpu started reaction" << std::endl;
+		}
+		else if (m_reactionDuration.finished()) {// reaction duration ends, start delay
+			m_reactionDelay.start();
+			std::cout << "cpu stop reacting" << std::endl;
+			return;
+		}
+
 		const auto &ballPosition = m_ball.getPosition();
 
 		const auto ballCollisionPosition =
@@ -62,14 +70,6 @@ void Cpu::update() noexcept
 			m_shape->move(*m_velocity);
 		}
 
-
-		if (m_reactionDurationClock == 0) // check if is first reaction
-			m_reactionDurationClock = std::clock();
-
-		else if ((std::clock() - m_reactionDurationClock) > m_reactionDurationTime) {
-			m_reactionDelayClock = std::clock();
-			m_reactionDurationClock = 0;
-		}
 	}
 
 	return;

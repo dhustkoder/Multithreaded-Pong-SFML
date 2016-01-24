@@ -16,6 +16,7 @@ struct Seconds
 	constexpr Seconds(const Seconds& rhs) noexcept :
 		m_seconds(rhs.m_seconds)
 	{
+		
 	}
 
 	// assignments
@@ -44,6 +45,60 @@ private:
 					: static_cast<std::clock_t>(value);
 	}
 
+};
+
+
+class Chrono
+{
+public:
+	Chrono(std::clock_t, bool) = delete;
+	Chrono() noexcept :
+		m_clock(0),
+		m_seconds(0),
+		m_isRunning(false)
+	{
+
+	}
+
+	Chrono(const Seconds timeToElapse, bool startNow = false)  noexcept :
+		m_clock((startNow ? std::clock() : 0)),
+		m_seconds(timeToElapse),
+		m_isRunning(startNow ? true : false)
+	{
+
+	}
+	
+	void setTime(const Seconds newSecs) noexcept {
+		m_seconds = newSecs;
+	}
+
+	bool isRunning() const noexcept {
+		return m_isRunning;
+	}
+	
+	
+	void start() noexcept {
+		m_isRunning = true;
+		m_clock = std::clock();
+	}
+
+
+	bool finished() noexcept
+	{
+		if (m_isRunning && (std::clock() - m_clock) > m_seconds) {
+			m_isRunning = false;
+			return true;
+		}
+		else
+			return false;
+	}
+
+
+	
+private:
+	std::clock_t m_clock;
+	Seconds m_seconds;
+	bool m_isRunning;
 };
 
 
