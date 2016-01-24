@@ -46,7 +46,7 @@ void Ball::treatCollision() noexcept
 	updateTextureDirectionFrame();
 	
 	if (!m_explosionEffect.isActive()) {
-		m_explosionEffect.active();
+		m_explosionEffect.setActive();
 		m_explosionEffect.setPosition(this->getPosition());
 	}
 }
