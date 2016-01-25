@@ -8,7 +8,12 @@
 class Shape : public sf::Drawable
 {
 public:
-	enum class Position;
+	enum class Position
+	{
+		LeftSide,
+		RightSide,
+		Middle
+	};
 
 public:
 	Shape(const Shape&) = delete;
@@ -19,7 +24,7 @@ public:
 	/// you need to create a shape in the constructor
 	/// and give a origin
 	////////////////////////////////////////////////////////////
-	Shape(const sf::Vector2f& origin, std::unique_ptr<sf::Shape>&& shape) throw(std::invalid_argument);
+	Shape(const sf::Vector2f& origin, std::unique_ptr<sf::Shape>&& shape);
 
 	virtual ~Shape(){}
 	void setCompensation(const float h, const float v) noexcept;
@@ -111,12 +116,7 @@ protected:
 
 };
 
-enum class Shape::Position
-{
-	LeftSide,
-	RightSide,
-	Middle
-};
+
 
 inline float Shape::getRight() const noexcept {
 	return m_shape->getPosition().x + m_horizontalCompensation;

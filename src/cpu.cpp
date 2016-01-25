@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "cpu.h"
+#include "Cpu.h"
 
 static sf::Vector2f calculateBallCollisionPosition(float x, float y, 
 	const float velX, const float velY, const float leftLimit) noexcept;
@@ -9,7 +9,7 @@ static sf::Vector2f calculateBallCollisionPosition(float x, float y,
 constexpr Seconds Cpu::defaultReactionDurationTime;
 constexpr Seconds Cpu::defaultReactionDelayTime;
 
-Cpu::Cpu(const Shape &ball)  
+Cpu::Cpu(const Shape &ball) 
 try :
 	Paddle(),
 	m_ball(ball)
@@ -33,7 +33,7 @@ catch (std::bad_alloc& err) {
 }
 
 
-void Cpu::update() noexcept
+void Cpu::update() 
 {
 	
 	const auto &ballVelocity = m_ball.getVelocity();

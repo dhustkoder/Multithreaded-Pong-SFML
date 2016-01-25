@@ -1,7 +1,7 @@
 #ifndef CPU_H
 #define CPU_H
-#include "paddle.h"
-#include "timewrp.h"
+#include "Paddle.h"
+#include "Timewrp.h"
 
 class Cpu final : public Paddle
 {
@@ -13,11 +13,11 @@ public:
 	Cpu(const Shape &ball);
 	
 	//uses the given size
-	Cpu(const float sizeX, const float sizeY, const Shape &ball) noexcept;
+	Cpu(const float sizeX, const float sizeY, const Shape &ball);
 	void setReactionDuration(const Seconds reactionDuration) noexcept;
 	void setReactionDelay(const Seconds reactionDelay) noexcept;
-	void update() noexcept override;
-	bool isReady() noexcept override;
+	void update() override;
+	bool isReady() override;
 
 private:
 	const Shape &m_ball;
@@ -28,9 +28,10 @@ private:
 
 
 inline 
-bool Cpu::isReady() noexcept {
+bool Cpu::isReady() {
 	return true;
 }
+
 
 inline
 void Cpu::setReactionDuration(const Seconds reactionDuration) noexcept {

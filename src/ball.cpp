@@ -1,33 +1,42 @@
 #include "pch.h"
-#include "ball.h"
+#include "Ball.h"
 
 static float genVelocity(const float min, const float max, const bool allowZero = false) noexcept;
 static float getPercent(const float value, const float percentage) noexcept;
 
 
+
+// static constexpr members definitions
+// for linker, (only the static constexpr members which are
+// used in a reference or pointer context must be defined here)
 constexpr float Ball::defaultRadius;
-Ball::Ball() 
-try : 
+constexpr char* Ball::defaultTextureFile;
+constexpr char* Ball::defaultExplosionFile;
+
+
+Ball::Ball() :
 	Shape({ defaultRadius, defaultRadius }, std::make_unique<sf::CircleShape>(defaultRadius)),
 	m_clock(std::clock()),
-	m_textureRect(0, 0, defaultTextureWidth, defaultTextureHeight),
-	m_explosionEffect("../Resources/explosion", {defaultTextureWidth, defaultTextureHeight},
-	{cexpr_mul(defaultTextureWidth, 3), cexpr_mul(defaultTextureHeight, 3)})
+	m_textureRect(0, 0, defaultTextureWidth, defaultTextureHeight)
 {
-	if (!m_texture.loadFromFile("../Resources/balltexture"))
-		throw FileNotFoundException("file not found: '../Resources/balltexture'");
+	if (!m_texture.loadFromFile(defaultTextureFile))
+		throw FileNotFoundException(std::string("file not found: ") + defaultTextureFile);
+
+	try {
+		m_explosionEffect.loadSpriteSheet(defaultExplosionFile, { defaultTextureWidth, defaultTextureHeight },
+		{ cexpr_mul(defaultTextureWidth, 3), cexpr_mul(defaultTextureHeight, 3) });
+	}
+	catch (FileNotFoundException& err) {
+		throw err;
+	}
+
 
 	m_velocity->y = m_velocity->x = defaultVelocity;
 	m_shape->setTexture(&m_texture);
 	this->setPosition(Position::Middle);
 	updateTextureDirectionFrame();
 }
-catch (std::bad_alloc& err) {
-	throw err;
-}
-catch (FileNotFoundException& err) {
-	throw err;
-}
+
 
 
 

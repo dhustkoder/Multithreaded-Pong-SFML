@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "gamescore.h"
-#include "player.h"
-#include "cpu.h"
-#include "ball.h"
+#include "Player.h"
+#include "Cpu.h"
+#include "Ball.h"
 
 
 
@@ -14,8 +14,8 @@ static std::atomic<bool> doInputAndCollisionProcess(false);
 
 
 // functions declaration
-void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept;
-void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle) noexcept;
+void process_input_and_collision(Ball& ball, Paddle& adverPaddle);
+void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle);
 
 // main functions
 void startGame(const GameMode mode)
@@ -55,10 +55,9 @@ void startGame(const GameMode mode)
 
 }
 
-#include <condition_variable>
 
-std::condition_variable cond;
-void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle) noexcept
+
+void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle)
 {
 	while (mainWin.isOpen())
 	{
@@ -74,7 +73,7 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 }
 
 
-void process_input_and_collision(Ball& ball, Paddle& adverPaddle) noexcept
+void process_input_and_collision(Ball& ball, Paddle& adverPaddle)
 {
 	//load sound to memory
 	auto soundBuff = std::make_unique<sf::SoundBuffer>();

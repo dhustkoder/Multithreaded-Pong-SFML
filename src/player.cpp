@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "player.h"
+#include "Player.h"
 
 
 
-Player::Player() noexcept : 
+Player::Player() : 
 	m_kUp(sf::Keyboard::Up), 
 	m_kDown(sf::Keyboard::Down)
 {
@@ -11,7 +11,7 @@ Player::Player() noexcept :
 }
 
 
-Player::Player(const float sizeX, const float sizeY) noexcept : 
+Player::Player(const float sizeX, const float sizeY) : 
 	Paddle(sizeX, sizeY),
 	m_kUp(sf::Keyboard::Up), 
 	m_kDown(sf::Keyboard::Down)
@@ -30,7 +30,7 @@ void Player::setKeys(const sf::Keyboard::Key keyUp, const sf::Keyboard::Key keyD
 
 
 
-void Player::update() noexcept
+void Player::update()
 {
 	if (sf::Keyboard::isKeyPressed(m_kUp) && getTop() >= 0)
 		m_velocity->y = -defaultVelocity;
@@ -42,7 +42,7 @@ void Player::update() noexcept
 	m_shape->move(*m_velocity);
 }
 
-bool Player::isReady() noexcept {
+bool Player::isReady() {
 	return true;
 }
 

@@ -18,6 +18,35 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Ball.h" />
+    <ClInclude Include="..\..\src\Cpu.h" />
+    <ClInclude Include="..\..\src\Exceptions.h" />
+    <ClInclude Include="..\..\src\gamescore.h" />
+    <ClInclude Include="..\..\src\GameWindow.h" />
+    <ClInclude Include="..\..\src\Paddle.h" />
+    <ClInclude Include="..\..\src\ParticleSystem\Particle.h" />
+    <ClInclude Include="..\..\src\pch.h" />
+    <ClInclude Include="..\..\src\Player.h" />
+    <ClInclude Include="..\..\src\Processes.h" />
+    <ClInclude Include="..\..\src\Shape.h" />
+    <ClInclude Include="..\..\src\SpriteEffect.h" />
+    <ClInclude Include="..\..\src\Timewrp.h" />
+    <ClInclude Include="..\..\src\Utility.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Ball.cpp" />
+    <ClCompile Include="..\..\src\Cpu.cpp" />
+    <ClCompile Include="..\..\src\gamescore.cpp" />
+    <ClCompile Include="..\..\src\GameWindow.cpp" />
+    <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\ParticleSystem\Particle.cpp" />
+    <ClCompile Include="..\..\src\pch.cpp" />
+    <ClCompile Include="..\..\src\Player.cpp" />
+    <ClCompile Include="..\..\src\Processes.cpp" />
+    <ClCompile Include="..\..\src\Shape.cpp" />
+    <ClCompile Include="..\..\src\SpriteEffect.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DBECB377-5EA8-4484-BDC4-64C0F7FC7ABD}</ProjectGuid>
     <RootNamespace>project</RootNamespace>
@@ -142,35 +171,6 @@
       <AdditionalDependencies>sfml-system-s.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;ogg.lib;flac.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\src\ball.cpp" />
-    <ClCompile Include="..\..\src\cpu.cpp" />
-    <ClCompile Include="..\..\src\effects.cpp" />
-    <ClCompile Include="..\..\src\gamescore.cpp" />
-    <ClCompile Include="..\..\src\gamewindow.cpp" />
-    <ClCompile Include="..\..\src\main.cpp" />
-    <ClCompile Include="..\..\src\particlesystem\particle.cpp" />
-    <ClCompile Include="..\..\src\pch.cpp" />
-    <ClCompile Include="..\..\src\player.cpp" />
-    <ClCompile Include="..\..\src\processes.cpp" />
-    <ClCompile Include="..\..\src\shape.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\src\ball.h" />
-    <ClInclude Include="..\..\src\cpu.h" />
-    <ClInclude Include="..\..\src\effects.h" />
-    <ClInclude Include="..\..\src\exceptions.h" />
-    <ClInclude Include="..\..\src\gamescore.h" />
-    <ClInclude Include="..\..\src\gamewindow.h" />
-    <ClInclude Include="..\..\src\paddle.h" />
-    <ClInclude Include="..\..\src\particlesystem\particle.h" />
-    <ClInclude Include="..\..\src\pch.h" />
-    <ClInclude Include="..\..\src\player.h" />
-    <ClInclude Include="..\..\src\processes.h" />
-    <ClInclude Include="..\..\src\shape.h" />
-    <ClInclude Include="..\..\src\timewrp.h" />
-    <ClInclude Include="..\..\src\utility.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

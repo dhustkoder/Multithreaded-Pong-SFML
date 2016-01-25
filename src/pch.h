@@ -25,10 +25,10 @@
 
 
 // headers which do not change very often
-#include "gamewindow.h"
-#include "processes.h"
-#include "utility.h"
-#include "particlesystem/particle.h"
+#include "GameWindow.h"
+#include "Processes.h"
+#include "Utility.h"
+#include "ParticleSystem/Particle.h"
 
 
 

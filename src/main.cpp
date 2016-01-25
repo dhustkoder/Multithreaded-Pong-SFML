@@ -1,6 +1,5 @@
 #include "pch.h"
-#include "player.h"
-
+#include "SpriteEffect.h"
 
 int main()
 {
@@ -14,6 +13,8 @@ int main()
 	startGame(GameMode::SinglePlayer);
 	//startGame(GameMode::MultiplayerLocal);
 	//ballDebug();
+	
+	
 	
 	
 	/*

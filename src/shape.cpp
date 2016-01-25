@@ -1,9 +1,8 @@
 #include "pch.h"
-#include "shape.h"
+#include "Shape.h"
 
 
-
-Shape::Shape(const sf::Vector2f& origin, std::unique_ptr<sf::Shape>&& shape) throw(std::invalid_argument) :
+Shape::Shape(const sf::Vector2f& origin, std::unique_ptr<sf::Shape>&& shape) :
 	m_shape(std::move(shape)), 
 	m_velocity(new sf::Vector2f()),
 	m_intersectingShape(nullptr),
@@ -87,7 +86,4 @@ bool Shape::updateIntersectingShape() noexcept
 
 	else
 		return true;
-
-	
-	
 }

@@ -36,7 +36,7 @@ struct Seconds
 	}
 
 	template<typename T>
-	typename std::enable_if<std::is_integral<T>::value, Seconds&>::type
+	std::enable_if_t<std::is_integral<T>::value, Seconds&>
 	operator/(const T x) noexcept {
 		m_seconds /= static_cast<std::clock_t>(x);
 		return *this;
@@ -111,7 +111,7 @@ struct Chrono::ChronoGuard
 {
 public:
 		// this make sure to call start on a Chrono object at the end of scope
-		ChronoGuard(Chrono& ref) : m_chronoRef(ref) {}
+		ChronoGuard(Chrono& ref) noexcept : m_chronoRef(ref) {}
 		~ChronoGuard() { m_chronoRef.start(); }
 private:
 		Chrono& m_chronoRef;
