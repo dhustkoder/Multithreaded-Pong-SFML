@@ -3,17 +3,20 @@
 
 
 constexpr unsigned SpriteEffect::defaultFramesPerSec;
-SpriteEffect::SpriteEffect(const char* spriteSheetFile, const sf::Vector2i& spriteSize, const sf::Vector2i& leftAndTopMax) noexcept :
+SpriteEffect::SpriteEffect(const char* spriteSheetFile, const sf::Vector2i& spriteSize, 
+	const sf::Vector2i& leftAndTopMax) throw(FileNotFoundException) :
+	m_frameDelay(Seconds(1) / defaultFramesPerSec),
 	m_isActive(false),
 	m_textureRect(0, 0, spriteSize.x, spriteSize.y),
-	m_maxLeftAndTop(leftAndTopMax),
-	m_frameDelay(Seconds(1) / defaultFramesPerSec )
+	m_maxLeftAndTop(leftAndTopMax)
+	
 {
-	m_texture.loadFromFile(spriteSheetFile);
+	if (!m_texture.loadFromFile(spriteSheetFile))
+		throw std::runtime_error(std::string("file not found: ") + spriteSheetFile);
+
 	m_sprite.setTexture(m_texture);
 	m_sprite.setTextureRect(m_textureRect);
 	m_sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-
 }
 
 

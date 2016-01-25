@@ -2,6 +2,7 @@
 #define EFFECTS_H
 #include <SFML/Graphics/Drawable.hpp>
 #include "particlesystem/particle.h"
+#include "exceptions.h"
 #include "timewrp.h"
 
 
@@ -9,7 +10,9 @@ class SpriteEffect : sf::Drawable
 {
 	static constexpr unsigned defaultFramesPerSec = 15;
 public:
-	SpriteEffect(const char* spriteSheetFile, const sf::Vector2i& spriteSize, const sf::Vector2i& leftAndTopMax) noexcept;
+	SpriteEffect(const char* spriteSheetFile, const sf::Vector2i& spriteSize, 
+		const sf::Vector2i& leftAndTopMax) throw(FileNotFoundException);
+
 	bool isActive() const noexcept;
 	void setActive() noexcept;
 	void setFps(const unsigned fps) noexcept;
@@ -20,11 +23,12 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 private:
 	bool m_isActive;
+	Chrono m_frameDelay;
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 	sf::IntRect m_textureRect;
 	sf::Vector2i m_maxLeftAndTop;
-	Chrono m_frameDelay;
+	
 };
 
 inline void SpriteEffect::setActive() noexcept {

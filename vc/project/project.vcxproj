@@ -159,6 +159,7 @@
     <ClInclude Include="..\..\src\ball.h" />
     <ClInclude Include="..\..\src\cpu.h" />
     <ClInclude Include="..\..\src\effects.h" />
+    <ClInclude Include="..\..\src\exceptions.h" />
     <ClInclude Include="..\..\src\gamescore.h" />
     <ClInclude Include="..\..\src\gamewindow.h" />
     <ClInclude Include="..\..\src\paddle.h" />

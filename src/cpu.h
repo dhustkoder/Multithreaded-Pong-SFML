@@ -10,7 +10,7 @@ class Cpu final : public Paddle
 	static constexpr Seconds defaultReactionDelayTime = 1.f;
 public:
 	// uses defaultPaddleSize
-	Cpu(const Shape &ball) noexcept;
+	Cpu(const Shape &ball);
 	
 	//uses the given size
 	Cpu(const float sizeX, const float sizeY, const Shape &ball) noexcept;

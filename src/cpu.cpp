@@ -9,18 +9,27 @@ static sf::Vector2f calculateBallCollisionPosition(float x, float y,
 constexpr Seconds Cpu::defaultReactionDurationTime;
 constexpr Seconds Cpu::defaultReactionDelayTime;
 
-Cpu::Cpu(const Shape &ball) noexcept : 
+Cpu::Cpu(const Shape &ball)  
+try :
+	Paddle(),
 	m_ball(ball)
 {
 
 }
+catch (std::bad_alloc& err) {
+	throw err;
+}
 
 
-Cpu::Cpu(const float sizeX, const float sizeY, const Shape &ball) noexcept : 
+Cpu::Cpu(const float sizeX, const float sizeY, const Shape &ball)  
+try : 
 	Paddle(sizeX, sizeY),
 	m_ball(ball)
 {
 
+}
+catch (std::bad_alloc& err) {
+	throw err;
 }
 
 

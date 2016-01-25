@@ -6,25 +6,35 @@ static float getPercent(const float value, const float percentage) noexcept;
 
 
 constexpr float Ball::defaultRadius;
-Ball::Ball() noexcept : 
+Ball::Ball() 
+try : 
 	Shape({ defaultRadius, defaultRadius }, std::make_unique<sf::CircleShape>(defaultRadius)),
 	m_clock(std::clock()),
 	m_textureRect(0, 0, defaultTextureWidth, defaultTextureHeight),
 	m_explosionEffect("../Resources/explosion", {defaultTextureWidth, defaultTextureHeight},
 	{cexpr_mul(defaultTextureWidth, 3), cexpr_mul(defaultTextureHeight, 3)})
 {
+	if (!m_texture.loadFromFile("../Resources/balltexture"))
+		throw FileNotFoundException("file not found: '../Resources/balltexture'");
+
 	m_velocity->y = m_velocity->x = defaultVelocity;
-	m_texture.loadFromFile("../Resources/balltexture");
 	m_shape->setTexture(&m_texture);
 	this->setPosition(Position::Middle);
 	updateTextureDirectionFrame();
-
+}
+catch (std::bad_alloc& err) {
+	throw err;
+}
+catch (FileNotFoundException& err) {
+	throw err;
 }
 
 
 
 
-void Ball::treatCollision() noexcept
+
+
+void Ball::treatCollision()
 {
 	if (m_intersectingShape == nullptr)
 		return;
@@ -53,7 +63,7 @@ void Ball::treatCollision() noexcept
 
 
 
-void Ball::update() noexcept
+void Ball::update()
 {
 
 	if (getLeft() <= 0) {
@@ -78,7 +88,6 @@ void Ball::update() noexcept
 	updateTextureAnimationFrame();
 	m_shape->move(*m_velocity);
 	m_explosionEffect.update();
-	
 
 }
 
@@ -89,9 +98,6 @@ void Ball::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	target.draw(*m_shape, states);
 	if (m_explosionEffect.isActive())
 		m_explosionEffect.draw(target, states);
-	
-	
-
 }
 
 

@@ -19,14 +19,13 @@ public:
 	/// you need to create a shape in the constructor
 	/// and give a origin
 	////////////////////////////////////////////////////////////
-	Shape(const sf::Vector2f& origin, const std::unique_ptr<sf::Shape>& shape) noexcept;
+	Shape(const sf::Vector2f& origin, std::unique_ptr<sf::Shape>&& shape) throw(std::invalid_argument);
 
 	virtual ~Shape(){}
 	void setCompensation(const float h, const float v) noexcept;
 	void setPosition(const float x, const float y) noexcept;
-	void setPosition(Position pos) noexcept;
+	void setPosition(const Position pos) noexcept;
 
-	sf::Shape& getShape() { return *m_shape; }
 	float getRight() const noexcept;
 	float getLeft() const noexcept;
 	float getTop() const noexcept;
@@ -82,7 +81,7 @@ public:
 	/// you can have access to the collided object 
 	///through the pointer m_intersectingShape
 	////////////////////////////////////////////////////////////
-	virtual void treatCollision() noexcept = 0;
+	virtual void treatCollision() = 0;
 	
 	
 	
@@ -92,7 +91,7 @@ public:
 	/// override this function to write the 
 	/// updates you want for your Shape object
 	//////////////////////////////////////////////////////////
-	virtual void update() noexcept = 0;
+	virtual void update() = 0;
 
 protected:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -162,7 +161,7 @@ inline void Shape::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 
 template<typename ...Ts>
-constexpr static void updateObjects(Ts&& ...args) noexcept 
+constexpr static void updateObjects(Ts&& ...args)
 {
 	return (void) std::initializer_list<int>
 	{

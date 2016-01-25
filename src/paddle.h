@@ -11,22 +11,26 @@ class Paddle : public Shape
 	static constexpr float defaultHeight = 80;
 public:
 
-	Paddle() noexcept :
-		Shape({ cexpr_div(defaultWidth, 2.f), cexpr_div(defaultHeight, 2.f) },
+	Paddle() throw(std::bad_alloc) 
+	try : Shape({ cexpr_div(defaultWidth, 2.f), cexpr_div(defaultHeight, 2.f) },
 			std::make_unique<sf::RectangleShape>(sf::Vector2f(defaultWidth, defaultHeight)))
 	{
-
 	}
+	catch (std::bad_alloc& err) {
+		throw err;
+	}
+	
 
-	Paddle(const float sizeX, const float sizeY) noexcept :
-		Shape({ sizeX / 2.f, sizeY / 2.f },
+	Paddle(const float sizeX, const float sizeY) throw(std::bad_alloc) 
+	try : Shape({ sizeX / 2.f, sizeY / 2.f },
 			std::make_unique<sf::RectangleShape>(sf::Vector2f(sizeX, sizeY)))
 	{
-
+	}
+	catch (std::bad_alloc& err) {
+		throw err;
 	}
 
 	virtual bool isReady() = 0;
-
 };
 
 

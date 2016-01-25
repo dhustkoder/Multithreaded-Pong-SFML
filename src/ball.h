@@ -17,11 +17,11 @@ class Ball final : public Shape
 	};
 public:
 	// uses window size informed for class Shape
-	Ball() noexcept;
+	Ball() throw(std::bad_alloc, FileNotFoundException);
 	
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-	void treatCollision() noexcept override;
-	void update() noexcept override;
+	void treatCollision() override;
+	void update() override;
 private:
 	void updateTextureDirectionFrame() noexcept;
 	void updateTextureAnimationFrame() noexcept;

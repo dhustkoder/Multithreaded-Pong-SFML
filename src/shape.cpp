@@ -3,13 +3,16 @@
 
 
 
-Shape::Shape(sf::Vector2f &&origin, std::unique_ptr<sf::Shape>&& shape) noexcept :
+Shape::Shape(const sf::Vector2f& origin, std::unique_ptr<sf::Shape>&& shape) throw(std::invalid_argument) :
 	m_shape(std::move(shape)), 
 	m_velocity(new sf::Vector2f()),
 	m_intersectingShape(nullptr),
 	m_horizontalCompensation(origin.x), 
 	m_verticalCompensation(origin.y)
 {
+	if (m_shape == nullptr)
+		throw std::invalid_argument("parameter 'std::unique_ptr<sf::Shape>&& shape' is a nullptr.");
+
 	m_shape->setOrigin(origin.x, origin.y);
 	m_velocity->x = 0;
 	m_velocity->y = 0;
@@ -31,16 +34,22 @@ void Shape::setPosition(const float x, const float y) noexcept
 
 
 
-void Shape::setPosition(Position pos) noexcept
+void Shape::setPosition(const Position pos) noexcept
 {
-    if(pos == Position::RightSide)
-		m_shape->setPosition((float)GameWindow::Width - m_horizontalCompensation, GameWindow::Height / 2.f);
+	switch (pos)
+	{
+		case Position::LeftSide:
+			m_shape->setPosition(m_horizontalCompensation, (float)GameWindow::Height / 2.f);
+			break;
 
-    else if(pos == Position::LeftSide)
-		m_shape->setPosition(m_horizontalCompensation,(float)GameWindow::Height / 2.f);
+		case Position::RightSide:
+			m_shape->setPosition((float)GameWindow::Width - m_horizontalCompensation, GameWindow::Height / 2.f);
+			break;
 
-    else
-		m_shape->setPosition(GameWindow::Width * 0.50f, GameWindow::Height * 0.50f);
+		case Position::Middle:
+			m_shape->setPosition(GameWindow::Width * 0.50f, GameWindow::Height * 0.50f);
+			break;
+	}
 }
 
 
