@@ -2,8 +2,23 @@
 #define TIMEWRP_H
 #include <ctime>
 
-struct Seconds
+class Seconds
 {
+	template<typename T>
+	static constexpr float inClocks(const T value) noexcept {
+		return static_cast<float>(CLOCKS_PER_SEC) * static_cast<float>(value);
+	}
+
+	template<typename T>
+	static constexpr std::enable_if_t <std::is_arithmetic<T>::value,
+		std::clock_t>
+		toSeconds(const T value) noexcept
+	{
+		return ((inClocks(value) - static_cast<std::clock_t>(value)) > 0.5f)
+			? static_cast<std::clock_t>(inClocks(value) + 1.f)
+			: static_cast<std::clock_t>(inClocks(value));
+	}
+
 public:
 	// constructors...
 	Seconds() noexcept = default;
@@ -47,24 +62,8 @@ private:
 	std::clock_t m_seconds;
 
 
-private:
-	template<typename T>
-	static constexpr float inClocks(const T value) noexcept {
-		return static_cast<float>(CLOCKS_PER_SEC) * static_cast<float>(value);
-	}
-
-	template<typename T>
-	static constexpr std::enable_if_t <std::is_arithmetic<T>::value,
-		std::clock_t>
-		toSeconds(const T value) noexcept
-	{
-		return ((inClocks(value) - static_cast<std::clock_t>(value)) > 0.5f)
-			? static_cast<std::clock_t>(inClocks(value) + 1.f)
-			: static_cast<std::clock_t>(inClocks(value));
-	}
-
-
 };
+
 
 
 class Chrono

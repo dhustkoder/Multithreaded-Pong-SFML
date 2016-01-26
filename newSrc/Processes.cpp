@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "gamescore.h"
 #include "Player.h"
 #include "Cpu.h"
 #include "Ball.h"

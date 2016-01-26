@@ -11,8 +11,8 @@ class Ball final : public Shape
 	static constexpr float defaultRadius = 15;
 	static constexpr int defaultTextureWidth = 64;
 	static constexpr int defaultTextureHeight = 64;
-	static constexpr char* defaultTextureFile = "../Resources/balltexture";
-	static constexpr char* defaultExplosionFile = "../Resources/explosion";
+	static constexpr const char* const defaultTextureFile = "../Resources/balltexture";
+	static constexpr const char* const defaultExplosionFile = "../Resources/explosion";
 
 	enum class BallTextureDirection {
 		Left, UpLeft, Up, UpRight, Right, DownRight, Down, DownLeft

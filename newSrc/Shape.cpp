@@ -53,8 +53,8 @@ bool Shape::checkForCollision(Shape &second) noexcept
 		}
 	}
 
-	else
-		return false;
+	
+	return false;
 
 }
 

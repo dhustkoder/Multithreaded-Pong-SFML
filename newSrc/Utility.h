@@ -10,7 +10,7 @@
 #define CONSOLE_PAUSE(x, ...) {LOG(x, ##__VA_ARGS__);LOG("Press To Continue..."); LOGread("%*c");}
 
 
-static void printException(const std::exception& exception,
+constexpr void printException(const std::exception& exception,
 	const char* const function, bool terminate = false)
 {
 	LOGerr("Exception caught in %s. Message: %s", 
@@ -21,7 +21,7 @@ static void printException(const std::exception& exception,
 	}
 }
 
-static void printException(const std::exception& exception,
+constexpr void printException(const std::exception& exception,
 	const char* const function, const char *const additionalMsg, bool terminate = false)
 {
 	LOGerr("Exception caught in %s. \nException Message: %s",

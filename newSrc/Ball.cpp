@@ -10,8 +10,8 @@ static float getPercent(const float value, const float percentage) noexcept;
 // for linker, (only the static constexpr members which are
 // used in a reference or pointer context must be defined here)
 constexpr float Ball::defaultRadius;
-constexpr char* Ball::defaultTextureFile;
-constexpr char* Ball::defaultExplosionFile;
+constexpr const char* const Ball::defaultTextureFile;
+constexpr const char* const Ball::defaultExplosionFile;
 
 
 Ball::Ball() :
