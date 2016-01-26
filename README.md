@@ -1,1 +1,1 @@
-Just a modification of my pong-game, with better OOP and MultiThread
+Small game Project
