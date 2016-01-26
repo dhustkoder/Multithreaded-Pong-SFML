@@ -11,7 +11,7 @@ class Paddle : public Shape
 	static constexpr float defaultHeight = 80;
 public:
 
-	Paddle() noexcept
+	Paddle()
 	try : Shape({ cexpr_div(defaultWidth, 2.f), cexpr_div(defaultHeight, 2.f) },
 			std::make_unique<sf::RectangleShape>(sf::Vector2f(defaultWidth, defaultHeight)))
 	{
@@ -21,7 +21,7 @@ public:
 	}
 	
 
-	Paddle(const float sizeX, const float sizeY) noexcept
+	Paddle(const float sizeX, const float sizeY)
 	try : Shape({ sizeX / 2.f, sizeY / 2.f },
 			std::make_unique<sf::RectangleShape>(sf::Vector2f(sizeX, sizeY)))
 	{

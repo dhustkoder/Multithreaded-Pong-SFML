@@ -116,6 +116,18 @@ protected:
 
 };
 
+inline void Shape::setCompensation(const float h, const float v) noexcept
+{
+	m_horizontalCompensation = h;
+	m_verticalCompensation = v;
+}
+
+
+
+inline void Shape::setPosition(const float x, const float y) noexcept
+{
+	m_shape->setPosition(x, y);
+};
 
 
 inline float Shape::getRight() const noexcept {

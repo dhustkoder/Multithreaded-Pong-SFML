@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Shape.h"
 
+bool areInCollision(const Shape& shp1, const Shape& shp2);
 
 Shape::Shape(const sf::Vector2f& origin, std::unique_ptr<sf::Shape>&& shape) :
 	m_shape(std::move(shape)), 
@@ -17,19 +18,6 @@ Shape::Shape(const sf::Vector2f& origin, std::unique_ptr<sf::Shape>&& shape) :
 	m_velocity->y = 0;
 }
 
-
-
-void Shape::setCompensation(const float h, const float v) noexcept
-{
-	m_horizontalCompensation = h;
-	m_verticalCompensation = v;
-}
-
-
-void Shape::setPosition(const float x, const float y) noexcept
-{
-	m_shape->setPosition(x, y);
-};
 
 
 
@@ -56,38 +44,49 @@ bool Shape::checkForCollision(Shape &second) noexcept
 {
 	
 	if (!updateIntersectingShape())
-		if (this->getBottom() >= second.getTop()
-			&& this->getTop() <= second.getBottom()
-			&& this->getLeft() <= second.getRight()
-			&& this->getRight() >= second.getLeft())
+	{
+		if (areInCollision(*this, second))
 		{
 			this->m_intersectingShape = &second;
 			second.m_intersectingShape = this;
 			return true;
 		}
+	}
 
-	return false;
+	else
+		return false;
 
 }
 
 
 bool Shape::updateIntersectingShape() noexcept
 {
+	// is not intersecting
 	if (m_intersectingShape == nullptr)
-		return true;
+		return false;
+	
 
-
-	else if (!(this->getBottom() >= m_intersectingShape->getTop())
-		|| !(this->getTop() <= m_intersectingShape->getBottom())
-		|| !(this->getLeft() <= m_intersectingShape->getRight())
-		|| !(this->getRight() >= m_intersectingShape->getLeft()))
+	else if (!areInCollision(*this, *m_intersectingShape))
 	{
-		// is no more colliding	
+		// was intersecting but is no more
 		m_intersectingShape->m_intersectingShape = nullptr;
 		m_intersectingShape = nullptr;
 		return false;
 	}
 
 	else
-		return true;
+		return true; // continues intersecting
+}
+
+
+
+
+
+
+bool areInCollision(const Shape& shp1, const Shape& shp2) {
+	return (shp1.getBottom() >= shp2.getTop()
+		&& shp1.getTop() <= shp2.getBottom()
+		&& shp1.getLeft() <= shp2.getRight()
+		&& shp1.getRight() >= shp2.getLeft());
+
 }

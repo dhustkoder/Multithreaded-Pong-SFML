@@ -8,7 +8,7 @@
 
 class SpriteEffect : sf::Drawable
 {
-	static constexpr Seconds defaultFramesPerSec = 1 / 15;
+	static constexpr Seconds defaultFramesPerSec = 1.f / 15.f;
 public:
 	SpriteEffect() noexcept;
 	
@@ -28,12 +28,11 @@ public:
 	virtual void update() noexcept;
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 private:
-	void initialize();
 
-	bool m_isActive;
-	Chrono m_frameDelay;
-	std::unique_ptr<sf::Texture> m_texture;
-	std::unique_ptr<sf::Sprite> m_sprite;
+	bool m_isActive = false;
+	Chrono m_frameDelay = defaultFramesPerSec;
+	sf::Texture m_texture;
+	sf::Sprite m_sprite;
 	sf::IntRect m_textureRect;
 	sf::Vector2i m_maxLeftAndTop;
 	
@@ -52,15 +51,15 @@ inline void SpriteEffect::setFps(const unsigned fps) noexcept {
 }
 
 inline void SpriteEffect::setPosition(const float x, const float y) noexcept {
-	m_sprite->setPosition(x, y);
+	m_sprite.setPosition(x, y);
 }
 
 inline void SpriteEffect::setPosition(const sf::Vector2f& pos) noexcept {
-	m_sprite->setPosition(pos);
+	m_sprite.setPosition(pos);
 }
 
 inline void SpriteEffect::draw(sf::RenderTarget& target, const sf::RenderStates states) const {
-		target.draw(*m_sprite, states);
+		target.draw(m_sprite, states);
 }
 
 

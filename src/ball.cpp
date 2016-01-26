@@ -22,14 +22,10 @@ Ball::Ball() :
 	if (!m_texture.loadFromFile(defaultTextureFile))
 		throw FileNotFoundException(std::string("file not found: ") + defaultTextureFile);
 
-	try {
-		m_explosionEffect.loadSpriteSheet(defaultExplosionFile, { defaultTextureWidth, defaultTextureHeight },
-		{ cexpr_mul(defaultTextureWidth, 3), cexpr_mul(defaultTextureHeight, 3) });
-	}
-	catch (FileNotFoundException& err) {
-		throw err;
-	}
 
+	m_explosionEffect.loadSpriteSheet(defaultExplosionFile, { defaultTextureWidth, defaultTextureHeight },
+	{ cexpr_mul(defaultTextureWidth, 3), cexpr_mul(defaultTextureHeight, 3) });
+	
 
 	m_velocity->y = m_velocity->x = defaultVelocity;
 	m_shape->setTexture(&m_texture);
@@ -58,9 +54,10 @@ void Ball::treatCollision()
 
 	float middle_of_ball = ( getBottom() + getTop() ) * 0.5f;
 
-	(middle_of_ball > middle_of_collided_shape)
-		? m_velocity->y = genVelocity(-defaultVelocity, defaultVelocity + 2.5f, true)
-		: m_velocity->y = genVelocity(-defaultVelocity - 2.5f, defaultVelocity, true);
+	if (middle_of_ball > middle_of_collided_shape)
+		m_velocity->y = genVelocity(-defaultVelocity, defaultVelocity + 2.5f, true);
+	else 
+		m_velocity->y = genVelocity(-defaultVelocity - 2.5f, defaultVelocity, true);
 	
 	updateTextureDirectionFrame();
 	

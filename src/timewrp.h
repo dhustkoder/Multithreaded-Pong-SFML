@@ -4,26 +4,14 @@
 
 struct Seconds
 {
+public:
 	// constructors...
 	Seconds() noexcept = default;
 	
 	constexpr Seconds(const float seconds) noexcept :
-		m_seconds(toClock_t(mul(CLOCKS_PER_SEC, seconds))) 
+		m_seconds(toSeconds(seconds))
 	{
 		
-	}
-
-	constexpr Seconds(const int seconds) noexcept :
-	m_seconds(toClock_t(mul(CLOCKS_PER_SEC, seconds)))
-	{
-
-	}
-
-
-	constexpr explicit Seconds(const std::clock_t readySecs) noexcept:
-		m_seconds(readySecs)
-	{
-
 	}
 	
 	constexpr Seconds(const Seconds& rhs) noexcept :
@@ -39,7 +27,7 @@ struct Seconds
 	}
 	
 	Seconds& operator=(const float seconds) noexcept {
-		m_seconds = toClock_t(mul(CLOCKS_PER_SEC, seconds));
+		m_seconds = toSeconds(seconds);
 		return *this;
 	}
 
@@ -58,16 +46,23 @@ struct Seconds
 private:
 	std::clock_t m_seconds;
 
+
 private:
-	template<typename T, typename T2>
-	static constexpr float mul(const T x, const T2 y) noexcept { 
-		return static_cast<float>(x) * static_cast<float>(y); 
+	template<typename T>
+	static constexpr float inClocks(const T value) noexcept {
+		return static_cast<float>(CLOCKS_PER_SEC) * static_cast<float>(value);
 	}
-	static constexpr std::clock_t toClock_t(float value) noexcept {
-		return ((value - static_cast<std::clock_t>(value)) > 0.5f) 
-					? static_cast<std::clock_t>(++value)
-					: static_cast<std::clock_t>(value);
+
+	template<typename T>
+	static constexpr std::enable_if_t <std::is_arithmetic<T>::value,
+		std::clock_t>
+		toSeconds(const T value) noexcept
+	{
+		return ((inClocks(value) - static_cast<std::clock_t>(value)) > 0.5f)
+			? static_cast<std::clock_t>(inClocks(value) + 1.f)
+			: static_cast<std::clock_t>(inClocks(value));
 	}
+
 
 };
 
