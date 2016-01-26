@@ -21,6 +21,7 @@ public:
 	~GameWindow();
 	void clear(const sf::Color color) noexcept;
 	void updateWindowState() noexcept;
+	void close() noexcept;
 	const sf::Event& getEvent() const noexcept;
 	void setSize(const unsigned Width, const unsigned Height) noexcept;
 	sf::Vector2u getSize() const noexcept;
@@ -66,6 +67,9 @@ inline void GameWindow::clear(const sf::Color color) noexcept {
 	return m_renderWindow.clear(color);
 }
 
+inline void GameWindow::close() noexcept {
+	m_renderWindow.close();
+}
 
 // sends all args to sf::RenderWindow draw fuction. 
 // (the arguments need to be implicit conversible to sf::Drawable)

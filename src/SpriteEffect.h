@@ -12,11 +12,11 @@ class SpriteEffect : sf::Drawable
 public:
 	SpriteEffect() noexcept;
 	
-	SpriteEffect(const char* spriteSheetFile, const sf::Vector2i& spriteSize, 
-		const sf::Vector2i& leftAndTopMax);
+	SpriteEffect(const char* spriteSheetFile, 
+		const sf::Vector2i& spriteSize, const sf::Vector2i& maxLeftAndTop);
 
-	void loadSpriteSheet(const char* spriteSheetFile, const sf::Vector2i& spriteSize,
-		const sf::Vector2i& leftAndTopMax);
+	void loadSpriteSheet(const char* spriteSheetFile, 
+		const sf::Vector2i& spriteSize, const sf::Vector2i& maxLeftAndTop);
 
 	bool isActive() const noexcept;
 	void setActive() noexcept;
@@ -28,6 +28,8 @@ public:
 	virtual void update() noexcept;
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 private:
+	void initialize();
+
 	bool m_isActive;
 	Chrono m_frameDelay;
 	std::unique_ptr<sf::Texture> m_texture;

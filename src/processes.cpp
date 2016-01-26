@@ -20,38 +20,53 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 // main functions
 void startGame(const GameMode mode)
 {
-	auto mainWindowUnique = GameWindow::makeUniqueWindow({400, 640});
+	auto mainWindowUnique = GameWindow::makeUniqueWindow({ 400, 640 });
 	player1.setPosition(Shape::Position::LeftSide);
 	// create the rest of game objects
-	auto ballUnique = std::make_unique<Ball>();
-	std::unique_ptr<Paddle> adverPaddleUnique;
 
-	switch (mode)
+	try
 	{
-		case GameMode::SinglePlayer:
-			adverPaddleUnique = std::make_unique<Cpu>(*ballUnique);
-			adverPaddleUnique->setPosition(Shape::Position::RightSide);
-			break;
-		
-		case GameMode::MultiplayerLocal:
-			adverPaddleUnique = std::make_unique<Player>();
-			adverPaddleUnique->setPosition(Shape::Position::RightSide);
-			static_cast<Player&>(*adverPaddleUnique).setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
-			break;
+
+		auto ballUnique = std::make_unique<Ball>();
+		std::unique_ptr<Paddle> adverPaddleUnique;
+
+		switch (mode)
+		{
+			case GameMode::SinglePlayer:
+				adverPaddleUnique = std::make_unique<Cpu>(*ballUnique);
+				adverPaddleUnique->setPosition(Shape::Position::RightSide);
+				break;
+
+			case GameMode::MultiplayerLocal:
+				adverPaddleUnique = std::make_unique<Player>();
+				adverPaddleUnique->setPosition(Shape::Position::RightSide);
+				static_cast<Player&>(*adverPaddleUnique).setKeys(sf::Keyboard::Numpad8, sf::Keyboard::Numpad2);
+				break;
+		}
+	
+
+
+		// start game and input and collision thread
+		isGameRunning = true;
+		auto input_and_collision_thread =
+			std::make_unique<std::thread>(process_input_and_collision,
+				std::ref(*ballUnique), std::ref(*adverPaddleUnique));
+
+		// call mainGameLoop, the loop which controlls window and thread access
+		mainGameLoop(*mainWindowUnique, *ballUnique, *adverPaddleUnique);
+
+		// stop game wait thread to return, exit
+		isGameRunning = false;
+		input_and_collision_thread->join();
+
 	}
-
-	// start game and input and collision thread
-	isGameRunning = true;
-	auto input_and_collision_thread =
-		std::make_unique<std::thread>(process_input_and_collision,
-			std::ref(*ballUnique), std::ref(*adverPaddleUnique));
-
-	// call mainGameLoop, the loop which controlls window and thread access
-	mainGameLoop(*mainWindowUnique, *ballUnique, *adverPaddleUnique);
-
-	// stop game wait thread to return, exit
-	isGameRunning = false;
-	input_and_collision_thread->join();
+	catch (FileNotFoundException& err) {
+		printException(err, "startGame",
+			"check Resources folder for the missing files", true);
+	}
+	catch (std::exception& err) {
+		printException(err, "startGame", true);
+	}
 
 }
 

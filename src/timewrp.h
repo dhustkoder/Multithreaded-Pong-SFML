@@ -8,9 +8,22 @@ struct Seconds
 	Seconds() noexcept = default;
 	
 	constexpr Seconds(const float seconds) noexcept :
-		m_seconds(toClock_t(mul((float)CLOCKS_PER_SEC, seconds))) 
+		m_seconds(toClock_t(mul(CLOCKS_PER_SEC, seconds))) 
 	{
 		
+	}
+
+	constexpr Seconds(const int seconds) noexcept :
+	m_seconds(toClock_t(mul(CLOCKS_PER_SEC, seconds)))
+	{
+
+	}
+
+
+	constexpr explicit Seconds(const std::clock_t readySecs) noexcept:
+		m_seconds(readySecs)
+	{
+
 	}
 	
 	constexpr Seconds(const Seconds& rhs) noexcept :
@@ -26,7 +39,7 @@ struct Seconds
 	}
 	
 	Seconds& operator=(const float seconds) noexcept {
-		m_seconds = toClock_t(mul((float)CLOCKS_PER_SEC, seconds));
+		m_seconds = toClock_t(mul(CLOCKS_PER_SEC, seconds));
 		return *this;
 	}
 
@@ -46,7 +59,10 @@ private:
 	std::clock_t m_seconds;
 
 private:
-	static constexpr float mul(const float x, const float y) noexcept { return x * y; }
+	template<typename T, typename T2>
+	static constexpr float mul(const T x, const T2 y) noexcept { 
+		return static_cast<float>(x) * static_cast<float>(y); 
+	}
 	static constexpr std::clock_t toClock_t(float value) noexcept {
 		return ((value - static_cast<std::clock_t>(value)) > 0.5f) 
 					? static_cast<std::clock_t>(++value)
@@ -110,9 +126,16 @@ private:
 struct Chrono::ChronoGuard
 {
 public:
-		// this make sure to call start on a Chrono object at the end of scope
-		ChronoGuard(Chrono& ref) noexcept : m_chronoRef(ref) {}
-		~ChronoGuard() { m_chronoRef.start(); }
+		
+	ChronoGuard(const ChronoGuard&) = delete;
+	ChronoGuard& operator=(const ChronoGuard&) = delete;
+	///////////////////////////////////////////////////
+	/// \brief ChronoGuard
+	/// An object of this struct makes sure that Chrono::start();
+	/// is called at the end of scope for the given Chrono object 'ref'.
+	//////////////////////////////////////////////////
+	ChronoGuard(Chrono& ref) noexcept : m_chronoRef(ref) {}
+	~ChronoGuard() { m_chronoRef.start(); }
 private:
 		Chrono& m_chronoRef;
 	

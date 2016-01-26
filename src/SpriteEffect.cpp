@@ -4,24 +4,36 @@
 
 constexpr Seconds SpriteEffect::defaultFramesPerSec;
 
-SpriteEffect::SpriteEffect() noexcept : 
-	m_isActive(false),
-	m_frameDelay(defaultFramesPerSec)
+void SpriteEffect::initialize()
 {
+	m_isActive = false;
+	m_frameDelay = defaultFramesPerSec;
+	
+	try {
+		m_texture = std::make_unique<sf::Texture>();
+		m_sprite = std::make_unique<sf::Sprite>();
+	}
+	catch (std::bad_alloc& err) {
+		printException(err, "SpriteEffect::initialize", true);
+	}
 
+}
+
+SpriteEffect::SpriteEffect() noexcept
+{
+	initialize();
 }
 
 
 SpriteEffect::SpriteEffect(const char* spriteSheetFile, 
-	const sf::Vector2i& spriteSize, const sf::Vector2i& leftAndTopMax) :
-	m_frameDelay(Seconds(1) / defaultFramesPerSec),
-	m_isActive(false),
-	m_textureRect(0, 0, spriteSize.x, spriteSize.y),
-	m_maxLeftAndTop(leftAndTopMax)
-	
+	const sf::Vector2i& spriteSize, const sf::Vector2i& maxLeftAndTop) : 
+	m_textureRect({0,0}, spriteSize),
+	m_maxLeftAndTop(maxLeftAndTop)
 {
+	initialize();
+
 	if (!m_texture->loadFromFile(spriteSheetFile))
-		throw std::runtime_error(std::string("file not found: ") + spriteSheetFile);
+		throw FileNotFoundException(std::string("file not found: ") + spriteSheetFile);
 
 	m_sprite->setTexture(*m_texture);
 	m_sprite->setTextureRect(m_textureRect);
@@ -31,10 +43,9 @@ SpriteEffect::SpriteEffect(const char* spriteSheetFile,
 void SpriteEffect::loadSpriteSheet(const char * spriteSheetFile, 
 	const sf::Vector2i & spriteSize, const sf::Vector2i & leftAndTopMax)
 {
-	if (!m_texture->loadFromFile(spriteSheetFile)) {
-		throw FileNotFoundException(std::string("file not found: ") +
-			spriteSheetFile);
-	}
+	if (!m_texture->loadFromFile(spriteSheetFile))
+		throw FileNotFoundException(std::string("file not found: ") + spriteSheetFile);
+	
 	m_textureRect.width = spriteSize.x;
 	m_textureRect.height = spriteSize.y;
 	
@@ -65,6 +76,7 @@ void SpriteEffect::update() noexcept
 				m_textureRect.top += m_textureRect.height;
 			}
 		}
+
 		else
 			m_textureRect.left += m_textureRect.width;
 		

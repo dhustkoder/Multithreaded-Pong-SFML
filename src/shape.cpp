@@ -73,7 +73,11 @@ bool Shape::checkForCollision(Shape &second) noexcept
 
 bool Shape::updateIntersectingShape() noexcept
 {
-	if (!(this->getBottom() >= m_intersectingShape->getTop())
+	if (m_intersectingShape == nullptr)
+		return true;
+
+
+	else if (!(this->getBottom() >= m_intersectingShape->getTop())
 		|| !(this->getTop() <= m_intersectingShape->getBottom())
 		|| !(this->getLeft() <= m_intersectingShape->getRight())
 		|| !(this->getRight() >= m_intersectingShape->getLeft()))
