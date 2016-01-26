@@ -9,28 +9,22 @@ static sf::Vector2f calculateBallCollisionPosition(float x, float y,
 constexpr Seconds Cpu::defaultReactionDurationTime;
 constexpr Seconds Cpu::defaultReactionDelayTime;
 
-Cpu::Cpu(const Shape &ball) 
-try :
+Cpu::Cpu(const Shape &ball) :
 	Paddle(),
 	m_ball(ball)
 {
 
 }
-catch (std::bad_alloc& err) {
-	throw err;
-}
+
 
 
 Cpu::Cpu(const float sizeX, const float sizeY, const Shape &ball)  
-try : 
-	Paddle(sizeX, sizeY),
+	: Paddle(sizeX, sizeY),
 	m_ball(ball)
 {
 
 }
-catch (std::bad_alloc& err) {
-	throw err;
-}
+
 
 
 void Cpu::update() 
@@ -43,7 +37,7 @@ void Cpu::update()
 		if (!m_reactionDuration.isRunning()) // check if is first reaction
 			m_reactionDuration.start();
 		else if (m_reactionDuration.finished()) // reaction duration ends, start delay
-			return m_reactionDelay.start();
+			m_reactionDelay.start();
 		
 
 		const auto &ballPosition = m_ball.getPosition();
@@ -51,17 +45,12 @@ void Cpu::update()
 			calculateBallCollisionPosition(ballPosition.x, ballPosition.y,
 				ballVelocity.x, ballVelocity.y, this->getLeft());
 
-		if (ballCollisionPosition.y >= this->getTop()
-			&& ballCollisionPosition.y <= this->getBottom()) 
+		if (ballCollisionPosition.y < this->getTop()
+			|| ballCollisionPosition.y > this->getBottom()) 
 		{
-			return; // yeah, does nothing
-		}
-
-		else
-		{
-			m_velocity->y = (ballCollisionPosition.y < this->getTop() ) 
-				? ((this->getTop() > 0) ? -defaultVelocity : 0) 
-				: ((this->getBottom() < GameWindow::Height ) ? defaultVelocity : 0);
+			m_velocity->y = (ballCollisionPosition.y < this->getTop())
+				? ((this->getTop() > 0) ? -defaultVelocity : 0)
+				: ((this->getBottom() < GameWindow::Height) ? defaultVelocity : 0);
 
 			m_shape->move(*m_velocity);
 		}

@@ -33,7 +33,7 @@ int main()
 		
 		
 		mainWin->clear(sf::Color::Black);
-		mainWin->updateWindowState();
+		mainWin->updateWindowEvents();
 	
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			

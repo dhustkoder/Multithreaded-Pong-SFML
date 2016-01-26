@@ -69,7 +69,6 @@ void startGame(const GameMode mode)
 
 }
 
-#include <iostream>
 
 void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle)
 {
@@ -79,15 +78,16 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 	{
 		doInputAndCollisionProcess = true;
 		mainWin.clear(sf::Color::Black);
-		mainWin.updateWindowState();
+		mainWin.updateWindowEvents();
 	
 		while (doInputAndCollisionProcess)
 			std::this_thread::yield();
 		
-		mainWin.drawAndDisplay(player1, adverPaddle, ball);
+		mainWin.drawAndDisplay();
+
 		++fpsCounter;
 		if(fpsClock.finished()) {
-			std::cout << "FPS: " << fpsCounter << std::endl;
+			LOG("FPS: %lu", fpsCounter);
 			fpsCounter = 0;
 			fpsClock.start();
 		}

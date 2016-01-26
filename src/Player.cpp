@@ -40,6 +40,7 @@ void Player::update()
 		m_velocity->y = 0;
 
 	m_shape->move(*m_velocity);
+
 }
 
 bool Player::isReady() {

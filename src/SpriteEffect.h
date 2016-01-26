@@ -6,9 +6,9 @@
 #include "Timewrp.h"
 
 
-class SpriteEffect : sf::Drawable
+class SpriteEffect : public sf::Drawable
 {
-	static constexpr Seconds defaultFramesPerSec = 1.f / 15.f;
+	static constexpr Seconds defaultFramesPerSec = 1;
 public:
 	SpriteEffect() noexcept;
 	

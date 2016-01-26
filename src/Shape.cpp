@@ -1,23 +1,40 @@
 #include "pch.h"
 #include "Shape.h"
 
-bool areInCollision(const Shape& shp1, const Shape& shp2);
+static std::unique_ptr<sf::Shape> createShape(Shape::Type type, const sf::Vector2f& size);
+static bool areInCollision(const Shape& shp1, const Shape& shp2);
 
-Shape::Shape(const sf::Vector2f& origin, std::unique_ptr<sf::Shape>&& shape) :
-	m_shape(std::move(shape)), 
+
+Shape::Shape(const Type shapeType, const sf::Vector2f& size, const sf::Vector2f& origin) :
 	m_velocity(new sf::Vector2f()),
 	m_intersectingShape(nullptr),
 	m_horizontalCompensation(origin.x), 
 	m_verticalCompensation(origin.y)
 {
-	if (m_shape == nullptr)
-		throw std::invalid_argument("parameter 'std::unique_ptr<sf::Shape>&& shape' is a nullptr.");
-
+	m_shape = createShape(shapeType, size);
 	m_shape->setOrigin(origin.x, origin.y);
 	m_velocity->x = 0;
 	m_velocity->y = 0;
+	GameWindow::pushShape(*this);
 }
 
+Shape::Shape(const Type shapeType, const float size, const sf::Vector2f& origin) :
+	m_velocity(new sf::Vector2f()),
+	m_intersectingShape(nullptr),
+	m_horizontalCompensation(origin.x),
+	m_verticalCompensation(origin.y)
+{
+	m_shape = createShape(shapeType, { size, size });
+	m_shape->setOrigin(origin.x, origin.y);
+	m_velocity->x = 0;
+	m_velocity->y = 0;
+	GameWindow::pushShape(*this);
+}
+
+
+Shape::~Shape() {
+	GameWindow::popShape(*this);
+}
 
 
 
@@ -83,7 +100,33 @@ bool Shape::updateIntersectingShape() noexcept
 
 
 
-bool areInCollision(const Shape& shp1, const Shape& shp2) {
+std::unique_ptr<sf::Shape> createShape(Shape::Type type, const sf::Vector2f& size) 
+{
+	
+	try
+	{
+		switch (type)
+		{
+			case Shape::Type::Rectangle:
+				return std::make_unique<sf::RectangleShape>(size);
+				break;
+			case Shape::Type::Circle:
+				return std::make_unique<sf::CircleShape>((size.x + size.y) / 2.f);
+				break;
+			default:
+				return nullptr;
+		}
+	}
+	catch (std::bad_alloc& err) {
+		printException(err, "createShape", true);
+	}
+
+}
+
+
+
+bool areInCollision(const Shape& shp1, const Shape& shp2) 
+{
 	return (shp1.getBottom() >= shp2.getTop()
 		&& shp1.getTop() <= shp2.getBottom()
 		&& shp1.getLeft() <= shp2.getRight()

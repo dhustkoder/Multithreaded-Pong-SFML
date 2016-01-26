@@ -15,6 +15,13 @@ public:
 		Middle
 	};
 
+	enum class Type
+	{
+		Rectangle,
+		Circle
+	};
+
+
 public:
 	Shape(const Shape&) = delete;
 	Shape& operator=(const Shape&) = delete;
@@ -24,9 +31,10 @@ public:
 	/// you need to create a shape in the constructor
 	/// and give a origin
 	////////////////////////////////////////////////////////////
-	Shape(const sf::Vector2f& origin, std::unique_ptr<sf::Shape>&& shape);
+	Shape(const Type shapeType, const sf::Vector2f& size, const sf::Vector2f& origin);
+	Shape(const Type shapeType, const float size, const sf::Vector2f& origin);
+	virtual ~Shape();
 
-	virtual ~Shape(){}
 	void setCompensation(const float h, const float v) noexcept;
 	void setPosition(const float x, const float y) noexcept;
 	void setPosition(const Position pos) noexcept;

@@ -15,7 +15,7 @@ constexpr const char* const Ball::defaultExplosionFile;
 
 
 Ball::Ball() :
-	Shape({ defaultRadius, defaultRadius }, std::make_unique<sf::CircleShape>(defaultRadius)),
+	Shape(Type::Circle, defaultRadius, { defaultRadius, defaultRadius }),
 	m_clock(std::clock()),
 	m_textureRect(0, 0, defaultTextureWidth, defaultTextureHeight)
 {
@@ -61,9 +61,11 @@ void Ball::treatCollision()
 	
 	updateTextureDirectionFrame();
 	
-	if (!m_explosionEffect.isActive()) {
+	if (!m_explosionEffect.isActive()) 
+	{
 		m_explosionEffect.setActive();
 		m_explosionEffect.setPosition(this->getPosition());
+		GameWindow::pushSpriteEffect(m_explosionEffect);
 	}
 }
 
@@ -93,8 +95,6 @@ void Ball::update()
 	
 	updateTextureAnimationFrame();
 	m_shape->move(*m_velocity);
-	m_explosionEffect.update();
-
 }
 
 
@@ -102,8 +102,6 @@ void Ball::update()
 void Ball::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	target.draw(*m_shape, states);
-	if (m_explosionEffect.isActive())
-		m_explosionEffect.draw(target, states);
 }
 
 

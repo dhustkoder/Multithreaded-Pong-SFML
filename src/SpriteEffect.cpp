@@ -50,7 +50,7 @@ void SpriteEffect::update() noexcept
 {
 	if ( m_isActive && m_frameDelay.finished() )
 	{
-		Chrono::ChronoGuard cGuard(m_frameDelay);
+		Chrono::Guard cGuard(m_frameDelay);
 		if (m_textureRect.left == m_maxLeftAndTop.x)
 		{
 			if (m_textureRect.top == m_maxLeftAndTop.y) {

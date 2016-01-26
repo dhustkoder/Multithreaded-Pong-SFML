@@ -107,7 +107,7 @@ public:
 			return false;
 	}
 
-	struct ChronoGuard;
+	struct Guard;
 
 private:
 	std::clock_t m_clock;
@@ -117,19 +117,19 @@ private:
 };
 
 
-struct Chrono::ChronoGuard
+struct Chrono::Guard
 {
 public:
 		
-	ChronoGuard(const ChronoGuard&) = delete;
-	ChronoGuard& operator=(const ChronoGuard&) = delete;
+	Guard(const Guard&) = delete;
+	Guard& operator=(const Guard&) = delete;
 	///////////////////////////////////////////////////
 	/// \brief ChronoGuard
 	/// An object of this struct makes sure that Chrono::start();
 	/// is called at the end of scope for the given Chrono object 'ref'.
 	//////////////////////////////////////////////////
-	ChronoGuard(Chrono& ref) noexcept : m_chronoRef(ref) {}
-	~ChronoGuard() { m_chronoRef.start(); }
+	Guard(Chrono& ref) noexcept : m_chronoRef(ref) {}
+	~Guard() { m_chronoRef.start(); }
 private:
 	Chrono& m_chronoRef;
 	

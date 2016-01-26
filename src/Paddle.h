@@ -12,22 +12,16 @@ class Paddle : public Shape
 public:
 
 	Paddle()
-	try : Shape({ cexpr_div(defaultWidth, 2.f), cexpr_div(defaultHeight, 2.f) },
-			std::make_unique<sf::RectangleShape>(sf::Vector2f(defaultWidth, defaultHeight)))
+		: Shape(Type::Rectangle, {defaultWidth, defaultHeight}, { cexpr_div(defaultWidth, 2.f), cexpr_div(defaultHeight, 2.f) })
 	{
-	}
-	catch (std::bad_alloc& err) {
-		printException(err, "Paddle::Paddle (default constructor)", true);
+
 	}
 	
 
-	Paddle(const float sizeX, const float sizeY)
-	try : Shape({ sizeX / 2.f, sizeY / 2.f },
-			std::make_unique<sf::RectangleShape>(sf::Vector2f(sizeX, sizeY)))
+	Paddle(const float sizeX, const float sizeY) 
+		: Shape(Type::Rectangle, { sizeX, sizeY }, { sizeX / 2.f, sizeY / 2.f })
 	{
-	}
-	catch (std::bad_alloc& err) {
-		printException(err, "Paddle::Paddle (default constructor)", true);
+
 	}
 
 	void treatCollision() override {};

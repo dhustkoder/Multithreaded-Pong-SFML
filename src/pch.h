@@ -11,7 +11,6 @@
 #include <memory>
 #include <random>
 #include <string>
-#include <exception>
 #ifdef __linux__
 #include <X11/Xlib.h>
 #undef None

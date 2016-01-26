@@ -22,7 +22,6 @@
     <ClInclude Include="..\..\src\Ball.h" />
     <ClInclude Include="..\..\src\Cpu.h" />
     <ClInclude Include="..\..\src\Exceptions.h" />
-    <ClInclude Include="..\..\src\gamescore.h" />
     <ClInclude Include="..\..\src\GameWindow.h" />
     <ClInclude Include="..\..\src\Paddle.h" />
     <ClInclude Include="..\..\src\ParticleSystem\Particle.h" />
@@ -37,7 +36,6 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Ball.cpp" />
     <ClCompile Include="..\..\src\Cpu.cpp" />
-    <ClCompile Include="..\..\src\gamescore.cpp" />
     <ClCompile Include="..\..\src\GameWindow.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\ParticleSystem\Particle.cpp" />
