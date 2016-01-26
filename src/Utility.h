@@ -10,7 +10,7 @@
 #define CONSOLE_PAUSE(x, ...) {LOG(x, ##__VA_ARGS__);LOG("Press To Continue..."); LOGread("%*c");}
 
 
-constexpr void printException(const std::exception& exception,
+inline void printException(const std::exception& exception,
 	const char* const function, bool terminate = false)
 {
 	LOGerr("Exception caught in %s. Message: %s", 
@@ -21,7 +21,7 @@ constexpr void printException(const std::exception& exception,
 	}
 }
 
-constexpr void printException(const std::exception& exception,
+inline void printException(const std::exception& exception,
 	const char* const function, const char *const additionalMsg, bool terminate = false)
 {
 	LOGerr("Exception caught in %s. \nException Message: %s",
@@ -33,6 +33,13 @@ constexpr void printException(const std::exception& exception,
 		std::exit(0);
 	}
 }
+
+
+
+
+
+
+
 
 // enumerators to underlying-type
 template<typename E>

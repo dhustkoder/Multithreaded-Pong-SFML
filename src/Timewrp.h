@@ -131,7 +131,7 @@ public:
 	ChronoGuard(Chrono& ref) noexcept : m_chronoRef(ref) {}
 	~ChronoGuard() { m_chronoRef.start(); }
 private:
-		Chrono& m_chronoRef;
+	Chrono& m_chronoRef;
 	
 };
 

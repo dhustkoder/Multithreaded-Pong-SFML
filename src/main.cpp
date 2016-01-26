@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "SpriteEffect.h"
 
 int main()
 {
@@ -14,8 +13,7 @@ int main()
 	//startGame(GameMode::MultiplayerLocal);
 	//ballDebug();
 	
-	
-	
+
 	
 	/*
 	auto mainWinUnique = GameWindow::makeUniqueWindow();

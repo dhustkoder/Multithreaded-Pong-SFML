@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Cpu.h"
 #include "Ball.h"
-
+#include "Timewrp.h"
 
 
 
@@ -69,10 +69,12 @@ void startGame(const GameMode mode)
 
 }
 
-
+#include <iostream>
 
 void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle)
 {
+	Chrono fpsClock(1);
+	unsigned fpsCounter = 0;
 	while (mainWin.isOpen())
 	{
 		doInputAndCollisionProcess = true;
@@ -83,6 +85,13 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 			std::this_thread::yield();
 		
 		mainWin.drawAndDisplay(player1, adverPaddle, ball);
+		++fpsCounter;
+		if(fpsClock.finished()) {
+			std::cout << "FPS: " << fpsCounter << std::endl;
+			fpsCounter = 0;
+			fpsClock.start();
+		}
+		
 	}
 }
 

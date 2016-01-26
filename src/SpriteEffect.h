@@ -8,7 +8,7 @@
 
 class SpriteEffect : sf::Drawable
 {
-	static constexpr Seconds defaultFramesPerSec = 1.f / 50.f;
+	static constexpr Seconds defaultFramesPerSec = 1.f / 15.f;
 public:
 	SpriteEffect() noexcept;
 	

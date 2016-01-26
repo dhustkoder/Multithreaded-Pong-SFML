@@ -1,6 +1,8 @@
+#ifndef EXCEPTION_H
+#define EXCEPTION_H
+
 #include <exception>
 #include <string>
-
 
 
 class FileNotFoundException : public std::runtime_error
@@ -24,3 +26,5 @@ public:
 
 	}
 };
+
+#endif
