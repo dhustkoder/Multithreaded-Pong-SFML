@@ -5,7 +5,7 @@
 #include "Shape.h"
 #include "SpriteAnimation.h"
 
-class Ball final : public Shape
+class Ball final : public SpriteAnimation
 {
 	static constexpr float defaultVelocity = 2.5;
 	static constexpr float defaultRadius = 15;
