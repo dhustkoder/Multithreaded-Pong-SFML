@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Timewrp.h"
+#include "SpriteAnimation.h"
 
 int main()
 {
@@ -13,8 +13,5 @@ int main()
 	startGame(GameMode::SinglePlayer);
 	
 	//startGame(GameMode::MultiplayerLocal);
-
-
-
 }
 

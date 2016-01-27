@@ -65,12 +65,13 @@ void startGame(const GameMode mode)
 		printException(err, "startGame",
 			"check Resources folder for the missing files", true);
 	}
+	catch (std::bad_alloc& err) {
+		printException(err, "startGame", true);
+	}
 	catch (std::exception& err) {
 		printException(err, "startGame", true);
 	}
-	catch(std::bad_alloc& err) {
-		printException(err, "startGame", true);
-	}
+	
 
 }
 

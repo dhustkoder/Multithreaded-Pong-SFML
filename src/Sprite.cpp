@@ -6,7 +6,7 @@
 
 Sprite::Sprite(const char* spriteSheetFile, 
 	const sf::Vector2i& spriteSize) : 
-	m_textureRect({0,0}, spriteSize),
+	m_textureRect({0,0}, spriteSize)
 {
 	
 

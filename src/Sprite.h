@@ -1,6 +1,8 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 class Sprite : public sf::Drawable
 {
@@ -21,9 +23,8 @@ public:
 	void setPosition(const float x, const float y);
 	void setPosition(const sf::Vector2f& pos);
 protected:
-	void draw() const override;
+	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-protected:
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 	sf::IntRect m_textureRect;
@@ -33,7 +34,7 @@ protected:
 
 
 inline 
-const sf::Vector2f& getPosition() {
+const sf::Vector2f& Sprite::getPosition() const {
 	return m_sprite.getPosition();
 }
 
@@ -51,7 +52,7 @@ inline void Sprite::setPosition(const sf::Vector2f& pos) {
 }
 
 
-inline void Sprite::draw(sf::RenderTarget& target, sf::RenderStates states) const override {
+inline void Sprite::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 	target.draw(m_sprite, states);
 
 }

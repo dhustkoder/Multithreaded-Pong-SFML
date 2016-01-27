@@ -16,25 +16,10 @@ constexpr const char* const Ball::defaultExplosionFile;
 
 Ball::Ball() :
 	Shape(Type::Circle, defaultRadius, { defaultRadius, defaultRadius }),
-	m_clock(std::clock()),
-	m_textureRect(0, 0, defaultTextureWidth, defaultTextureHeight)
+	m_sprite(defaultTextureFile, {64,64}, {64 * 7, 64 * 7}, *m_velocity)
 {
-	if (!m_texture.loadFromFile(defaultTextureFile))
-		throw FileNotFoundException(std::string("file not found: ") + defaultTextureFile);
-
-
-	m_explosionEffect.loadSpriteSheet(defaultExplosionFile, { defaultTextureWidth, defaultTextureHeight },
-	{ cexpr_mul(defaultTextureWidth, 3), cexpr_mul(defaultTextureHeight, 3) });
-	
-
-	m_velocity->y = m_velocity->x = defaultVelocity;
-	m_shape->setTexture(&m_texture);
-	this->setPosition(Position::Middle);
-	updateTextureDirectionFrame();
+	m_sprite.setUpdateDirectionFunction(&updateDirectionFunction);
 }
-
-
-
 
 
 
@@ -59,11 +44,6 @@ void Ball::treatCollision()
 	else 
 		m_velocity->y = genVelocity(-defaultVelocity - 2.5f, defaultVelocity, true);
 	
-	updateTextureDirectionFrame();
-	
-	m_explosions.emplace_back(std::make_unique<SpriteEffect>(m_explosionEffect));
-	m_explosions.back()->setPosition(this->getPosition());
-	m_explosions.back()->setActive();
 }
 
 
@@ -73,36 +53,24 @@ void Ball::update()
 
 	if (getLeft() <= 0) {
 		m_velocity->x = genVelocity(1.5f, defaultVelocity);
-		updateTextureDirectionFrame();
+		m_sprite.updateDirection();
 	}
 	else if (getRight() >= GameWindow::Width) {
 		m_velocity->x = genVelocity(-defaultVelocity, -1.5f);
-		updateTextureDirectionFrame();
+		m_sprite.updateDirection();
 	}
 	
 	if (getTop() <= 0) {
 		m_velocity->y = genVelocity(1.5f, defaultVelocity);
-		updateTextureDirectionFrame();
+		m_sprite.updateDirection();
 	}
 	else if (getBottom() >= GameWindow::Height) {
 		m_velocity->y = genVelocity(-defaultVelocity, -1.5f);
-		updateTextureDirectionFrame();
+		m_sprite.updateDirection();
 	}
 
 	m_shape->move(*m_velocity);
-	updateTextureAnimationFrame();
-	
-	for(auto itr = m_explosions.begin();
-		itr != m_explosions.end(); ++itr)
-	{
-		if((*itr)->isActive())
-			(*itr)->update();
-		else {
-			itr = m_explosions.erase(itr);
-			if(itr == m_explosions.end())
-				break;
-		}
-	}
+	m_sprite.updateAnimationFrame();
 	
 }
 
@@ -113,57 +81,38 @@ void Ball::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 }
 
 
-void Ball::updateTextureDirectionFrame()
+void Ball::updateDirectionFunction(SpriteAnimation& sprite, const sf::Vector2f& velocity)
 {
-	const auto absVelX = std::abs(m_velocity->x);
-	const auto absVelY = std::abs(m_velocity->y);
+	enum Direction { Left, UpLeft, Up, UpRight, Right, DownRight, Down, DownLeft };
+	const auto absVelX = std::abs(velocity.x);
+	const auto absVelY = std::abs(velocity.y);
 
-	if (m_velocity->x < 0 && absVelY < getPercent(absVelX, 45))
-		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::Left);
-	
-	else if (m_velocity->x < 0 && m_velocity->y < 0)
-		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::UpLeft);
+	if (velocity.x < 0 && absVelY < getPercent(absVelX, 45))
+		sprite.setDirection(Left);
 
-	else if (m_velocity->y < 0 && absVelX < getPercent(absVelY, 45))
-		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::Up);
-	
-	else if (m_velocity->x > 0 && m_velocity->y < 0)
-		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::UpRight);
-	
-	else if (m_velocity->x > 0 && absVelY < getPercent(absVelX, 45))
-		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::Right);
-	
-	else if (m_velocity->x > 0 && m_velocity->y > 0)
-		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::DownRight);
-	
-	else if (m_velocity->y > 0 && absVelX < getPercent(absVelY, 45))
-		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::Down);
-	
-	else if (m_velocity->x < 0 && m_velocity->y > 0)
-		m_textureRect.top = cexpr_mul(defaultTextureHeight, BallTextureDirection::DownLeft);
+	else if (velocity.x < 0 && velocity.y < 0)
+		sprite.setDirection(UpLeft);
 
-	m_shape->setTextureRect(m_textureRect);
+	else if (velocity.y < 0 && absVelX < getPercent(absVelY, 45))
+		sprite.setDirection(Up);
+
+	else if (velocity.x > 0 && velocity.y < 0)
+		sprite.setDirection(UpRight);
+
+	else if (velocity.x > 0 && absVelY < getPercent(absVelX, 45))
+		sprite.setDirection(Right);
+
+	else if (velocity.x > 0 && velocity.y > 0)
+		sprite.setDirection(DownRight);
+
+	else if (velocity.y > 0 && absVelX < getPercent(absVelY, 45))
+		sprite.setDirection(Down);
+
+	else if (velocity.x < 0 && velocity.y > 0)
+		sprite.setDirection(DownLeft);
 
 }
 
-void Ball::updateTextureAnimationFrame()
-{
-	static int textureFrame = 0;
-	const auto averageVel = 
-		static_cast<std::clock_t>((std::abs(m_velocity->x) + std::abs(m_velocity->y)) / 2.f);
-
-	if ((std::clock() - m_clock) > cexpr_div(CLOCKS_PER_SEC, (clock_t)20) * averageVel)
-	{
-		++textureFrame;
-		if (textureFrame > 7)
-			textureFrame = 0;
-
-		m_textureRect.left = defaultTextureWidth * textureFrame;
-		m_shape->setTextureRect(m_textureRect);
-
-		m_clock = std::clock();
-	}
-}
 
 
 

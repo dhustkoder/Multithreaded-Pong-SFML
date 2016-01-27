@@ -29,6 +29,8 @@
     <ClInclude Include="..\..\src\Player.h" />
     <ClInclude Include="..\..\src\Processes.h" />
     <ClInclude Include="..\..\src\Shape.h" />
+    <ClInclude Include="..\..\src\Sprite.h" />
+    <ClInclude Include="..\..\src\SpriteAnimation.h" />
     <ClInclude Include="..\..\src\SpriteEffect.h" />
     <ClInclude Include="..\..\src\Timewrp.h" />
     <ClInclude Include="..\..\src\Utility.h" />
@@ -47,6 +49,8 @@
     <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Processes.cpp" />
     <ClCompile Include="..\..\src\Shape.cpp" />
+    <ClCompile Include="..\..\src\Sprite.cpp" />
+    <ClCompile Include="..\..\src\SpriteAnimation.cpp" />
     <ClCompile Include="..\..\src\SpriteEffect.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

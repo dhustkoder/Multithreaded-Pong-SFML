@@ -15,8 +15,6 @@ public:
 	SpriteEffect(const char* spriteSheetFile, 
 		const sf::Vector2i& spriteSize, const sf::Vector2i& maxLeftAndTop);
 
-	SpriteEffect(const SpriteEffect& rhs);
-	
 	~SpriteEffect();
 
 	void loadSpriteSheet(const char* spriteSheetFile, 
@@ -25,9 +23,8 @@ public:
 	bool isActive() const;
 	void setActive();
 	void setFps(const unsigned fps);
-
-
 	virtual void update();
+
 private:
 	bool m_isActive = false;
 	Chrono m_frameDelay = defaultFramesPerSec;

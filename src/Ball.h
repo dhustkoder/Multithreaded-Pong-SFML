@@ -3,7 +3,7 @@
 #include <ctime>
 #include <SFML/Graphics/Texture.hpp>
 #include "Shape.h"
-#include "SpriteEffect.h"
+#include "SpriteAnimation.h"
 
 class Ball final : public Shape
 {
@@ -13,10 +13,6 @@ class Ball final : public Shape
 	static constexpr int defaultTextureHeight = 64;
 	static constexpr const char* const defaultTextureFile = "../Resources/balltexture";
 	static constexpr const char* const defaultExplosionFile = "../Resources/explosion";
-
-	enum class BallTextureDirection {
-		Left, UpLeft, Up, UpRight, Right, DownRight, Down, DownLeft
-	};
 public:
 	// uses window size informed for class Shape
 	Ball();
@@ -24,13 +20,11 @@ public:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 	void treatCollision() override;
 	void update() override;
-
 private:
-	void updateTextureDirectionFrame();
-	void updateTextureAnimationFrame();
+	static void updateDirectionFunction(SpriteAnimation& sprite, const sf::Vector2f& velocity);
+	SpriteAnimation m_sprite;
 
-private:
-	std::clock_t m_clock;
+	
 };
 
 
