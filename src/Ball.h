@@ -24,6 +24,7 @@ public:
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 	void treatCollision() override;
 	void update() override;
+
 private:
 	void updateTextureDirectionFrame();
 	void updateTextureAnimationFrame();

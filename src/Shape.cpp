@@ -70,9 +70,7 @@ bool Shape::checkForCollision(Shape &second)
 		}
 	}
 
-	
 	return false;
-
 }
 
 
@@ -82,7 +80,6 @@ bool Shape::updateIntersectingShape()
 	if (m_intersectingShape == nullptr)
 		return false;
 	
-
 	else if (!areInCollision(*this, *m_intersectingShape))
 	{
 		// was intersecting but is no more

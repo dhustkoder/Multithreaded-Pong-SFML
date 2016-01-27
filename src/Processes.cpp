@@ -7,8 +7,7 @@
 
 
 // main global variables
-static auto mainWindowUnique = GameWindow::makeUniqueWindow({ 400, 640 });
-static Player player1;
+static std::unique_ptr<Player> player1;
 static std::atomic<bool> isGameRunning(false);
 static std::atomic<bool> doInputAndCollisionProcess(false);
 
@@ -21,7 +20,9 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 // main functions
 void startGame(const GameMode mode)
 {
-	player1.setPosition(Shape::Position::LeftSide);
+	auto mainWindowUnique = GameWindow::makeUniqueWindow({ 400, 640 });
+	player1 = std::make_unique<Player>();
+	player1->setPosition(Shape::Position::LeftSide);
 	// create the rest of game objects
 
 	try
@@ -99,9 +100,9 @@ void process_input_and_collision(Ball& ball, Paddle& adverPaddle)
 	{
 		if (doInputAndCollisionProcess)
 		{
-			updateObjects(player1, adverPaddle, ball);
+			updateObjects(*player1, adverPaddle, ball);
 
-			if (ball.checkForCollision(player1)) {
+			if (ball.checkForCollision(*player1)) {
 				sound->play();
 				ball.treatCollision();
 			}
