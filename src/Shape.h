@@ -35,16 +35,16 @@ public:
 	Shape(const Type shapeType, const float size, const sf::Vector2f& origin);
 	virtual ~Shape();
 
-	void setCompensation(const float h, const float v) noexcept;
-	void setPosition(const float x, const float y) noexcept;
-	void setPosition(const Position pos) noexcept;
+	void setCompensation(const float h, const float v);
+	void setPosition(const float x, const float y);
+	void setPosition(const Position pos);
 
-	float getRight() const noexcept;
-	float getLeft() const noexcept;
-	float getTop() const noexcept;
-	float getBottom() const noexcept;
-	const sf::Vector2f& getPosition() const noexcept;
-	const sf::Vector2f& getVelocity() const noexcept;
+	float getRight() const;
+	float getLeft() const;
+	float getTop() const;
+	float getBottom() const;
+	const sf::Vector2f& getPosition() const;
+	const sf::Vector2f& getVelocity() const;
 	
 
 
@@ -54,7 +54,7 @@ public:
 	/// keep in mind that to get the right answer the checkForCollision,
 	/// must be called to update the status of the Shape.
 	////////////////////////////////////////////////////////////
-	bool isIntersecting() const noexcept;
+	bool isIntersecting() const;
 
 
 
@@ -66,7 +66,7 @@ public:
 	/// before calling this function, you need to update the Shape
 	/// status calling 'checkForCollision'
 	////////////////////////////////////////////////////////////
-	bool isIntersectingWith(const Shape& second) const noexcept;
+	bool isIntersectingWith(const Shape& second) const;
 
 
 
@@ -83,7 +83,7 @@ public:
 	/// To check if given Shapes are still in collision, just call
 	/// 'Shape::isIntersectingWith(second)'.
 	////////////////////////////////////////////////////////////
-	bool checkForCollision(Shape& second) noexcept;
+	bool checkForCollision(Shape& second);
 
 
 	////////////////////////////////////////////////////////////
@@ -114,7 +114,7 @@ protected:
 	/// this function tests (this) and m_intersectingShape
 	/// positions, to make sure they are still intersecting
 	////////////////////////////////////////////////////////////
-	bool updateIntersectingShape() noexcept;
+	bool updateIntersectingShape();
 
 protected:
 	std::unique_ptr<sf::Shape> m_shape;
@@ -124,7 +124,7 @@ protected:
 
 };
 
-inline void Shape::setCompensation(const float h, const float v) noexcept
+inline void Shape::setCompensation(const float h, const float v)
 {
 	m_horizontalCompensation = h;
 	m_verticalCompensation = v;
@@ -132,46 +132,46 @@ inline void Shape::setCompensation(const float h, const float v) noexcept
 
 
 
-inline void Shape::setPosition(const float x, const float y) noexcept
+inline void Shape::setPosition(const float x, const float y)
 {
 	m_shape->setPosition(x, y);
 };
 
 
-inline float Shape::getRight() const noexcept {
+inline float Shape::getRight() const {
 	return m_shape->getPosition().x + m_horizontalCompensation;
 }
 
-inline float Shape::getLeft() const noexcept {
+inline float Shape::getLeft() const {
 	return m_shape->getPosition().x - m_horizontalCompensation;
 }
 
 
-inline float Shape::getTop() const noexcept {
+inline float Shape::getTop() const {
 	return m_shape->getPosition().y - m_verticalCompensation;
 }
 
-inline float Shape::getBottom() const noexcept {
+inline float Shape::getBottom() const {
 	return m_shape->getPosition().y + m_verticalCompensation;
 }
 
 
-inline const sf::Vector2f& Shape::getVelocity() const noexcept {
+inline const sf::Vector2f& Shape::getVelocity() const {
 	return *m_velocity;
 }
 
-inline const sf::Vector2f& Shape::getPosition() const noexcept {
+inline const sf::Vector2f& Shape::getPosition() const {
 	return m_shape->getPosition();
 }
 
 
 
-inline bool Shape::isIntersecting() const noexcept {
+inline bool Shape::isIntersecting() const {
 	return m_intersectingShape != nullptr;
 }
 
 
-inline bool Shape::isIntersectingWith(const Shape& second) const noexcept {
+inline bool Shape::isIntersectingWith(const Shape& second) const {
 	return m_intersectingShape == &second;
 }
 

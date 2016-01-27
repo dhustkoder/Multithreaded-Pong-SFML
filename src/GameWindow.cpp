@@ -80,7 +80,7 @@ void GameWindow::pushSpriteEffect(SpriteEffect& spriteEffect) {
 	s_spriteEffectVector.push_back(&spriteEffect);
 }
 
-void GameWindow::popShape(const Shape& shape) 
+void GameWindow::popShape(const Shape& shape) noexcept
 {
 	auto itr = std::find(s_shapeVector.begin(),
 		s_shapeVector.end(), (&shape));
@@ -89,7 +89,7 @@ void GameWindow::popShape(const Shape& shape)
 		s_shapeVector.erase(itr);
 }
 
-void GameWindow::popSpriteEffect(const SpriteEffect& spriteEffect) 
+void GameWindow::popSpriteEffect(const SpriteEffect& spriteEffect) noexcept
 {
 	auto itr = std::find(s_spriteEffectVector.begin(), 
 		s_spriteEffectVector.end(), (&spriteEffect));
@@ -101,10 +101,10 @@ void GameWindow::popSpriteEffect(const SpriteEffect& spriteEffect)
 
 void GameWindow::drawAndDisplay()
 {
-	for (auto& drawablePtr : s_shapeVector)
-		m_renderWindow.draw(*drawablePtr);
+	for (auto& shapePtr : s_shapeVector)
+		m_renderWindow.draw(*shapePtr);
 	
-	for (auto &spriteEffectPtr : s_spriteEffectVector)
+	for (auto& spriteEffectPtr : s_spriteEffectVector)
 			m_renderWindow.draw(*spriteEffectPtr);
 
 	m_renderWindow.display();

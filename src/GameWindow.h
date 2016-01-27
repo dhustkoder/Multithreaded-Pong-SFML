@@ -44,8 +44,8 @@ public:
 	static void pushSpriteEffect(SpriteEffect& spriteEffect);
 	
 
-	static void popShape(const Shape& drawable);
-	static void popSpriteEffect(const SpriteEffect& spriteEffect);
+	static void popShape(const Shape& drawable) noexcept;
+	static void popSpriteEffect(const SpriteEffect& spriteEffect) noexcept;
 	
 	
 	/////////////////////////////////////////////////////////

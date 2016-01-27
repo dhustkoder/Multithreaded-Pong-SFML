@@ -7,9 +7,11 @@
 
 
 // main global variables
+static auto mainWindowUnique = GameWindow::makeUniqueWindow({ 400, 640 });
 static Player player1;
 static std::atomic<bool> isGameRunning(false);
 static std::atomic<bool> doInputAndCollisionProcess(false);
+
 
 
 // functions declaration
@@ -19,7 +21,6 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 // main functions
 void startGame(const GameMode mode)
 {
-	auto mainWindowUnique = GameWindow::makeUniqueWindow({ 400, 640 });
 	player1.setPosition(Shape::Position::LeftSide);
 	// create the rest of game objects
 

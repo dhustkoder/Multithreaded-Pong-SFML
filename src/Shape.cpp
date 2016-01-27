@@ -38,7 +38,7 @@ Shape::~Shape() {
 
 
 
-void Shape::setPosition(const Position pos) noexcept
+void Shape::setPosition(const Position pos)
 {
 	switch (pos)
 	{
@@ -57,7 +57,7 @@ void Shape::setPosition(const Position pos) noexcept
 }
 
 
-bool Shape::checkForCollision(Shape &second) noexcept
+bool Shape::checkForCollision(Shape &second)
 {
 	
 	if (!updateIntersectingShape())
@@ -76,7 +76,7 @@ bool Shape::checkForCollision(Shape &second) noexcept
 }
 
 
-bool Shape::updateIntersectingShape() noexcept
+bool Shape::updateIntersectingShape()
 {
 	// is not intersecting
 	if (m_intersectingShape == nullptr)
@@ -109,17 +109,18 @@ std::unique_ptr<sf::Shape> createShape(Shape::Type type, const sf::Vector2f& siz
 		{
 			case Shape::Type::Rectangle:
 				return std::make_unique<sf::RectangleShape>(size);
-				break;
 			case Shape::Type::Circle:
 				return std::make_unique<sf::CircleShape>((size.x + size.y) / 2.f);
-				break;
 			default:
-				return nullptr;
+				break;
 		}
 	}
 	catch (std::bad_alloc& err) {
 		printException(err, "createShape", true);
 	}
+	
+
+	return nullptr;
 
 }
 
