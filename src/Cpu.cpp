@@ -2,7 +2,7 @@
 #include "Cpu.h"
 
 static sf::Vector2f calculateBallCollisionPosition(float x, float y, 
-	const float velX, const float velY, const float leftLimit) noexcept;
+	const float velX, const float velY, const float leftLimit);
 
 
 
@@ -61,7 +61,7 @@ void Cpu::update()
 
 
 sf::Vector2f calculateBallCollisionPosition(float x, float y, 
-	const float velX, const float velY, const float leftLimit) noexcept
+	const float velX, const float velY, const float leftLimit)
 {
 	const auto absVelY = std::abs(velY);
 	

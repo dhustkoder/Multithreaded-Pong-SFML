@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Ball.h"
 
-static float genVelocity(const float min, const float max, const bool allowZero = false) noexcept;
-static float getPercent(const float value, const float percentage) noexcept;
+static float genVelocity(const float min, const float max, const bool allowZero = false);
+static float getPercent(const float value, const float percentage);
 
 
 
@@ -65,7 +65,6 @@ void Ball::treatCollision()
 	{
 		m_explosionEffect.setActive();
 		m_explosionEffect.setPosition(this->getPosition());
-		GameWindow::pushSpriteEffect(m_explosionEffect);
 	}
 }
 
@@ -91,21 +90,25 @@ void Ball::update()
 		m_velocity->y = genVelocity(-defaultVelocity, -1.5f);
 		updateTextureDirectionFrame();
 	}
+	m_shape->move(*m_velocity);
 
 	
 	updateTextureAnimationFrame();
-	m_shape->move(*m_velocity);
+	
+	if(m_explosionEffect.isActive())
+		m_explosionEffect.update();
+
+	
 }
 
 
 
-void Ball::draw(sf::RenderTarget &target, sf::RenderStates states) const
-{
+void Ball::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 	target.draw(*m_shape, states);
 }
 
 
-void Ball::updateTextureDirectionFrame() noexcept
+void Ball::updateTextureDirectionFrame()
 {
 	const auto absVelX = std::abs(m_velocity->x);
 	const auto absVelY = std::abs(m_velocity->y);
@@ -138,7 +141,7 @@ void Ball::updateTextureDirectionFrame() noexcept
 
 }
 
-void Ball::updateTextureAnimationFrame() noexcept
+void Ball::updateTextureAnimationFrame()
 {
 	static int textureFrame = 0;
 	const auto averageVel = 
@@ -160,7 +163,7 @@ void Ball::updateTextureAnimationFrame() noexcept
 
 
 
-float genVelocity(const float min, const float max, const bool allowZero) noexcept
+float genVelocity(const float min, const float max, const bool allowZero)
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -174,7 +177,7 @@ float genVelocity(const float min, const float max, const bool allowZero) noexce
 
 }
 
-float getPercent(const float value, const float percentage) noexcept
+float getPercent(const float value, const float percentage)
 {
 	return (value * 0.01f) * percentage;
 }

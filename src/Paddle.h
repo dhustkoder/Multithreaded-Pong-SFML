@@ -11,15 +11,15 @@ class Paddle : public Shape
 	static constexpr float defaultHeight = 80;
 public:
 
-	Paddle()
-		: Shape(Type::Rectangle, {defaultWidth, defaultHeight}, { cexpr_div(defaultWidth, 2.f), cexpr_div(defaultHeight, 2.f) })
+	Paddle() : 
+		Shape(Type::Rectangle, {defaultWidth, defaultHeight}, { cexpr_div(defaultWidth, 2.f), cexpr_div(defaultHeight, 2.f) })
 	{
 
 	}
 	
 
-	Paddle(const float sizeX, const float sizeY) 
-		: Shape(Type::Rectangle, { sizeX, sizeY }, { sizeX / 2.f, sizeY / 2.f })
+	Paddle(const float sizeX, const float sizeY) : 
+		Shape(Type::Rectangle, { sizeX, sizeY }, { sizeX / 2.f, sizeY / 2.f })
 	{
 
 	}

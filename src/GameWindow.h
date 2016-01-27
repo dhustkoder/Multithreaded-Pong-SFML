@@ -20,9 +20,10 @@ public:
 	
 	static std::unique_ptr<GameWindow> 
 		makeUniqueWindow(const sf::VideoMode &&mode = {defaultWidth, defaultHeight, 32},
-				 const char* windowName = "Game-Window") noexcept;
+				 const char* windowName = "Game-Window");
+	
 	static std::unique_ptr<GameWindow> 
-		makeUniqueWindow(const char* windowName) noexcept;
+		makeUniqueWindow(const char* windowName);
 
 	
 	/////////////////////////////////////////////////////////
@@ -57,7 +58,7 @@ public:
 
 
 
-	void setSize(const unsigned Width, const unsigned Height) noexcept;
+	void setSize(const unsigned Width, const unsigned Height);
 	void updateWindowEvents() noexcept;
 	void clear(const sf::Color color) noexcept;
 	void close() noexcept;
@@ -72,7 +73,7 @@ public:
 	
 	~GameWindow();
 private:
-	GameWindow(const sf::VideoMode&&, const char*) noexcept;
+	GameWindow(const sf::VideoMode&&, const char*);
 
 	sf::RenderWindow m_renderWindow;
 	sf::Event m_event;

@@ -26,6 +26,7 @@
 
 
 // headers which do not change very often
+#include "Exceptions.h"
 #include "GameWindow.h"
 #include "Processes.h"
 #include "Utility.h"

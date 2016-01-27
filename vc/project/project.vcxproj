@@ -36,6 +36,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\Ball.cpp" />
     <ClCompile Include="..\..\src\Cpu.cpp" />
+    <ClCompile Include="..\..\src\Exception.cpp" />
     <ClCompile Include="..\..\src\GameWindow.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\ParticleSystem\Particle.cpp" />

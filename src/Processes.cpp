@@ -72,8 +72,6 @@ void startGame(const GameMode mode)
 
 void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPaddle)
 {
-	Chrono fpsClock(1);
-	unsigned fpsCounter = 0;
 	while (mainWin.isOpen())
 	{
 		doInputAndCollisionProcess = true;
@@ -84,13 +82,6 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 			std::this_thread::yield();
 		
 		mainWin.drawAndDisplay();
-
-		++fpsCounter;
-		if(fpsClock.finished()) {
-			LOG("FPS: %lu", fpsCounter);
-			fpsCounter = 0;
-			fpsClock.start();
-		}
 		
 	}
 }

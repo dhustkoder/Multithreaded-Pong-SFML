@@ -9,29 +9,39 @@ int GameWindow::s_instances = 0;
 std::vector<const Shape*> GameWindow::s_shapeVector;
 std::vector<SpriteEffect*> GameWindow::s_spriteEffectVector;
 
-std::unique_ptr<GameWindow> GameWindow::makeUniqueWindow(const sf::VideoMode&& mode, const char *windowName) noexcept
+std::unique_ptr<GameWindow> GameWindow::makeUniqueWindow(const sf::VideoMode&& mode, const char *windowName)
 {
 	if(s_instances > 0)
 		return nullptr;
 
-	return std::unique_ptr<GameWindow>(new GameWindow(std::move(mode), windowName));
+	try {
+		return std::unique_ptr<GameWindow>(new GameWindow(std::move(mode), windowName));
+	}
+	catch (std::bad_alloc& err) {
+		printException(err, "GameWindow::makeUniqueWindow", true);
+	}
 }
 
 
-std::unique_ptr<GameWindow> GameWindow::makeUniqueWindow(const char *windowName) noexcept
+std::unique_ptr<GameWindow> GameWindow::makeUniqueWindow(const char *windowName)
 {
 	if(s_instances > 0)
 		return nullptr;
 
-	return std::unique_ptr<GameWindow>(new GameWindow({defaultWidth,defaultHeight}, windowName));
+	try {
+		return std::unique_ptr<GameWindow>(new GameWindow({ defaultWidth,defaultHeight }, windowName));
+	}
+	catch (std::bad_alloc& err) {
+		printException(err, "GameWindow::makeUniqueWindow", true);
+	}
 }
 
 
 
 
 
-GameWindow::GameWindow(const sf::VideoMode &&mode, const char *windowName) noexcept :
-	m_renderWindow(mode, windowName)
+GameWindow::GameWindow(const sf::VideoMode &&mode, const char *windowName) 
+	: m_renderWindow(mode, windowName)
 {
 	m_renderWindow.setFramerateLimit(60);
 	m_renderWindow.setVerticalSyncEnabled(true);
@@ -54,7 +64,7 @@ void GameWindow::updateWindowEvents() noexcept
 }
 
 
-void GameWindow::setSize(const unsigned width, const unsigned height) noexcept
+void GameWindow::setSize(const unsigned width, const unsigned height)
 {
 	m_renderWindow.setSize({width, height});
 	s_width = width;
@@ -91,22 +101,11 @@ void GameWindow::popSpriteEffect(const SpriteEffect& spriteEffect)
 
 void GameWindow::drawAndDisplay()
 {
-	for (auto& drawablePtr : s_shapeVector) {
+	for (auto& drawablePtr : s_shapeVector)
 		m_renderWindow.draw(*drawablePtr);
-	}
 	
-	for (auto itr = s_spriteEffectVector.begin(); itr != s_spriteEffectVector.end(); ++itr)
-	{
-		if ((*itr)->isActive()) {
-			m_renderWindow.draw(*(*itr));
-			(*itr)->update();
-		}
-		else {
-			itr = s_spriteEffectVector.erase(itr);
-			if (itr == s_spriteEffectVector.end())
-				break;
-		}
-	}
+	for (auto &spriteEffectPtr : s_spriteEffectVector)
+			m_renderWindow.draw(*spriteEffectPtr);
 
 	m_renderWindow.display();
 }

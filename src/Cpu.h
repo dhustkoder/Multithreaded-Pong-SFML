@@ -14,8 +14,8 @@ public:
 	
 	//uses the given size
 	Cpu(const float sizeX, const float sizeY, const Shape &ball);
-	void setReactionDuration(const Seconds reactionDuration) noexcept;
-	void setReactionDelay(const Seconds reactionDelay) noexcept;
+	void setReactionDuration(const Seconds reactionDuration);
+	void setReactionDelay(const Seconds reactionDelay);
 	void update() override;
 	bool isReady() override;
 
@@ -34,12 +34,12 @@ bool Cpu::isReady() {
 
 
 inline
-void Cpu::setReactionDuration(const Seconds reactionDuration) noexcept {
+void Cpu::setReactionDuration(const Seconds reactionDuration) {
 	m_reactionDuration.setTime(reactionDuration);
 };
 
 inline
-void Cpu::setReactionDelay(const Seconds reactionDelay) noexcept {
+void Cpu::setReactionDelay(const Seconds reactionDelay) {
 	m_reactionDelay.setTime(reactionDelay);
 }
 

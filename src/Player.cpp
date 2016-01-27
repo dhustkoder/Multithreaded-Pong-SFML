@@ -22,8 +22,7 @@ Player::Player(const float sizeX, const float sizeY) :
 
 
 
-void Player::setKeys(const sf::Keyboard::Key keyUp, const sf::Keyboard::Key keyDown) noexcept
-{
+void Player::setKeys(const sf::Keyboard::Key keyUp, const sf::Keyboard::Key keyDown) {
 	m_kUp = keyUp;
 	m_kDown = keyDown;
 }

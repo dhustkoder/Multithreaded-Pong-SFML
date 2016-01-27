@@ -5,13 +5,6 @@
 constexpr Seconds SpriteEffect::defaultFramesPerSec;
 
 
-
-SpriteEffect::SpriteEffect() noexcept
-{
-	
-}
-
-
 SpriteEffect::SpriteEffect(const char* spriteSheetFile, 
 	const sf::Vector2i& spriteSize, const sf::Vector2i& maxLeftAndTop) : 
 	m_textureRect({0,0}, spriteSize),
@@ -26,6 +19,12 @@ SpriteEffect::SpriteEffect(const char* spriteSheetFile,
 	m_sprite.setTextureRect(m_textureRect);
 	m_sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
 }
+
+SpriteEffect::~SpriteEffect() {
+	if(m_isActive)
+		GameWindow::popSpriteEffect(*this);
+}
+
 
 void SpriteEffect::loadSpriteSheet(const char * spriteSheetFile, 
 	const sf::Vector2i & spriteSize, const sf::Vector2i & leftAndTopMax)
@@ -46,7 +45,16 @@ void SpriteEffect::loadSpriteSheet(const char * spriteSheetFile,
 
 
 
-void SpriteEffect::update() noexcept
+void SpriteEffect::setActive() {
+	m_isActive = !m_isActive;
+	if (m_isActive)
+		GameWindow::pushSpriteEffect(*this);
+	else
+		GameWindow::popSpriteEffect(*this);
+}
+
+
+void SpriteEffect::update() 
 {
 	if ( m_isActive && m_frameDelay.finished() )
 	{
@@ -55,7 +63,7 @@ void SpriteEffect::update() noexcept
 		{
 			if (m_textureRect.top == m_maxLeftAndTop.y) {
 				m_textureRect.left = m_textureRect.top = 0;
-				m_isActive = false;
+				setActive();
 			}
 
 			else {

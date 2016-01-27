@@ -11,7 +11,7 @@ public:
 
 	// uses the given size
 	Player(const float sizeX, const float sizeY);
-	void setKeys(const sf::Keyboard::Key keyUp, const sf::Keyboard::Key keyDown) noexcept;
+	void setKeys(const sf::Keyboard::Key keyUp, const sf::Keyboard::Key keyDown);
 	void update() override;
 	bool isReady() override;
 private:

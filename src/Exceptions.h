@@ -5,6 +5,16 @@
 #include <string>
 
 
+void printException(const std::exception& exception,
+	const char* const function, bool terminate = false);
+
+
+void printException(const std::exception& exception,
+	const char* const function, const char *const additionalMsg, bool terminate = false);
+
+
+
+
 class FileNotFoundException : public std::runtime_error
 {
 public:
@@ -26,5 +36,11 @@ public:
 
 	}
 };
+
+
+
+
+
+
 
 #endif

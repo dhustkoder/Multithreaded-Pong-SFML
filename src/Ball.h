@@ -25,8 +25,8 @@ public:
 	void treatCollision() override;
 	void update() override;
 private:
-	void updateTextureDirectionFrame() noexcept;
-	void updateTextureAnimationFrame() noexcept;
+	void updateTextureDirectionFrame();
+	void updateTextureAnimationFrame();
 
 private:
 	std::clock_t m_clock;

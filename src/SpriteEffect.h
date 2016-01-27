@@ -10,22 +10,24 @@ class SpriteEffect : public sf::Drawable
 {
 	static constexpr Seconds defaultFramesPerSec = 1;
 public:
-	SpriteEffect() noexcept;
+	SpriteEffect() = default;
 	
 	SpriteEffect(const char* spriteSheetFile, 
 		const sf::Vector2i& spriteSize, const sf::Vector2i& maxLeftAndTop);
+	
+	~SpriteEffect();
 
 	void loadSpriteSheet(const char* spriteSheetFile, 
 		const sf::Vector2i& spriteSize, const sf::Vector2i& maxLeftAndTop);
 
-	bool isActive() const noexcept;
-	void setActive() noexcept;
-	void setFps(const unsigned fps) noexcept;
-	void setPosition(const float x, const float y) noexcept;
-	void setPosition(const sf::Vector2f& pos) noexcept;
+	bool isActive() const;
+	void setActive();
+	void setFps(const unsigned fps);
+	void setPosition(const float x, const float y);
+	void setPosition(const sf::Vector2f& pos);
 
 	
-	virtual void update() noexcept;
+	virtual void update();
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 private:
 
@@ -38,23 +40,21 @@ private:
 	
 };
 
-inline void SpriteEffect::setActive() noexcept {
-	m_isActive = !m_isActive;
-}
 
-inline bool SpriteEffect::isActive() const noexcept {
+
+inline bool SpriteEffect::isActive() const {
 	return m_isActive;
 }
 
-inline void SpriteEffect::setFps(const unsigned fps) noexcept {
+inline void SpriteEffect::setFps(const unsigned fps) {
 	m_frameDelay.setTime(Seconds(1) / fps);
 }
 
-inline void SpriteEffect::setPosition(const float x, const float y) noexcept {
+inline void SpriteEffect::setPosition(const float x, const float y) {
 	m_sprite.setPosition(x, y);
 }
 
-inline void SpriteEffect::setPosition(const sf::Vector2f& pos) noexcept {
+inline void SpriteEffect::setPosition(const sf::Vector2f& pos) {
 	m_sprite.setPosition(pos);
 }
 
