@@ -104,8 +104,8 @@ void GameWindow::drawAndDisplay()
 	for (auto& shapePtr : s_shapeVector)
 		m_renderWindow.draw(*shapePtr);
 	
-	for (auto& spriteEffectPtr : s_spriteEffectVector)
+	for (auto& spriteEffectPtr : s_spriteEffectVector) {
 			m_renderWindow.draw(*spriteEffectPtr);
-
+	}
 	m_renderWindow.display();
 }

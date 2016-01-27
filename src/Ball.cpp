@@ -61,11 +61,9 @@ void Ball::treatCollision()
 	
 	updateTextureDirectionFrame();
 	
-	if (!m_explosionEffect.isActive()) 
-	{
-		m_explosionEffect.setActive();
-		m_explosionEffect.setPosition(this->getPosition());
-	}
+	m_explosions.emplace_back(std::make_unique<SpriteEffect>(m_explosionEffect));
+	m_explosions.back()->setPosition(this->getPosition());
+	m_explosions.back()->setActive();
 }
 
 
@@ -90,14 +88,21 @@ void Ball::update()
 		m_velocity->y = genVelocity(-defaultVelocity, -1.5f);
 		updateTextureDirectionFrame();
 	}
-	m_shape->move(*m_velocity);
 
-	
+	m_shape->move(*m_velocity);
 	updateTextureAnimationFrame();
 	
-	if(m_explosionEffect.isActive())
-		m_explosionEffect.update();
-
+	for(auto itr = m_explosions.begin();
+		itr != m_explosions.end(); ++itr)
+	{
+		if((*itr)->isActive())
+			(*itr)->update();
+		else {
+			itr = m_explosions.erase(itr);
+			if(itr == m_explosions.end())
+				break;
+		}
+	}
 	
 }
 

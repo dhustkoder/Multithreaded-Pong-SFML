@@ -21,13 +21,13 @@ void mainGameLoop(GameWindow& mainWin, const Ball& ball, const Paddle& adverPadd
 void startGame(const GameMode mode)
 {
 	auto mainWindowUnique = GameWindow::makeUniqueWindow({ 400, 640 });
-	player1 = std::make_unique<Player>();
-	player1->setPosition(Shape::Position::LeftSide);
+	
 	// create the rest of game objects
 
 	try
 	{
-
+		player1 = std::make_unique<Player>();
+		player1->setPosition(Shape::Position::LeftSide);
 		auto ballUnique = std::make_unique<Ball>();
 		std::unique_ptr<Paddle> adverPaddleUnique;
 
@@ -66,6 +66,9 @@ void startGame(const GameMode mode)
 			"check Resources folder for the missing files", true);
 	}
 	catch (std::exception& err) {
+		printException(err, "startGame", true);
+	}
+	catch(std::bad_alloc& err) {
 		printException(err, "startGame", true);
 	}
 

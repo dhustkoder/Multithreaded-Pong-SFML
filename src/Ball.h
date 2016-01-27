@@ -31,10 +31,6 @@ private:
 
 private:
 	std::clock_t m_clock;
-	sf::IntRect m_textureRect;
-	sf::Texture m_texture;
-	SpriteEffect m_explosionEffect;
-
 };
 
 

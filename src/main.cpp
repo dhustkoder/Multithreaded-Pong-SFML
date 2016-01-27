@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Timewrp.h"
 
 int main()
 {
@@ -11,7 +12,9 @@ int main()
 	// single player and multiplayer test
 	startGame(GameMode::SinglePlayer);
 	
-	startGame(GameMode::MultiplayerLocal);
+	//startGame(GameMode::MultiplayerLocal);
+
+
 
 }
 
