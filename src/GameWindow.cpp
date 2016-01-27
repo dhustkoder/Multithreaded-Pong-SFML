@@ -56,7 +56,7 @@ GameWindow::~GameWindow() {
 	s_width = s_height = 0;
 }
 
-void GameWindow::updateWindowEvents() noexcept
+void GameWindow::updateWindowEvents() 
 {
 	m_renderWindow.pollEvent(m_event);
 	if (m_event.type == sf::Event::Closed)

@@ -59,13 +59,13 @@ public:
 
 
 	void setSize(const unsigned Width, const unsigned Height);
-	void updateWindowEvents() noexcept;
-	void clear(const sf::Color color) noexcept;
-	void close() noexcept;
+	void updateWindowEvents();
+	void clear(const sf::Color color);
+	void close();
 
-	bool isOpen() const noexcept;
-	sf::Vector2u getSize() const noexcept;
-	const sf::Event& getEvent() const noexcept;
+	bool isOpen() const;
+	sf::Vector2u getSize() const;
+	const sf::Event& getEvent() const;
 	
 	
 	
@@ -88,23 +88,23 @@ private:
 };
 
 
-inline sf::Vector2u GameWindow::getSize() const noexcept {
+inline sf::Vector2u GameWindow::getSize() const {
 	return m_renderWindow.getSize();
 }
 
-inline bool GameWindow::isOpen() const noexcept {
+inline bool GameWindow::isOpen() const {
 	return m_renderWindow.isOpen();
 }
 
-inline const sf::Event& GameWindow::getEvent() const noexcept {
+inline const sf::Event& GameWindow::getEvent() const {
 	return m_event;
 }
 
-inline void GameWindow::clear(const sf::Color color) noexcept {
+inline void GameWindow::clear(const sf::Color color) {
 	return m_renderWindow.clear(color);
 }
 
-inline void GameWindow::close() noexcept {
+inline void GameWindow::close() {
 	m_renderWindow.close();
 }
 
