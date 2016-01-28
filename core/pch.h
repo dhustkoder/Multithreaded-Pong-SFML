@@ -17,22 +17,11 @@
 #undef Status
 #endif
 
-#include <SFML/Graphics/Text.hpp>
-#include <SFML/Audio/SoundBuffer.hpp>
-#include <SFML/Audio/Sound.hpp>
-#include <SFML/Window/Keyboard.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics.hpp>
 
 
-
-// headers which do not change very often
+// headers which does not change often
 #include "Exceptions.h"
-#include "GameWindow.h"
-#include "Processes.h"
-#include "Utility.h"
-#include "ParticleSystem/Particle.h"
-
-
 
 
 #endif
