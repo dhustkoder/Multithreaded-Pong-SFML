@@ -10,7 +10,7 @@ using namespace sfe::entity;
 class SpriteEffect : public Entity<Sprite>
 {
 
-	static constexpr Seconds defaultFramesPerSec = 1.f / 5.f;
+	static constexpr Seconds defaultFramesPerSec = 1.f / 15.f;
 public:
 	SpriteEffect() = default;
 	~SpriteEffect();

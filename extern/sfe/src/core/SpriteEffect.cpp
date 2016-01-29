@@ -19,7 +19,7 @@ void SpriteEffect::loadSpriteSheet(const char* spriteSheetFile,
 	m_texture.loadFromFile(spriteSheetFile);
 	this->setTexture(m_texture);
 	this->setTextureRect({ 0, 0, spriteSize.x, spriteSize.y});
-	this->setCompensation(static_cast<float>(spriteSize.x) * 0.5f,
+	this->setOrigin(static_cast<float>(spriteSize.x) * 0.5f,
 		static_cast<float>(spriteSize.y) * 0.5f);
 }
 

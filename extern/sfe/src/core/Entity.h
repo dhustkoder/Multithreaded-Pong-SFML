@@ -20,90 +20,184 @@ using RectangleShape = sf::RectangleShape;
 using CircleShape = sf::CircleShape;
 using ConvexShape = sf::ConvexShape;
 
-template<typename _T, typename T2>
-static bool areInCollision(const _T& ent1, const T2& ent2);
+class Transformable;
+
+static bool areInCollision(const Transformable& ent1, const Transformable& ent2);
+
+class Transformable
+{
+public:
+	Transformable(sf::Transformable& transformable,
+		sf::Drawable& drawable)
+		: m_tRef(transformable),
+		m_dRef(drawable)
+	{
+
+	}
+
+	~Transformable() {
+		for (auto& ptr : m_intersectionVector)
+			ptr->popIntersectionVector(*this);
+		if(m_isOnScreen)
+			GameWindow::popDrawable(m_dRef);
+	}
+
+	const sf::Vector2f getPosition() const {
+		return m_tRef.getPosition();
+	}
+
+	float getRight() const {
+		return m_tRef.getPosition().x + m_tRef.getOrigin().x;
+	}
+
+
+	float getLeft() const {
+		return m_tRef.getPosition().x - m_tRef.getOrigin().x;
+	}
+
+
+	float getTop() const {
+		return m_tRef.getPosition().y - m_tRef.getOrigin().y;
+	}
+
+	float getBottom() const {
+		return m_tRef.getPosition().y + m_tRef.getOrigin().y;
+	}
+
+
+	bool updateIntersections(Transformable& second)
+	{
+		this->updateIntersectionVector();
+		if (areInCollision(*this, second))
+		{
+
+			auto itr = std::find(m_intersectionVector.begin(), 
+				m_intersectionVector.end(), (&second));
+
+			if (itr == m_intersectionVector.end())
+			{
+				m_intersectionVector.push_back(&second);
+				second.m_intersectionVector.push_back(this);
+				this->onCollision();
+				second.onCollision();
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	void updateIntersectionVector()
+	{
+		if (m_intersectionVector.size() == 0)
+			return;
+
+		for (auto itr = m_intersectionVector.begin(); itr != m_intersectionVector.end();
+		++itr)
+		{
+			if (!areInCollision(*this, *(*itr)))
+			{
+				(*itr)->popIntersectionVector(*this);
+				itr = m_intersectionVector.erase(itr);
+				if (itr == m_intersectionVector.end())
+					break;
+			}
+		}
+	}
+
+	void popIntersectionVector(Transformable& second)
+	{
+		auto itr = std::find(m_intersectionVector.begin(),
+			m_intersectionVector.end(), (&second));
+
+		if (itr != m_intersectionVector.end())
+			m_intersectionVector.erase(itr);
+	}
+
+	bool isIntersectingWith(const Transformable& second) const {
+		auto itr = std::find(m_intersectionVector.begin(), m_intersectionVector.end(), (&second));
+		return itr != m_intersectionVector.end();
+	}
+
+	bool isOnScreenCheck() 
+	{
+		if (this->getRight() > 0
+			|| this->getLeft() < GameWindow::Width
+			|| this->getBottom() > 0
+			|| this->getTop() < GameWindow::Height) {
+			m_isOnScreen = true;
+			return true;
+		}
+		
+		m_isOnScreen = false;
+		return false;
+	}
+	
+	void update() 
+	{ 
+		onUpdate();
+		if (m_controlGameWindow) 
+		{
+			if (m_isOnScreen) {
+				if (!isOnScreenCheck())
+					GameWindow::popDrawable(m_dRef);
+			}
+			else if (!m_isOnScreen) {
+				if (isOnScreenCheck())
+					GameWindow::pushDrawable(m_dRef);
+			}
+		}
+	}
+
+	void pushInGameWindow();
+	void popOutGameWindow();
+
+protected:
+	std::vector<Transformable*> m_intersectionVector;
+	virtual void onCollision() = 0;
+	virtual void onUpdate() = 0;
+private:
+	sf::Transformable& m_tRef;
+	sf::Drawable& m_dRef;
+	bool m_isOnScreen = false;
+	bool m_controlGameWindow = false;
+
+};
+
+
+
+
 
 
 template<class T>
-class Entity : public std::enable_if_t<utility::is_one_of<T, 
-	Sprite, Shape, RectangleShape, CircleShape, ConvexShape>::value, T>
+class Entity : public std::enable_if_t<utility::is_one_of<T, Sprite, Shape,
+	RectangleShape, CircleShape, ConvexShape>::value, T>,
+	public Transformable
 {
-
 public:
-	enum class Position
-	{
-		LeftSide,
-		RightSide,
-		Middle
-	};
-
-public:
+	using Transformable::update;
 	Entity(const Entity&) = delete;
 	Entity& operator=(const Entity&) = delete;
 
-	Entity() { this->initialize(); };
-	virtual ~Entity() { this->dispose(); };
-
-
-	void setCompensation(const float h, const float v);
+	Entity() : Transformable((sf::Transformable&)*this,
+		(sf::Drawable&)*this) { };
+	virtual ~Entity() = default;
 	void setVelocity(const float x, const float y);
 	void setVelocity(const sf::Vector2f& vel);
 
-	float getRight() const;
-	float getLeft() const;
-	float getTop() const;
-	float getBottom() const;
+	
 	const sf::Vector2f& getVelocity() const;
-	
-	
 	bool isIntersecting() const;
-	bool isIntersectingWith(const sf::Transformable& second) const;
-
-
-	template<typename T2>
-	bool updateIntersections(T2& second);
-
-	template<typename T2>
-	void updateIntersectionVector();
-	
-
-	void update() { onUpdate(); }
 	
 protected:
-	virtual void onCollision() = 0;
-	virtual void onUpdate() = 0;
-	bool isOnScreen();
+	sf::Vector2f m_velocity;
 
-
-protected:
-	std::unique_ptr<sf::Vector2f> m_velocity;
-	std::vector<sf::Transformable*> m_intersectionVector;
-	float m_horizontalCompensation, m_verticalCompensation;
-
-
-private:
-	void popIntersectionVector(sf::Transformable& second);
-	void initialize();
-	void dispose() noexcept;
-
-	friend class Entity<Sprite>;
-	friend class Entity<Shape>;
-	friend class Entity<RectangleShape>;
-	friend class Entity<CircleShape>;
-	friend class Entity<ConvexShape>;
 
 };
 
 
 
 // public:
-
-template<typename T>
-inline void Entity<T>::setCompensation(const float h, const float v) {
-	m_horizontalCompensation = h;
-	m_verticalCompensation = v;
-}
-
 template<typename T>
 inline void Entity<T>::setVelocity(const float x, const float y) {
 	m_velocity->x = x;
@@ -113,29 +207,6 @@ inline void Entity<T>::setVelocity(const float x, const float y) {
 template<typename T>
 inline void Entity<T>::setVelocity(const sf::Vector2f& vel) {
 	*m_velocity = vel;
-}
-
-
-
-template<typename T>
-float Entity<T>::getRight() const {
-	return this->getPosition().x + m_horizontalCompensation;
-}
-
-template<typename T>
-float Entity<T>::getLeft() const {
-	return this->getPosition().x - m_horizontalCompensation;
-}
-
-template<typename T>
-float Entity<T>::getTop() const {
-	return this->getPosition().y - m_verticalCompensation;
-}
-
-
-template<typename T>
-float Entity<T>::getBottom() const {
-	return this->getPosition().y + m_verticalCompensation;
 }
 
 
@@ -150,108 +221,6 @@ bool Entity<T>::isIntersecting() const {
 	return (m_intersectionVector.size() != 0);
 }
 
-template<typename T>
-bool Entity<T>::isIntersectingWith(const sf::Transformable& second) const {
-	auto itr = std::find(m_intersectionVector.begin(), m_intersectionVector.end(), (&second));
-	return itr != m_intersectionVector.end();
-}
-
-
-
-
-template<typename T>
-template<typename T2>
-bool Entity<T>::updateIntersections(T2& second)
-{
-	this->updateIntersectionVector<T2>();
-	if (areInCollision(*this, second))
-	{
-
-		auto itr = std::find(m_intersectionVector.begin(), m_intersectionVector.end(),
-			static_cast<sf::Transformable*>(&second));
-
-		if (itr == m_intersectionVector.end()) 
-		{
-			m_intersectionVector.push_back(static_cast<sf::Transformable*>(&second));
-			second.m_intersectionVector.push_back(static_cast<sf::Transformable*>(&second));
-			second.onCollision();
-			this->onCollision();
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-
-
-
-template<typename T> 
-template<typename T2>
-void Entity<T>::updateIntersectionVector()
-{
-	if (m_intersectionVector.size() == 0)
-		return;
-
-	for (auto itr = m_intersectionVector.begin(); itr != m_intersectionVector.end();
-	++itr)
-	{
-		if (!areInCollision(*this, *static_cast<T2*>(*itr)))
-		{
-			static_cast<T2*>(*itr)->popIntersectionVector(*this);
-			itr = m_intersectionVector.erase(itr);
-			if (itr == m_intersectionVector.end())
-				break;
-		}
-	}
-}
-
-
-// protected:
-
-template<typename T>
-bool Entity<T>::isOnScreen() {
-	return
-		this->getRight() > 0
-		|| this->getLeft() < GameWindow::Width
-		|| this->getBottom() > 0
-		|| this->getTop() < GameWindow::Height;
-}
-
-
-// private:
-template<typename T>
-void Entity<T>::initialize()
-{
-	try
-	{
-		m_velocity = std::make_unique<sf::Vector2f>();
-	}
-	catch (std::bad_alloc& err) {
-		printException(err, "Entity<T>::Entity", true);
-	}
-}
-
-
-template<typename T>
-void Entity<T>::dispose() noexcept {
-	for (auto& transfPtr : m_intersectionVector)
-		static_cast<Entity<T>*>(transfPtr)->popIntersectionVector(*this);
-}
-
-
-
-
-template<typename T>
-void Entity<T>::popIntersectionVector(sf::Transformable& second)
-{
-	auto itr = std::find(m_intersectionVector.begin(),
-		m_intersectionVector.end(), (&second));
-
-	if (itr != m_intersectionVector.end())
-		m_intersectionVector.erase(itr);
-}
 
 
 
@@ -261,8 +230,13 @@ void Entity<T>::popIntersectionVector(sf::Transformable& second)
 
 
 
-template<typename _T, typename T2>
-static bool areInCollision(const _T& ent1, const T2& ent2)
+
+
+
+
+
+
+bool areInCollision(const Transformable & ent1, const Transformable & ent2)
 {
 	return (ent1.getBottom() >= ent2.getTop()
 		&& ent1.getTop() <= ent2.getBottom()

@@ -22,25 +22,26 @@ public:
 	virtual void onUpdate() override
 	{
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-			m_velocity->y = -1;
+			m_velocity.y = -1;
 		}
 
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-			m_velocity->y = +1;
+			m_velocity.y = +1;
 		}
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-			m_velocity->x = +1;
+			m_velocity.x = +1;
 		}
 
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-			m_velocity->x = -1;
+			m_velocity.x = -1;
 		}
 		else
-			m_velocity->y = m_velocity->x = 0;
+			m_velocity.y = m_velocity.x = 0;
 
-		this->move(*m_velocity);
+		this->move(m_velocity);
 
 	}
+
 	virtual void onCollision() override {
 		
 	}
@@ -55,6 +56,7 @@ public:
 	{
 		m_explosion.loadSpriteSheet("../Resources/explosion",
 		{ 64,64 }, { 64 * 3, 64 * 3 });
+		m_explosion.setOrigin(32.f, 32.f);
 	}
 
 	virtual void onUpdate() override
@@ -69,6 +71,7 @@ public:
 			m_explosion.setPosition(m_intersectionVector.back()->getPosition());
 			m_explosion.setActive();
 		}
+
 		std::cout << "Batero ni mim mo deus" << std::endl;
 	}
 
@@ -85,7 +88,7 @@ int main()
 	test1->setFillColor(sf::Color::Red);
 	test1->setSize({10.f,10.f});
 	test1->setOrigin({5.f, 5.f});
-	test1->setCompensation(5.f, 5.f);
+	test1->setOrigin(5.f, 5.f);
 
 	sf::Texture texture;
 	texture.loadFromFile("../Resources/balltexture");
@@ -95,11 +98,8 @@ int main()
 	test2.setTexture(texture);
 	test2.setTextureRect({0,0,64,64});
 	test2.setOrigin({32.f, 32.f});
-	test2.setCompensation(32.f, 32.f);
+	test2.setOrigin(32.f, 32.f);
 	test2.setPosition(GameWindow::Width / 2.f, GameWindow::Height / 2.f);
-
-
-
 
 
 
