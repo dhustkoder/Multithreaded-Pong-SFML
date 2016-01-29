@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\core\Entity.cpp" />
     <ClCompile Include="..\src\core\Exceptions.cpp" />
     <ClCompile Include="..\src\core\GameWindow.cpp" />
     <ClCompile Include="..\src\core\pch.cpp" />
