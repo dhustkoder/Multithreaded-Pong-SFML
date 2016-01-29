@@ -46,8 +46,6 @@ std::unique_ptr<GameWindow> GameWindow::makeUniqueWindow(const char *windowName)
 
 
 
-
-
 GameWindow::GameWindow(const sf::VideoMode &&mode, const char *windowName) 
 	: m_renderWindow(mode, windowName)
 {
@@ -59,10 +57,15 @@ GameWindow::GameWindow(const sf::VideoMode &&mode, const char *windowName)
 	++s_instances;
 }
 
+
+
 GameWindow::~GameWindow() {
 	--s_instances;
 	s_width = s_height = 0;
 }
+
+
+
 
 void GameWindow::updateWindowEvents() 
 {
@@ -80,9 +83,12 @@ void GameWindow::setSize(const unsigned width, const unsigned height)
 }
 
 
+
 void GameWindow::pushDrawable(const sf::Drawable& drawable) {
 	s_drawVector.push_back(&drawable);
 }
+
+
 
 
 void GameWindow::popDrawable(const sf::Drawable& drawable) noexcept
@@ -93,6 +99,8 @@ void GameWindow::popDrawable(const sf::Drawable& drawable) noexcept
 	if (itr != s_drawVector.end())
 		s_drawVector.erase(itr);
 }
+
+
 
 
 void GameWindow::drawAndDisplay()

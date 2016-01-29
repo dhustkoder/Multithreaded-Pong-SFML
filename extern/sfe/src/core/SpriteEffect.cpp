@@ -3,7 +3,7 @@
 #include "GameWindow.h"
 
 SFE_NAMESPACE
-namespace effects {
+EFFECT_NAMESPACE
 
 constexpr Seconds SpriteEffect::defaultFramesPerSec;
 
@@ -93,6 +93,6 @@ void SpriteEffect::onUpdate()
 
 
 
-}
+NAMESPACE_END
 NAMESPACE_END
 

@@ -3,7 +3,7 @@
 #include "Entity.h"
 #include "Timewrp.h"
 SFE_NAMESPACE
-namespace effects {
+EFFECT_NAMESPACE
 using namespace sfe::clock;
 using namespace sfe::entity;
 
@@ -43,6 +43,6 @@ bool SpriteEffect::isActive() const {
 
 
 
-}
+NAMESPACE_END
 NAMESPACE_END
 #endif // EFFECTS_H

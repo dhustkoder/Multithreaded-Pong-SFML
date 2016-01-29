@@ -1,16 +1,17 @@
+#include "Exceptions.h"
 #include "GameWindow.h"
 #include "Entity.h"
 
 
 SFE_NAMESPACE
-namespace entity {
+ENTITY_NAMESPACE
 
 static bool areInCollision(const Transformable& ent1, const Transformable& ent2);
 
-Transformable::Transformable(sf::Transformable& transformable,
-	sf::Drawable& drawable)
-	: m_tRef(transformable),
-	m_dRef(drawable)
+Transformable::Transformable(sf::Transformable* transformable, 
+	sf::Drawable* drawable)
+	: m_tRef(*transformable),
+	m_dRef(*drawable)
 {
 
 }
@@ -77,8 +78,8 @@ void Transformable::updateIntersectionVector()
 	if (m_intersectionVector.size() == 0)
 		return;
 
-	for (auto itr = m_intersectionVector.begin(); itr != m_intersectionVector.end();
-	++itr)
+	for (auto itr = m_intersectionVector.begin(); 
+	itr != m_intersectionVector.end(); ++itr)
 	{
 		if (!areInCollision(*this, *(*itr)))
 		{
@@ -98,6 +99,17 @@ void Transformable::popIntersectionVector(Transformable& second)
 	if (itr != m_intersectionVector.end())
 		m_intersectionVector.erase(itr);
 }
+
+
+
+
+
+
+bool Transformable::isIntersecting() const {
+	return (m_intersectionVector.size() != 0);
+}
+
+
 
 bool Transformable::isIntersectingWith(const Transformable& second) const {
 	auto itr = std::find(m_intersectionVector.begin(), m_intersectionVector.end(), (&second));
@@ -144,7 +156,6 @@ bool areInCollision(const Transformable & ent1, const Transformable & ent2)
 		&& ent1.getTop() <= ent2.getBottom()
 		&& ent1.getLeft() <= ent2.getRight()
 		&& ent1.getRight() >= ent2.getLeft());
-
 }
 
 
@@ -153,5 +164,5 @@ bool areInCollision(const Transformable & ent1, const Transformable & ent2)
 
 
 
-}
+NAMESPACE_END
 NAMESPACE_END

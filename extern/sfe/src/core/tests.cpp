@@ -107,7 +107,7 @@ int main()
 	GameWindow::pushDrawable(test2);
 	while(uniqueWin->isOpen()) 
 	{
-		test1->update();
+		(*test1).update();
 		test2.update();
 		test1->updateIntersections(test2);
 		uniqueWin->clear(sf::Color::Black);

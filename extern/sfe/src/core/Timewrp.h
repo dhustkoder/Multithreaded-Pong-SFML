@@ -3,7 +3,7 @@
 #include <ctime>
 #include "sfe.h"
 SFE_NAMESPACE
-namespace clock {
+CLOCK_NAMESPACE
 
 
 
@@ -142,9 +142,7 @@ private:
 };
 
 
-
-
-}
+NAMESPACE_END
 NAMESPACE_END
 
 #endif
