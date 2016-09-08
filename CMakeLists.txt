@@ -17,3 +17,4 @@ file(GLOB_RECURSE HEADERS Source/*.hpp)
 
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+target_link_libraries(${PROJECT_NAME} -lsfml-window -lsfml-graphics -lsfml-system)
