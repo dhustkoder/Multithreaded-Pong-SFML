@@ -28,7 +28,7 @@ struct Paddle : sf::RectangleShape {
 	}
 };
 
-struct GameObjects {
+struct Shapes {
 	Ball ball;
 	Paddle player {{Paddle::WIDTH, WIN_HEIGHT / 2}};
 	Paddle cpu {{WIN_WIDTH - Paddle::WIDTH, WIN_HEIGHT / 2}};
@@ -48,32 +48,34 @@ struct Positions {
 
 
 
-static void update_positions(const GameObjects& objects, Positions* const positions)
+static void update_positions(const Shapes& shapes, Positions* const positions)
 {
 	const auto update =
 	[](const sf::Shape& shape, Position& pos, float width, float height) {
 		const auto shapePos = shape.getPosition();
-		pos.right = shapePos.x + width / 2.f;
-		pos.left = shapePos.x - width / 2.f;
-		pos.bottom = shapePos.y + height / 2.f;
-		pos.top = shapePos.y - height / 2.f;
+		const auto width_diff = width / 2.f;
+		const auto height_diff = height / 2.f;
+		pos.right = shapePos.x + width_diff;
+		pos.left = shapePos.x - width_diff;
+		pos.bottom = shapePos.y + height_diff;
+		pos.top = shapePos.y - height_diff;
 	};
 	
-	update(objects.ball, positions->ball, Ball::RADIUS, Ball::RADIUS);
-	update(objects.player, positions->player, Paddle::WIDTH, Paddle::HEIGHT);
-	update(objects.cpu, positions->cpu, Paddle::WIDTH, Paddle::HEIGHT);
+	update(shapes.ball, positions->ball, Ball::RADIUS, Ball::RADIUS);
+	update(shapes.player, positions->player, Paddle::WIDTH, Paddle::HEIGHT);
+	update(shapes.cpu, positions->cpu, Paddle::WIDTH, Paddle::HEIGHT);
 }
 
 
-static void update_objects(GameObjects* const objects,
+static void update_shapes(Shapes* const shapes,
                            Positions* const positions,
                            Velocities* const velocities)
 {
 	using std::abs;
 	
-	update_positions(*objects, positions);
+	update_positions(*shapes, positions);
 	
-	const auto collision = [](auto& p1, auto& p2) {
+	const auto collision = [](const auto& p1, const auto& p2) {
 		return (p1.right >= p2.left && p1.left <= p2.right)
 		&& (p1.bottom >= p2.top && p1.top <= p2.bottom);
 	};
@@ -81,8 +83,8 @@ static void update_objects(GameObjects* const objects,
 	const auto& ballPos = positions->ball;
 	auto& ballVel = velocities->ball;
 	
-	if (collision(ballPos, positions->player) ||
-	    collision(ballPos, positions->cpu))
+	if (collision(ballPos, positions->player) || 
+            collision(ballPos, positions->cpu))
 		ballVel.x = -ballVel.x;
 	else if (ballPos.left < 0)
 		ballVel.x = abs(ballVel.x);
@@ -93,48 +95,51 @@ static void update_objects(GameObjects* const objects,
 	else if (ballPos.bottom > WIN_HEIGHT)
 		ballVel.y = -abs(ballVel.y);
 	
-	objects->ball.setPosition(objects->ball.getPosition() + ballVel);
+	shapes->ball.setPosition(shapes->ball.getPosition() + ballVel);
 	
-	if (velocities->player) {
-		auto& player = objects->player;
-		const auto& playerVel = velocities->player;
-		const auto& shapePos = player.getPosition();
-		player.setPosition(shapePos.x, shapePos.y + playerVel);
+	const float playerVel = velocities->player;
+	if (playerVel) {
+		const auto playerTop = positions->player.top;
+		const auto playerBottom = positions->player.bottom;
+		auto shapePos = shapes->player.getPosition();
+		
+		if (playerVel > 0 && playerBottom < WIN_HEIGHT)
+			shapePos.y += playerVel;
+		else if (playerVel < 0 && playerTop > 0)
+			shapePos.y += playerVel;
+		
+		shapes->player.setPosition(shapePos);
 	}
 }
 
 
-
-
-static void process_input(Position* const playerPos,
-                          float* const playerVel)
+static float process_input()
 {
 	using sf::Keyboard;
-	if (playerPos->top > 0 && Keyboard::isKeyPressed(Keyboard::W))
-		*playerVel = -Paddle::VELOCITY;
-	else if (playerPos->bottom < WIN_HEIGHT && Keyboard::isKeyPressed(Keyboard::S))
-		*playerVel = Paddle::VELOCITY;
-	else
-		*playerVel = 0;
+	if (Keyboard::isKeyPressed(Keyboard::W))
+		return -Paddle::VELOCITY;
+	else if (Keyboard::isKeyPressed(Keyboard::S))
+		return Paddle::VELOCITY;
+	return 0;
 }
 
 
 int main()
 {
-	GameObjects objects;
+	Shapes shapes;
 	Positions positions;
 	Velocities velocities;
 	sf::RenderWindow window({WIN_WIDTH, WIN_HEIGHT}, "PongCpp");
 	sf::Event event;
 	
-	window.setFramerateLimit(15);
+	window.setFramerateLimit(60);
 	
 	while (window.isOpen()) {
 		while (window.pollEvent(event)) {
 			switch (event.type) {
 			case sf::Event::KeyPressed: /*fall*/
 			case sf::Event::KeyReleased:
-				process_input(&positions.player, &velocities.player);
+				velocities.player = process_input();
 				break;
 			case sf::Event::Closed:
 				window.close();
@@ -144,12 +149,12 @@ int main()
 			}
 		}
 		
-		update_objects(&objects, &positions, &velocities);
+		update_shapes(&shapes, &positions, &velocities);
 		
 		window.clear(sf::Color::Red);
-		window.draw(objects.ball);
-		window.draw(objects.player);
-		window.draw(objects.cpu);
+		window.draw(shapes.ball);
+		window.draw(shapes.player);
+		window.draw(shapes.cpu);
 		window.display();
 	}
 
