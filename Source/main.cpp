@@ -47,7 +47,8 @@ struct Positions {
 };
 
 static void update_positions(const Shapes& shapes, Positions* positions);
-static void update_shapes(Shapes* shapes, Positions* positions, Velocities* velocities);
+static void update_velocities(const Positions& positions, Velocities* velocities);
+static void update_shapes(const Velocities& velocities, Shapes* shapes);
 static void process_input(float* playerVel);
 
 
@@ -76,7 +77,9 @@ int main()
 			}
 		}
 		
-		update_shapes(&shapes, &positions, &velocities);
+		update_positions(shapes, &positions);
+		update_velocities(positions, &velocities);
+		update_shapes(velocities, &shapes);
 		
 		window.clear(sf::Color::Red);
 		window.draw(shapes.ball);
@@ -110,24 +113,19 @@ void update_positions(const Shapes& shapes, Positions* const positions)
 }
 
 
-void update_shapes(Shapes* const shapes,
-                   Positions* const positions,
-                   Velocities* const velocities)
+void update_velocities(const Positions& positions, Velocities* const velocities)
 {
 	using std::abs;
 	
-	update_positions(*shapes, positions);
+	const auto& ballPos = positions.ball;
+	auto& ballVel = velocities->ball;
 	
-	const auto collided =
-	[&ballPos = positions->ball](const auto& paddle) {
+	const auto collided = [&ballPos](const auto& paddle) {
 		return (ballPos.right >= paddle.left && ballPos.left <= paddle.right)
 		&& (ballPos.bottom >= paddle.top && ballPos.top <= paddle.bottom);
 	};
 	
-	const auto& ballPos = positions->ball;
-	auto& ballVel = velocities->ball;
-	
-	if (collided(positions->player) || collided(positions->cpu))
+	if (collided(positions.player) || collided(positions.cpu))
 		ballVel.x = -ballVel.x;
 	else if (ballPos.left < 0)
 		ballVel.x = abs(ballVel.x);
@@ -139,21 +137,29 @@ void update_shapes(Shapes* const shapes,
 	else if (ballPos.bottom > WIN_HEIGHT)
 		ballVel.y = -abs(ballVel.y);
 	
-	shapes->ball.setPosition(shapes->ball.getPosition() + ballVel);
+	if (velocities->player) {
+		const auto playerTop = positions.player.top;
+		const auto playerBottom = positions.player.bottom;
+		auto& playerVel = velocities->player;
+		
+		if (playerVel < 0 && playerTop <= 0)
+			playerVel = 0;
+		else if (playerVel > 0 && playerBottom >= WIN_HEIGHT)
+			playerVel = 0;
+	}
+}
+
+
+void update_shapes(const Velocities& velocities, Shapes* const shapes)
+{
+	using std::abs;
+	if (velocities.ball != sf::Vector2f{0, 0})
+		shapes->ball.setPosition(shapes->ball.getPosition() + velocities.ball);
 	
-	const float playerVel = velocities->player;
+	const auto playerVel = velocities.player;
 	if (playerVel) {
-		const auto playerTop = positions->player.top;
-		const auto playerBottom = positions->player.bottom;
-		auto shapePosY = shapes->player.getPosition().y;
-		
-		if (playerVel < 0 && playerTop > 0)
-			shapePosY += playerVel;
-		else if (playerVel > 0 && playerBottom < WIN_HEIGHT)
-			shapePosY += playerVel;
-		
-		const auto shapePosX = shapes->player.getPosition().x;
-		shapes->player.setPosition(shapePosX, shapePosY);
+		const auto shapePos = shapes->player.getPosition();
+		shapes->player.setPosition(shapePos.x, shapePos.y + playerVel);
 	}
 }
 
