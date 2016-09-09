@@ -81,7 +81,7 @@ int main(int argc, char** argv)
 	Positions positions;
 	Velocities velocities;
 	sf::RenderWindow window({WIN_WIDTH, WIN_HEIGHT}, "PongCpp");
-	sf::Event event;	
+	sf::Event event;
 	
 	window.setFramerateLimit(60);
 	
@@ -249,14 +249,15 @@ bool boot_as_server()
 
 bool boot_as_client()
 {
+	sf::IpAddress ip;
 	std::cout << "booting as client...\n";
-	
-	const sf::IpAddress ip = sf::IpAddress::getLocalAddress();
+	std::cout << "enter the server ip address: ";
+	std::cin >> ip;
 	
 	if (tcp_socket.connect(ip, CONNECTION_PORT) == sf::Socket::Done) {
-		std::cout << "connected to server: " << ip << '\n';
+		std::cout << "connetion succed!\n";
 	} else {
-		std::cerr << "failed to connect to server\n";
+		std::cerr << "connection failed!\n";
 		return false;
 	}
 	
