@@ -236,8 +236,9 @@ bool boot_as_server()
 	std::cout << "booting as server...\n";
 	
 	if (listener.listen(CONNECTION_PORT) == sf::Socket::Done) {
+		std::cout << "waiting for client...\n"; 
 		listener.accept(tcp_socket);
-		std::cout << "connected to: " << tcp_socket.getRemoteAddress() << '\n';
+		std::cout << "client connected from: " << tcp_socket.getRemoteAddress() << '\n';
 	} else {
 		std::cerr << "failed to listen port " << CONNECTION_PORT << '\n';
 		return false;
@@ -253,7 +254,7 @@ bool boot_as_client()
 	const sf::IpAddress ip = sf::IpAddress::getLocalAddress();
 	
 	if (tcp_socket.connect(ip, CONNECTION_PORT) == sf::Socket::Done) {
-		std::cout << "connected to: " << ip << '\n';
+		std::cout << "connected to server: " << ip << '\n';
 	} else {
 		std::cerr << "failed to connect to server\n";
 		return false;
