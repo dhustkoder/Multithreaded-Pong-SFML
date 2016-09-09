@@ -1,1 +1,1 @@
-small test pong game with cxx14 using sfml
+small connection test pong game with C++14 using SFML libraries

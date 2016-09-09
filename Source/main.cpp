@@ -1,9 +1,12 @@
 #include <cmath>
+#include <cstring>
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/Network.hpp>
 
 constexpr const int WIN_WIDTH {512};
 constexpr const int WIN_HEIGHT {256};
+constexpr const int CONNECTION_PORT {7171};
 
 struct Position {
 	float top, bottom, left, right;
@@ -46,19 +49,39 @@ struct Positions {
 	Position cpu;
 };
 
+static sf::TcpSocket tcp_socket;
+static bool is_server = false;
+
+
+static bool boot_as_server();
+static bool boot_as_client();
 static void update_positions(const Shapes& shapes, Positions* positions);
 static void update_velocities(const Positions& positions, Velocities* velocities);
 static void update_shapes(const Velocities& velocities, Shapes* shapes);
-static void process_input(float* playerVel);
+static void process_input(Velocities* velocities);
 
 
-int main()
+int main(int argc, char** argv)
 {
+	if (argc > 1) {
+		if (std::strcmp(argv[1], "-server") == 0) {
+			if(!boot_as_server())
+				return EXIT_FAILURE;
+		} else if (std::strcmp(argv[1], "-client") == 0) {
+			if(!boot_as_client())
+				return EXIT_FAILURE;
+		}
+	} else {
+		std::cerr << "usage: " << argv[0] << " <mode>\n"
+		          << "mode: -server, -client\n";
+		return EXIT_FAILURE;
+	}
+
 	Shapes shapes;
 	Positions positions;
 	Velocities velocities;
 	sf::RenderWindow window({WIN_WIDTH, WIN_HEIGHT}, "PongCpp");
-	sf::Event event;
+	sf::Event event;	
 	
 	window.setFramerateLimit(60);
 	
@@ -67,7 +90,7 @@ int main()
 			switch (event.type) {
 			case sf::Event::KeyPressed: /*fall*/
 			case sf::Event::KeyReleased:
-				process_input(&velocities.player);
+				process_input(&velocities);
 				break;
 			case sf::Event::Closed:
 				window.close();
@@ -88,7 +111,7 @@ int main()
 		window.display();
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 
@@ -136,49 +159,108 @@ void update_velocities(const Positions& positions, Velocities* const velocities)
 		ballVel.y = abs(ballVel.y);
 	else if (ballPos.bottom > WIN_HEIGHT)
 		ballVel.y = -abs(ballVel.y);
-	
-	if (velocities->player) {
-		const auto playerTop = positions.player.top;
-		const auto playerBottom = positions.player.bottom;
-		auto& playerVel = velocities->player;
 		
-		if (playerVel < 0 && playerTop <= 0)
-			playerVel = 0;
-		else if (playerVel > 0 && playerBottom >= WIN_HEIGHT)
-			playerVel = 0;
+	const auto check_vel = [](const Position& pos, float& vel) {
+		if (!vel)
+			return;
+		else if (vel < 0 && pos.top <= 0)
+			vel = 0;
+		else if (vel > 0 && pos.bottom >= WIN_HEIGHT)
+			vel = 0;
+	};
+	
+	const auto send_vel = [](float vel) {
+		if (tcp_socket.send(&vel, sizeof(vel)) != sf::Socket::Done)
+		    std::cerr << "failed to send data!\n";
+	};
+	
+	const auto receive_vel = [](float& vel) {
+		std::size_t dummy;
+		if (tcp_socket.receive(&vel, sizeof(vel), dummy) != sf::Socket::Done)
+		    std::cerr << "failed to receive data!\n";
+	};
+	
+	if (is_server) {
+		const auto& local_pos = positions.player;
+		auto& local_vel = velocities->player;
+		auto& client_vel = velocities->cpu;
+		check_vel(local_pos, local_vel);
+		send_vel(local_vel);
+		receive_vel(client_vel);
+	} else {
+		const auto& local_pos = positions.cpu;
+		auto& local_vel = velocities->cpu;
+		auto& server_vel = velocities->player;
+		check_vel(local_pos, local_vel);
+		receive_vel(server_vel);
+		send_vel(local_vel);
 	}
 }
 
 
 void update_shapes(const Velocities& velocities, Shapes* const shapes)
 {
-	using std::abs;
 	if (velocities.ball != sf::Vector2f{0, 0})
 		shapes->ball.setPosition(shapes->ball.getPosition() + velocities.ball);
 	
-	const auto playerVel = velocities.player;
-	if (playerVel) {
-		const auto shapePos = shapes->player.getPosition();
-		shapes->player.setPosition(shapePos.x, shapePos.y + playerVel);
+	if (velocities.player) {
+		const auto& pos = shapes->player.getPosition();
+		shapes->player.setPosition(pos.x, pos.y + velocities.player);
+	}
+	
+	if (velocities.cpu) {
+		const auto& pos = shapes->cpu.getPosition();
+		shapes->cpu.setPosition(pos.x, pos.y + velocities.cpu);
 	}
 }
 
 
-void process_input(float* const playerVel)
+void process_input(Velocities* const velocities)
 {
-	using sf::Keyboard;
-	if (Keyboard::isKeyPressed(Keyboard::W))
-		*playerVel = -Paddle::VELOCITY;
-	else if (Keyboard::isKeyPressed(Keyboard::S))
-		*playerVel = Paddle::VELOCITY;
+	float& vel = is_server ? velocities->player : velocities->cpu;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	    vel = -Paddle::VELOCITY;
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		vel = Paddle::VELOCITY;
 	else
-		*playerVel = 0;
+		vel = 0;
 }
 
 
 
+bool boot_as_server()
+{
+	sf::TcpListener listener;
+	is_server = true;
+	
+	std::cout << "booting as server...\n";
+	
+	if (listener.listen(CONNECTION_PORT) == sf::Socket::Done) {
+		listener.accept(tcp_socket);
+		std::cout << "connected to: " << tcp_socket.getRemoteAddress() << '\n';
+	} else {
+		std::cerr << "failed to listen port " << CONNECTION_PORT << '\n';
+		return false;
+	}
+	
+	return true;
+}
 
-
+bool boot_as_client()
+{
+	std::cout << "booting as client...\n";
+	
+	const sf::IpAddress ip = sf::IpAddress::getLocalAddress();
+	
+	if (tcp_socket.connect(ip, CONNECTION_PORT) == sf::Socket::Done) {
+		std::cout << "connected to: " << ip << '\n';
+	} else {
+		std::cerr << "failed to connect to server\n";
+		return false;
+	}
+	
+	return true;
+}
 
 
 
